@@ -203,7 +203,7 @@
                 $men = $_GET["men"];
 
                 if($men == 1){
-                    echo "Actor creado exitósamente";
+                    echo "Paciente creado exitósamente";
                 }
             }   
         ?>

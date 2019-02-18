@@ -8,8 +8,22 @@ require_once("../model/Comuna.php");
 
     if (isset($_POST["btnCrearPaciente"])) {
         //¿Pregunto si presiono el boton?
+        //1.- Construyo el Objeto de la clase Data para usar la info en la busqueda
+        $data = new Data();
 
-        //2.- Si hay datos los rescato con el vector $_REQUEST
+        //2.- Si hay datos rescato el run con el vector $_REQUEST
+        $runPaciente = $_REQUEST["run"];
+
+        //3.- Verifico si el rut ya existe
+        $busqueda = $data->getPacienteBusqueda($runPaciente);
+        if ($busqueda>0) {
+            echo "<script>
+                    alert('¡¡Error el paciente ya existe!!');
+                    window.location= '../view/formCrearPaciente.php'
+                </script>";
+        } else {
+            
+        //4.- Si no existe rescato los datos de todo con el vector $_REQUEST
         $runPaciente = $_REQUEST["run"];
         $nombresPacientes = $_REQUEST["nombres"];
         $apellidoPaterno = $_REQUEST["apellidoPaterno"];
@@ -22,11 +36,11 @@ require_once("../model/Comuna.php");
         $estudio = $selectEstudio;
         $actividadLaboral = $_REQUEST["actividadLaboral"];
         $direccionParticular = $_REQUEST["direccionParticular"];
-        $estado = $_REQUEST["estado"];
-        $comuna = $_REQUEST["comuna"];
-        $estadoCivil = $_REQUEST["estadoCivil"];
+        $estado_ID = $_REQUEST["estado"];
+        $comuna_ID = $_REQUEST["comuna"];
+        $estadoCivil_ID = $_REQUEST["estadoCivil"];
 
-        //3.- Contruyo un objeto para el Paciente
+        //5.- Contruyo un objeto para el Paciente
         $paciente = new Paciente();
 
         $paciente->setRun_Paciente($runPaciente);
@@ -39,20 +53,24 @@ require_once("../model/Comuna.php");
         $paciente->setEstudio($estudio);
         $paciente->setActividadLaboral($actividadLaboral);
         $paciente->setDireccionParticular($direccionParticular);
-        $paciente->setEstadoCivil($estadoCivil);
-        $paciente->setComuna($comuna);
-        $paciente->setEstado($estado);
-        
-        //4.- Construyo el Objeto de la clase Data
-        $data = new Data();
+        $paciente->setEstadoCivil($estadoCivil_ID);
+        $paciente->setComuna($comuna_ID);
+        $paciente->setEstado($estado_ID);
 
-        //5.- LLamo al metodo crearPaciente del Data
+        //6.- LLamo al metodo crearPaciente del Data
         $data->crearPaciente($paciente);
 
-        //6.- Redireccionar hacia formCrearPaciente.php con un mensaje a través del método GET
-        header("location: ../view/formCrearPaciente.php?mensaje=1");
+        //7.- Redireccionar hacia formCrearPaciente.php con un mensaje a través del navegador
+        echo "<script>
+                alert('¡¡Paciente creado con exito!!');
+                window.location= '../view/formCrearPaciente.php'
+            </script>";
+        }
     }else {
         //Si no vienen los datos, redirigir hacia formCrearPaciente.php con mensaje de error a través del método GET
-        header("location: ../view/formActor.php?error=1");
+        echo "<script>
+                alert('¡¡Error paciente no fue creado!!');
+                window.location= '../view/formCrearPaciente.php'
+            </script>";
     }
 ?>

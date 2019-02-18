@@ -1,11 +1,27 @@
 <?php
-require_once("../model/Data.php");
-require_once("../model/Paciente.php");
-require_once("../model/Estado.php");
-require_once("../model/EstadoCivil.php");
-require_once("../model/Comuna.php"); 
+    if (isset($_POST["runPaciente"])) {
+        $runPaciente = $_POST["runPaciente"];
 
-    if (isset($_POST["btnEliminarPaciente"])) {
-        echo "ya llego esta baina";
+        //LLamo al model donde esta el Data
+        require_once("../model/Data.php");
+
+        //Creo un clase $d para llamar los metodos
+        $d = new Data();
+
+        //LLamo al metodo eliminar del Data ingresandole el id que viajo por POST desde listarPaciente.php
+        $d->eliminarPaciente($runPaciente);
+
+        //Ahora redirecciono hacia listarPaciente.php y muestro mensaje
+        echo "<script>
+                alert('¡¡Paciente eliminado con exito!!');
+                window.location= '../view/listarPaciente.php'
+            </script>";
+            
+    }else {
+        echo "<script>
+                alert('¡¡Error al realizar el eliminado!!');
+                window.location= '../view/listarPaciente.php'
+            </script>";
     }
+    
 ?>

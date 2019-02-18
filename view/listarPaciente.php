@@ -111,6 +111,8 @@
                 <th scope="col">ESTADO CIVIL</th>
                 <th scope="col">COMUNA</th>
                 <th scope="col">ESTADO</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
             </tr>
         </thead>
 
@@ -132,7 +134,11 @@
                     echo "<td>".$p->apellidoPaterno."</td>";
                     echo "<td>".$p->apellidoMaterno."</td>";
                     echo "<td>".$p->fechaNacimiento."</td>";
-                    echo "<td>".$p->sexo."</td>";
+                    if ($p->sexo==0) {
+                        echo "<td>MASCULINO</td>";
+                    } else if ($p->sexo==1){
+                        echo "<td>FEMENINO</td>";
+                    }
                     echo "<td>".$p->participacionSocial."</td>";
                     echo "<td>".$p->estudio."</td>";
                     echo "<td>".$p->actividadLaboral."</td>";
@@ -142,11 +148,9 @@
                     echo "<td>".$p->estado."</td>";
 
                     echo "<td>";
-                    echo "<form 
-                            action='../controller/eliminarPaciente.php' 
-                            method='post'>";
-                        echo "<input type='hidden' name='idActor' value='".$p->run_Paciente."'>";
-                        echo "<input type='submit' value='Eliminar'>";
+                    echo "<form action='../controller/eliminarPaciente.php' method='post'>";
+                        echo "<input type='hidden' name='runPaciente' value='".$p->run_Paciente."'>";
+                        echo "<input type='submit' class='btn btn-primary' value='Eliminar'>";
                     echo "</form>";
                 echo "</td>";
                 echo "</tr>";

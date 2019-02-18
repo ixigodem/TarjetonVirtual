@@ -45,7 +45,3 @@ function checkRun(run) {
     // Si todo sale bien, eliminar errores (decretar que es válido)
     run.setCustomValidity('');
 }
-
-function fecha(fecha) {
-
-}

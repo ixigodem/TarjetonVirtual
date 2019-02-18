@@ -375,10 +375,31 @@ class Data{
         return $u;
     }
 
+
+    public function getPacienteBusqueda($run){
+        $lista = array();
+
+        $query = "SELECT run_Paciente FROM tbl_paciente WHERE run_Paciente = '$run';";
+
+        $p = null;
+
+        $this->con->conectar();
+
+        $rs = $this->con->ejecutar($query);
+        if ($obj = $rs->fetch_object()) {
+            $p = new Paciente();
+
+            $p->setRun_Paciente($obj->run_Paciente);
+        }
+
+        $this->con->desconectar();
+        return $p;
+    }
+
     public function getPacientePorFiltro($filtro){
         $lista = array();
 
-        $query = "SELECT run_Paciente,nombres,apellidoPaterno,apellidoMaterno,fechaNacimiento,
+        $query = "SELECT run_Paciente,nombres,apellidoPaterno,apellidoMaterno,DATE_FORMAT(fechaNacimiento, '%d/%m/%Y') as fechaNacimiento,
         sexo,participacionSocial,estudio,actividadLaboral,direccionParticular, 
         ec.nombre as estadoCivil, c.nombre as comuna, e.nombre as estado
         FROM tbl_paciente AS p
@@ -405,7 +426,7 @@ class Data{
     public function getPaciente(){
         $lista = array();
 
-        $query = "SELECT run_Paciente,nombres,apellidoPaterno,apellidoMaterno,fechaNacimiento,
+        $query = "SELECT run_Paciente,nombres,apellidoPaterno,apellidoMaterno,DATE_FORMAT(fechaNacimiento, '%d/%m/%Y') as fechaNacimiento,
         sexo,participacionSocial,estudio,actividadLaboral,direccionParticular, 
         ec.nombre as estadoCivil, c.nombre as comuna, e.nombre as estado
         FROM tbl_paciente AS p
@@ -428,7 +449,7 @@ class Data{
     public function getPacientePasivos(){
         $lista = array();
 
-        $query = "SELECT run_Paciente,nombres,apellidoPaterno,apellidoMaterno,fechaNacimiento,
+        $query = "SELECT run_Paciente,nombres,apellidoPaterno,apellidoMaterno,DATE_FORMAT(fechaNacimiento, '%d/%m/%Y') as fechaNacimiento,TIMESTAMPDIFF(YEAR,fechaNacimiento,CURDATE()) AS edad,
         sexo,participacionSocial,estudio,actividadLaboral,direccionParticular, 
         ec.nombre as estadoCivil, c.nombre as comuna, e.nombre as estado
         FROM tbl_paciente AS p
@@ -698,28 +719,28 @@ class Data{
 
 //ELIMINAR/ACTIVAR TABLAS
 /*Estados: 1 Activo - 2 Pasivo*/
-    public function eliminarPaciente($run){
-        $delete = "update tbl_paciente set estado = 2 where run_Paciente = $run";
+    public function eliminarPaciente($runPaciente){
+        $delete = "update tbl_paciente set estado_ID = 2 where run_Paciente = '$runPaciente'";
         
-        $this->c->conectar();
-        $this->c->ejecutar($delete);
-        $this->c->desconectar();
+        $this->con->conectar();
+        $this->con->ejecutar($delete);
+        $this->con->desconectar();
     }
 
     public function eliminarTarjeton($id){
         $delete = "update tbl_tarjeton set estado = 2 where id = $id";
 
-        $this->c->conectar();
-        $this->c->ejecutar($delete);
-        $this->c->desconectar();
+        $this->con->conectar();
+        $this->con->ejecutar($delete);
+        $this->con->desconectar();
     }
 
     public function activarPaciente($run){
         $activar = "update tbl_paciente set estado = 1 where id = $run";
         
-        $this->c->conectar();
-        $this->c->ejecutar($activar);
-        $this->c->desconectar();
+        $this->con->conectar();
+        $this->con->ejecutar($activar);
+        $this->con->desconectar();
     }
 
     public function activarTarjeton($id){
