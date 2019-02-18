@@ -1,14 +1,14 @@
 <?php
 class EstadoCivil {
-    private $idEstadoCivil;
+    private $id_EstadoCivil;
     private $nombreEstadoCivil;
 
     public function __construct(){
         //Constructor por defecto
     }
 
-    public function setIdEstadoCivil($idEstadoCivil){
-        $this->idEstadoCivil = $idEstadoCivil;
+    public function setIdEstadoCivil($id_EstadoCivil){
+        $this->id_EstadoCivil = $id_EstadoCivil;
     }
 
     public function setNombreEstadoCivil($nombreEstadoCivil){
@@ -16,7 +16,7 @@ class EstadoCivil {
     }
 
     public function getIdEstadoCivil(){
-        return $this->idEstadoCivil;
+        return $this->id_EstadoCivil;
     }
 
     public function getNombreEstadoCivil(){

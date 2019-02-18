@@ -299,21 +299,22 @@ class Data{
         $this->con->desconectar();
 
         return $listEstado;
-    }    
+    }
 
     public function getEstadoCivil(){
-        $listEstadoCivil = array();
-        
+        $lista = array();
+
+        $query = "SELECT * FROM tbl_estado_civil;";
+
         $this->con->conectar();
 
-        $rs = $this->con->ejecutar("SELECT * FROM tbl_estado_civil");
-
+        $rs = $this->con->ejecutar($query);
         while($obj = $rs->fetch_object()){
-            array_push($listEstadoCivil, $obj);
+            array_push($lista, $obj);
         }
+        
         $this->con->desconectar();
-
-        return $listEstadoCivil;
+        return $lista;
     }
 
     public function getFactorDeRiesgo(){
@@ -374,64 +375,77 @@ class Data{
         return $u;
     }
 
-    public function getPacientePorRun($runPaciente){
+    public function getPacientePorFiltro($filtro){
         $lista = array();
 
-        $query = "SELECT * FROM tbl_paciente WHERE run_Paciente = '$runPaciente';";
+        $query = "SELECT run_Paciente,nombres,apellidoPaterno,apellidoMaterno,fechaNacimiento,
+        sexo,participacionSocial,estudio,actividadLaboral,direccionParticular, 
+        ec.nombre as estadoCivil, c.nombre as comuna, e.nombre as estado
+        FROM tbl_paciente AS p
+        INNER JOIN tbl_estado_civil AS ec ON ec.id_EstadoCivil=p.estadoCivil_ID
+        INNER JOIN tbl_comuna AS c ON c.id_Comuna=p.comuna_ID
+        INNER JOIN tbl_estado AS e ON e.id_Estado=p.estado_ID 
+        WHERE (run_Paciente LIKE '$filtro' OR 
+        nombres LIKE '%$filtro%' OR 
+        apellidoPaterno LIKE '%$filtro%' OR
+        apellidoMaterno LIKE '%$filtro%') 
+        AND estado_ID = 1;";
 
-        $u = null;
+        $this->con->conectar();
 
-        $this->c->conectar();
-
-        $rs = $this->c->ejecutar($query);
-        if ($obj = $rs->fetch_object()) {
-            $u = new Paciente();
-
-            $u->setRun_Paciente($obj->run_Paciente);
-            $u->setNombre($obj->nombre);
-            $u->setApellidoPaterno($obj->apellidoPaterno);
-            $u->setApellidoMaterno($obj->apellidoMaterno);
-            $u->setFechaNacimiento($obj->fechaNacimiento);
-            $u->setSexo($obj->sexo);
-            $u->setParticipacionSocial($obj->participacionSocial);
-            $u->setEstudio($obj->estudio);
-            $u->setActividadLaboral($obj->actividadLaboral);
-            $u->setDireccionParticular($obj->direccionParticular);
-
+        $rs = $this->con->ejecutar($query);
+        while($obj = $rs->fetch_object()){
+            array_push($lista, $obj);
         }
-
-        $this->c->desconectar();
-        return $u;
+        
+        $this->con->desconectar();
+        return $lista;
     }
 
     public function getPaciente(){
         $lista = array();
 
-        $query = "SELECT * FROM tbl_paciente;";
+        $query = "SELECT run_Paciente,nombres,apellidoPaterno,apellidoMaterno,fechaNacimiento,
+        sexo,participacionSocial,estudio,actividadLaboral,direccionParticular, 
+        ec.nombre as estadoCivil, c.nombre as comuna, e.nombre as estado
+        FROM tbl_paciente AS p
+        INNER JOIN tbl_estado_civil AS ec ON ec.id_EstadoCivil=p.estadoCivil_ID
+        INNER JOIN tbl_comuna AS c ON c.id_Comuna=p.comuna_ID
+        INNER JOIN tbl_estado AS e ON e.id_Estado=p.estado_ID
+        WHERE estado_ID = 1;";
 
-        $u = null;
+        $this->con->conectar();
 
-        $this->c->conectar();
-
-        $rs = $this->c->ejecutar($query);
-        if ($obj = $rs->fetch_object()) {
-            $u = new Paciente();
-
-            $u->setRun_Paciente($obj->run_Paciente);
-            $u->setNombre($obj->nombre);
-            $u->setApellidoPaterno($obj->apellidoPaterno);
-            $u->setApellidoMaterno($obj->apellidoMaterno);
-            $u->setFechaNacimiento($obj->fechaNacimiento);
-            $u->setSexo($obj->sexo);
-            $u->setParticipacionSocial($obj->participacionSocial);
-            $u->setEstudio($obj->estudio);
-            $u->setActividadLaboral($obj->actividadLaboral);
-            $u->setDireccionParticular($obj->direccionParticular);
-
+        $rs = $this->con->ejecutar($query);
+        while($obj = $rs->fetch_object()){
+            array_push($lista, $obj);
         }
+        
+        $this->con->desconectar();
+        return $lista;
+    }
 
-        $this->c->desconectar();
-        return $u;
+    public function getPacientePasivos(){
+        $lista = array();
+
+        $query = "SELECT run_Paciente,nombres,apellidoPaterno,apellidoMaterno,fechaNacimiento,
+        sexo,participacionSocial,estudio,actividadLaboral,direccionParticular, 
+        ec.nombre as estadoCivil, c.nombre as comuna, e.nombre as estado
+        FROM tbl_paciente AS p
+        INNER JOIN tbl_estado_civil AS ec ON ec.id_EstadoCivil=p.estadoCivil_ID
+        INNER JOIN tbl_comuna AS c ON c.id_Comuna=p.comuna_ID
+        INNER JOIN tbl_estado AS e ON e.id_Estado=p.estado_ID
+        WHERE estado_ID = 2;";
+
+        $this->con->conectar();
+
+        $rs = $this->con->ejecutar($query);
+        while($obj = $rs->fetch_object()){
+            array_push($lista, $obj);
+        }
+        
+        $this->con->desconectar();
+        return $lista;
     }
 
     public function getPacienteDiabetico(){
@@ -715,121 +729,4 @@ class Data{
         $this->c->ejecutar($activar);
         $this->c->desconectar();
     }
-
-    //LISTAR FILTRADO POR ESTADO
-    public function getPacienteActivos(){
-        $lista = array();
-
-        $query = "SELECT * FROM tbl_paciente WHERE estado = '1';";
-
-        $u = null;
-
-        $this->c->conectar();
-
-        $rs = $this->c->ejecutar($query);
-        if ($obj = $rs->fetch_object()) {
-            $u = new Complicacion();
-
-            $u->setRun_Paciente($obj->run_Paciente);
-            $u->setNombre($obj->nombre);
-            $u->setApellidoPaterno($obj->apellidoPaterno);
-            $u->setApellidoMaterno($obj->apellidoMaterno);
-            $u->setFechaNacimiento($obj->fechaNacimiento);
-            $u->setSexo($obj->sexo);
-            $u->setParticipacionSocial($obj->participacionSocial);
-            $u->setEstudio($obj->estudio);
-            $u->setActividadLaboral($obj->actividadLaboral);
-            $u->setDireccionParticular($obj->direccionParticular);
-
-        }
-
-        $this->c->desconectar();
-        return $u;
-    }
-
-    public function getPacientePasivos(){
-        $lista = array();
-
-        $query = "SELECT * FROM tbl_paciente WHERE estado = 2;";
-
-        $u = null;
-
-        $this->c->conectar();
-
-        $rs = $this->c->ejecutar($query);
-        if ($obj = $rs->fetch_object()) {
-            $u = new Complicacion();
-
-            $u->setRun_Paciente($obj->run_Paciente);
-            $u->setNombre($obj->nombre);
-            $u->setApellidoPaterno($obj->apellidoPaterno);
-            $u->setApellidoMaterno($obj->apellidoMaterno);
-            $u->setFechaNacimiento($obj->fechaNacimiento);
-            $u->setSexo($obj->sexo);
-            $u->setParticipacionSocial($obj->participacionSocial);
-            $u->setEstudio($obj->estudio);
-            $u->setActividadLaboral($obj->actividadLaboral);
-            $u->setDireccionParticular($obj->direccionParticular);
-
-        }
-
-        $this->c->desconectar();
-        return $u;
-    }
-
-    /*
-    public function getActores(){
-        $lista = array();
-
-        $select = "select * from actor where estado = true";
-
-        $this->c->conectar();
-
-        $rs = $this->c->ejecutar($select);
-        while($obj = $rs->fetch_object()){
-            array_push($lista, $obj);
-        }
-        
-        $this->c->desconectar();
-        return $lista;
-    }
-
-    
-    Filtro: id, nombre, edad
-    
-    public function buscarActores($filtro){
-        $lista = array();
-
-        $select = "select * from actor where 
-        (id = '$filtro' or 
-        nombre like '%$filtro%' 
-        or edad = '$filtro') and estado = true";
-
-        $this->c->conectar();
-
-        $rs = $this->c->ejecutar($select);
-        while($obj = $rs->fetch_object()){
-            array_push($lista, $obj);
-        }
-        
-        $this->c->desconectar();
-        return $lista;
-    }
-
-    public function getPeliculas(){
-        $lista = array();
-
-        $select = "select * from pelicula where estado = true";
-
-        $this->c->conectar();
-
-        $rs = $this->c->ejecutar($select);
-        while($obj = $rs->fetch_object()){
-            array_push($lista, $obj);
-        }
-        
-        $this->c->desconectar();
-        return $lista;
-    }
-    */
 }

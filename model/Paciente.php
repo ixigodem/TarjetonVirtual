@@ -10,9 +10,9 @@ class Paciente{
     private $estudio;
     private $actividadLaboral;
     private $direccionParticular;
-    private $estadoCivil;
-    private $comuna;
-    private $estado;
+    private $estadoCivil_ID;
+    private $comuna_ID;
+    private $estado_ID;
 
     public function __construct(){
         // por defecto
@@ -22,8 +22,8 @@ class Paciente{
         $this->run_Paciente = $run_Paciente;
     }
 
-    public function setNombre($nombre){
-        $this->nombre = $nombre;
+    public function setNombres($nombres){
+        $this->nombres = $nombres;
     }
 
     public function setApellidoPaterno($apellidoPaterno){
@@ -58,16 +58,16 @@ class Paciente{
         $this->direccionParticular = $direccionParticular;
     }
 
-    public function setEstadoCivil($estadoCivil){
-        $this->estadoCivil = $estadoCivil;
+    public function setEstadoCivil($estadoCivil_ID){
+        $this->estadoCivil_ID = $estadoCivil_ID;
     }
 
-    public function setComuna($comuna){
-        $this->comuna = $comuna;
+    public function setComuna($comuna_ID){
+        $this->comuna_ID = $comuna_ID;
     }
 
-    public function setEstado($estado){
-        $this->estado = $estado;
+    public function setEstado($estado_ID){
+        $this->estado_ID = $estado_ID;
     }
 
     public function getRun_Paciente(){
@@ -111,15 +111,15 @@ class Paciente{
     }
 
     public function getEstadoCivil(){
-        return $this->estadoCivil;
+        return $this->estadoCivil_ID;
     }
 
     public function getComuna(){
-        return $this->comuna;
+        return $this->comuna_ID;
     }
 
     public function getEstado(){
-        return $this->estado;
+        return $this->estado_ID;
     }
 
 }

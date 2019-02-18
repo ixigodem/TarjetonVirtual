@@ -26,15 +26,11 @@ require_once("../model/Comuna.php");
         $comuna = $_REQUEST["comuna"];
         $estadoCivil = $_REQUEST["estadoCivil"];
 
-echo $_REQUEST["estado"];
-echo $_REQUEST["comuna"];
-echo $_REQUEST["estadoCivil"];
-
         //3.- Contruyo un objeto para el Paciente
         $paciente = new Paciente();
 
         $paciente->setRun_Paciente($runPaciente);
-        $paciente->setNombre($nombresPacientes);
+        $paciente->setNombres($nombresPacientes);
         $paciente->setApellidoPaterno($apellidoPaterno);
         $paciente->setApellidoMaterno($apellidoMaterno);
         $paciente->setFechaNacimiento($fechaNacimiento);
@@ -47,7 +43,6 @@ echo $_REQUEST["estadoCivil"];
         $paciente->setComuna($comuna);
         $paciente->setEstado($estado);
         
-        echo $paciente;
         //4.- Construyo el Objeto de la clase Data
         $data = new Data();
 

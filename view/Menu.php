@@ -1,6 +1,6 @@
 <?php 
-@session_start(); 
-include("../controller/Seguridad.php");
+//@session_start(); 
+//include("../controller/Seguridad.php");
 ?>
 <!doctype html>
 <html lang="en">
@@ -15,63 +15,64 @@ include("../controller/Seguridad.php");
     <title>Tarjetón Virtual</title>
   </head>
   <body>
-    <!-- Pagina inicial -->
-    <nav class="navbar navbar-default navbar-expand-lg navbar-light">
-
-    <!-- Collection of nav links, forms, and other content for toggling -->
-    <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
-      <ul class="nav navbar-nav">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <li><a class="navbar-brand" href="../index.php">
-          <img src="../img/Enfermeria.png" width="30" height="30" class="d-inline-block align-top" alt="">Tarjetón Virtual</a></li>
-        <li class="nav-item"><a href="../index.php" class="nav-link">Inicio</a></li>
-        <li class="nav-item"><a href="http://web.saludcormun.cl/?page_id=3733" class="nav-link">Acerca de</a></li>
+            <img src="../img/Enfermeria.png" width="30" height="30" class="d-inline-block align-top" href="../index.php">Tarjetón Virtual</a>
+            </li>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-          <div class="dropdown show">
-            <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Creación de Paciente
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <a class="dropdown-item" href="formCrearPaciente.php">Crear Paciente</a>
-              <a class="dropdown-item" href="#">Buscar Paciente</a>
-            </div>
-          </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><a href="../index.php" class="nav-link">Inicio</a></li>
 
-          <div class="dropdown show">
-            <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Programa de Salud
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <a class="dropdown-item" href="#">Crear Programa de Salud</a>
-              <a class="dropdown-item" href="#">Buscar Programa de Salud</a>
-            </div>
-          </div>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Creación de Paciente
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="formCrearPaciente.php">Crear Paciente</a>
+                <a class="dropdown-item" href="Pacientes.php">Buscar Paciente</a>
+                </div>
+            </li>
 
-          <div class="dropdown show">
-            <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Tarjetón
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <a class="dropdown-item" href="#">Crear Tarjetón</a>
-              <a class="dropdown-item" href="#">Busqueda de tarjetones</a>
-            </div>
-          </div>
-          
-          <div class="dropdown show">
-            <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Gestión
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <a class="dropdown-item" href="#">Reporte Tarjetón</a>
-              <a class="dropdown-item" href="#">Control HTA</a>
-              <a class="dropdown-item" href="#">Control DM2</a>
-              <a class="dropdown-item" href="#">Control Epilepsia</a>
-            </div>
-          </div>
-          <li class="nav-item"><a class="nav-link">Bienvenido: <?php echo $_SESSION["user"];?></a></li>
-			  </li>
-      </ul>
-    </div>
-  </nav>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Programa de Salud
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Crear Programa de Salud</a>
+                <a class="dropdown-item" href="#">Buscar Programa de Salud</a>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Tarjetón
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Crear Tarjetón</a>
+                <a class="dropdown-item" href="#">Busqueda de tarjetones</a>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Gestión
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Reporte Tarjetón</a>
+                <a class="dropdown-item" href="#">Control HTA</a>
+                <a class="dropdown-item" href="#">Control DM2</a>
+                <a class="dropdown-item" href="#">Control Epilepsia</a>
+                </div>
+            </li>
+
+            <li class="nav-item"><a href="http://web.saludcormun.cl/?page_id=3733" class="nav-link">Sobre Nosotros</a></li>
+            </ul>
+        </div>
+    </nav>
 
       <!-- Carrusel de fotos -->
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
