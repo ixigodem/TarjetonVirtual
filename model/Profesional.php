@@ -1,26 +1,35 @@
 <?php
 class Profesional {
-    private $idProfesional;
-    private $nombreProfesional;
+    private $id_Profesional;
+    private $nombre;
+    private $estamento_ID;
 
     public function __construct(){
         //Constructor por defecto
     }
 
-    public function setIdProfesional($idProfesional){
-        $this->idProfesional = $idProfesional;
+    public function setIdProfesional($id_Profesional){
+        $this->id_Profesional = $id_Profesional;
     }
 
-    public function setNombreProfesional($nombreProfesional){
-        $this->nombreProfesional = $nombreProfesional;
+    public function setNombreProfesional($nombre){
+        $this->nombre = $nombre;
+    }
+
+    public function setEstamento($estamento_ID){
+        $this->estamento_ID = $estamento_ID;
     }
 
     public function getIdProfesional(){
-        return $this->idProfesional;
+        return $this->id_Profesional;
     }
 
     public function getNombreProfesional(){
-        return $this->nombreProfesional;
+        return $this->nombre;
+    }
+
+    public function getEstamento(){
+        return $this->estamento_ID;
     }
 }
 ?>

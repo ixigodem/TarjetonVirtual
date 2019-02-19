@@ -19,7 +19,7 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><a href="../index.php" class="nav-link">Inicio</a></li>
+            <li class="nav-item"><a href="Menu.php" class="nav-link">Inicio</a></li>
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -33,14 +33,13 @@
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Programa de Salud
+                Profesionales
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Crear Programa de Salud</a>
-                <a class="dropdown-item" href="#">Buscar Programa de Salud</a>
+                <a class="dropdown-item" href="formCrearProfesional.php">Crear Profesional</a>
                 </div>
             </li>
-
+            
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Tarjetón
@@ -150,7 +149,7 @@
            ?>
 
             <div class="form-group col-md-4">
-                <label for="estado">ESTADO CIVIL</label>
+                <label>ESTADO CIVIL</label>
                 <select name="estadoCivil" class="form-control">
                 <option selected disabled>Seleccione una opción</option>
                     <?php
@@ -163,7 +162,7 @@
             </div>
 
             <div class="form-group col-md-4">
-                <label for="estado">COMUNA</label>
+                <label>COMUNA</label>
                 <select name="comuna" class="form-control">
                 <option selected disabled>Seleccione una opción</option>
                     <?php

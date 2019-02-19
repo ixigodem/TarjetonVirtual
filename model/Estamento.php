@@ -1,14 +1,14 @@
 <?php
 class Estamento {
-    private $idEstamento;
+    private $id_Estamento;
     private $nombreEstamento;
 
     public function __construct(){
         //Constructor por defecto
     }
 
-    public function setIdEstamento($idEstamento){
-        $this->idEstamento = $idEstamento;
+    public function setIdEstamento($id_Estamento){
+        $this->id_Estamento = $id_Estamento;
     }
 
     public function setNombreEstamento($nombreEstamento){
@@ -16,7 +16,7 @@ class Estamento {
     }
 
     public function getIdEstamento(){
-        return $this->idEstamento;
+        return $this->id_Estamento;
     }
 
     public function getNombreEstamento(){

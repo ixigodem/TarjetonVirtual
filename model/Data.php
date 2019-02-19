@@ -170,10 +170,10 @@ class Data{
         $this->ejecutar($query);
     }
 
-    public function crearProfesional($profesional,$estamento){
+    public function crearProfesional($profesional){
         $query = "insert into tbl_profesional 
         values(null, '".$profesional->getNombreProfesional()."', 
-        ".$estamento->getIdEstamento().")";
+        ".$profesional->getEstamento().")";
         
         $this->ejecutar($query);
     }
@@ -469,6 +469,22 @@ class Data{
         return $lista;
     }
 
+    public function getEstamento(){
+        $lista = array();
+
+        $query = "SELECT * FROM tbl_estamento";
+
+        $this->con->conectar();
+
+        $rs = $this->con->ejecutar($query);
+        while($obj = $rs->fetch_object()){
+            array_push($lista, $obj);
+        }
+        
+        $this->con->desconectar();
+        return $lista;
+    }
+
     public function getPacienteDiabetico(){
         $lista = array();
 
@@ -572,26 +588,70 @@ class Data{
         return $u;
     }
 
+    /*        $query = "SELECT run_Paciente,nombres,apellidoPaterno,apellidoMaterno,DATE_FORMAT(fechaNacimiento, '%d/%m/%Y') as fechaNacimiento,TIMESTAMPDIFF(YEAR,fechaNacimiento,CURDATE()) AS edad,
+        sexo,participacionSocial,estudio,actividadLaboral,direccionParticular, 
+        ec.nombre as estadoCivil, c.nombre as comuna, e.nombre as estado
+        FROM tbl_paciente AS p
+        INNER JOIN tbl_estado_civil AS ec ON ec.id_EstadoCivil=p.estadoCivil_ID
+        INNER JOIN tbl_comuna AS c ON c.id_Comuna=p.comuna_ID
+        INNER JOIN tbl_estado AS e ON e.id_Estado=p.estado_ID
+        WHERE estado_ID = 2;"; */
+
     public function getProfesional(){
         $lista = array();
 
-        $query = "SELECT * FROM tbl_profesional;";
+        $query = "SELECT *
+        FROM tbl_profesional AS pro
+        INNER JOIN tbl_estamento as e ON e.id_Estamento=pro.estamento_ID";
 
-        $u = null;
+        $this->con->conectar();
 
-        $this->c->conectar();
+        $rs = $this->con->ejecutar($query);
+        while($obj = $rs->fetch_object()){
+            array_push($lista, $obj);
+        }
+        
+        $this->con->desconectar();
+        return $lista;
+    }
 
-        $rs = $this->c->ejecutar($query);
-        if ($obj = $rs->fetch_object()) {
-            $u = new Profesional();
+   /*  */
 
-            $u->setIdProfesional($obj->idProfesional);
-            $u->setNombreProfesional($obj->nombreProfesional);
-            $u->setIdEstamento($obj->idEstamento);
+    public function getProfesionalPorFiltro($filtro){
+        $lista = array();
+
+        $query = "SELECT *
+        FROM tbl_profesional AS pro
+        INNER JOIN tbl_estamento AS e ON e.id_Estamento = pro.estamento_ID
+        WHERE nombre LIKE '%$filtro%' OR e.nombre LIKE '%$filtro%'";
+
+        $this->con->conectar();
+
+        $rs = $this->con->ejecutar($query);
+        while($obj = $rs->fetch_object()){
+            array_push($lista, $obj);
         }
 
-        $this->c->desconectar();
-        return $u;
+        $this->con->desconectar();
+        return $lista;
+    }
+
+    public function getProfesionalBusqueda($nombre){
+        $query = "SELECT * FROM tbl_profesional WHERE nombre = '$nombre'";
+
+        $pro = null;
+
+        $this->con->conectar();
+
+        $rs = $this->con->ejecutar($query);
+        if ($obj = $rs->fetch_object()) {
+            $pro = new Profesional();
+
+            $pro->setNombreProfesional($obj->nombreProfesional);
+        }
+
+        $this->con->desconectar();
+        return $pro;
     }
 
     public function getTarjeton(){

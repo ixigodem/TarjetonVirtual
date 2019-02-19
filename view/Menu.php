@@ -25,7 +25,6 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><a href="../index.php" class="nav-link">Inicio</a></li>
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -39,11 +38,10 @@
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Programa de Salud
+                Profesionales
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Crear Programa de Salud</a>
-                <a class="dropdown-item" href="#">Buscar Programa de Salud</a>
+                <a class="dropdown-item" href="formCrearProfesional.php">Crear Profesional</a>
                 </div>
             </li>
 

@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Buscar Pacientes</title>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <title>Crear Paciente</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="../css/crearPaciente.css">
+    <link rel="stylesheet" type="text/css" href="../css/crearProfesional.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <li><a class="navbar-brand" href="Menu.php">
+        <li><a class="navbar-brand" href="../index.php">
             <img src="../img/Enfermeria.png" width="30" height="30" class="d-inline-block align-top" href="../index.php">Tarjetón Virtual</a>
-        </li>
+            </li>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -68,28 +67,55 @@
         </div>
     </nav>
 
+  <!-- Form para crear pacientes -->
+    <form action="../controller/crearProfesional.php" method="POST" id="formProfesional">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="nombres">NOMBRE</label>
+                <input type="text" class="form-control" name="nombre" placeholder="Nombre del Profesional:" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+            </div>
+
+        <!-- Obtengo los datos del Data que conecta con la BD -->
+            <?php
+                require_once("../model/Data.php");
+
+                $d = new Data();
+
+                $estamento = $d->getEstamento();
+           ?>
+
+            <div class="form-group col-md-4">
+                <label>ESTAMENTO</label>
+                <select name="estamento" class="form-control">
+                <option selected disabled>Seleccione una opción</option>
+                    <?php
+                        foreach ($estamento as $e) {
+                            echo "<option value='".$e->id_Estamento."'>".$e->nombre."</option>";
+                        }
+                    ?>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-outline-success my-2 my-sm-0"  name="btnCrearProfesional">Crear Profesional</button>
+        </div>
+    </form>
+
     <?php
-        require_once("../model/Data.php");
-        $d = new Data();
-    ?>
-    <?php
-        if(isset($_POST["btnBuscarPaciente"])){
-            $filtro = $_REQUEST["txtBuscarPaciente"];
+        if(isset($_POST["btnBuscarProfesional"])){
+            $filtro = $_REQUEST["txtBuscarProfesional"];
         }else{
             $filtro = "";
         }
     ?>
 
     <nav class="navbar navbar-light bg-light">
-        <form class="form-inline" action="listarPaciente.php" method="POST">
+        <form class="form-inline" action="formCrearProfesional.php" method="POST">
             <input 
             class="form-control mr-sm-2" 
             type="search" 
-            placeholder="Buscar Paciente" 
-            name="txtBuscarPaciente" 
+            placeholder="Buscar profesionales" 
+            name="txtBuscarProfesional" 
             value="<?php echo $filtro;?>">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="btnBuscarPaciente">Buscar</button>
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="btnMostrarPacientePasivo">Mostrar Pacientes Pasivos</button>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="btnBuscarProfesional">Buscar</button>
         </form>
     </nav>
 
@@ -97,61 +123,27 @@
         <table class="table">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">RUN</th>
-                <th scope="col">NOMBRES</th>
-                <th scope="col">APELLIDO PATERNO</th>
-                <th scope="col">APELLIDO MATERNO</th>
-                <th scope="col">FECHA DE NACIMIENTO</th>
-                <th scope="col">SEXO</th>
-                <th scope="col">PARTICIPACIÓN SOCIAL</th>
-                <th scope="col">ESTUDIO</th>
-                <th scope="col">ACTIVIDAD LABORAL</th>
-                <th scope="col">DIRECCIÓN PARTICULAR</th>
-                <th scope="col">ESTADO CIVIL</th>
-                <th scope="col">COMUNA</th>
-                <th scope="col">ESTADO</th>
-                <th scope="col"></th>
+                <th scope="col">ID</th>
+                <th scope="col">NOMBRE</th>
+                <th scope="col">ESTAMENTO</th>
                 <th scope="col"></th>
             </tr>
         </thead>
 
     <?php 
-        if (isset($_POST["btnBuscarPaciente"])) {
-            $filtro = $_REQUEST["txtBuscarPaciente"];
-            $paciente = $d->getPacientePorFiltro($filtro);
-        } else if (isset($_POST["btnMostrarPacientePasivo"])) {
-            $paciente = $d->getPacientePasivos();
+        if (isset($_POST["btnBuscarProfesional"])) {
+            $filtro = $_REQUEST["txtBuscarProfesional"];
+            $profesional = $d->getProfesionalPorFiltro($filtro);
         } else {
-            $paciente = $d->getPaciente();
+            $profesional = $d->getProfesional();
         }
 
-        foreach ($paciente as $p) {
+        foreach ($profesional as $p) {
             echo "<tbody>";
                 echo "<tr>";
-                    echo "<td>".$p->run_Paciente."</td>";
-                    echo "<td>".$p->nombres."</td>";
-                    echo "<td>".$p->apellidoPaterno."</td>";
-                    echo "<td>".$p->apellidoMaterno."</td>";
-                    echo "<td>".$p->fechaNacimiento."</td>";
-                    if ($p->sexo==0) {
-                        echo "<td>MASCULINO</td>";
-                    } else if ($p->sexo==1){
-                        echo "<td>FEMENINO</td>";
-                    }
-                    echo "<td>".$p->participacionSocial."</td>";
-                    echo "<td>".$p->estudio."</td>";
-                    echo "<td>".$p->actividadLaboral."</td>";
-                    echo "<td>".$p->direccionParticular."</td>";
-                    echo "<td>".$p->estadoCivil."</td>";
-                    echo "<td>".$p->comuna."</td>";
-                    echo "<td>".$p->estado."</td>";
-
-                    echo "<td>";
-                    echo "<form action='../controller/eliminarPaciente.php' method='post'>";
-                        echo "<input type='hidden' name='runPaciente' value='".$p->run_Paciente."'>";
-                        echo "<input type='submit' class='btn btn-primary' value='Eliminar'>";
-                    echo "</form>";
-                echo "</td>";
+                    echo "<td>".$p->id_Profesional."</td>";
+                    echo "<td>".$p->nombre."</td>";
+                    echo "<td>".$p->estamento_ID."</td>";
                 echo "</tr>";
             echo "</tbody>";
         }
