@@ -1,26 +1,44 @@
 <?php
 class PatologiasPacientes {
-    private $idPatPacientes;
-    private $fechaPatPacientes;
+    private $id_PatPacientes;
+    private $fechaPatologias;
+    private $Patologia_ID;
+    private $id_Paciente;
 
     public function __construct(){
         //Constructor por defecto
     }
 
-    public function setIdPatPacientes($idPatPacientes){
-        $this->id = $idPatPacientes;
+    public function setIdPatPacientes($id_PatPacientes){
+        $this->id_PatPacientes = $id_PatPacientes;
     }
 
-    public function setFechaPatPacientes($fechaPatPacientes){
-        $this->fechaPatPacientes = $fechaPatPacientes;
+    public function setFechaPatologias($fechaPatologias){
+        $this->fechaPatologias = $fechaPatologias;
+    }
+
+    public function setPatologiaID($Patologia_ID){
+        $this->Patologia_ID = $Patologia_ID;
+    }
+
+    public function setIdPaciente($id_Paciente){
+        $this->id_Paciente = $id_Paciente;
     }
 
     public function getIdPatPacientes(){
-        return $this->idPatPacientes;
+        return $this->id_PatPacientes;
     }
 
-    public function getFechaPatPacientes(){
-        return $this->fechaPatPacientes;
+    public function getFechaPatologias(){
+        return $this->fechaPatologias;
+    }
+
+    public function getPatologiaID(){
+        return $this->Patologia_ID;
+    }
+
+    public function getIdPaciente(){
+        return $this->id_Paciente;
     }
 }
 ?>

@@ -1,26 +1,26 @@
 <?php
 class Patologia {
-    private $idPatologia;
-    private $nombrePatologia;
+    private $id_Patologia;
+    private $nombre;
 
     public function __construct(){
         //Constructor por defecto
     }
 
-    public function setIdPatologia($idPatologia){
-        $this->id = $idPatologia;
+    public function setIdPatologia($id_Patologia){
+        $this->id_Patologia = $id_Patologia;
     }
 
-    public function setNombrePatologia($nombrePatologia){
-        $this->nombrePatologia = $nombrePatologia;
+    public function setNombrePatologia($nombre){
+        $this->nombre = $nombre;
     }
 
     public function getIdPatologia(){
-        return $this->idPatologia;
+        return $this->id_Patologia;
     }
 
     public function getNombrePatologia(){
-        return $this->nombrePatologia;
+        return $this->nombre;
     }
 }
 ?>

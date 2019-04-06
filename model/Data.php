@@ -23,7 +23,7 @@ class Data{
     private $con;
 
     public function __construct(){
-        $this->con = new Conexion("db_tarjetonvirtual");
+        $this->con = new Conexion("db_tarjetonvirtual2");
     }
 
     private function ejecutar($query){
@@ -107,7 +107,8 @@ class Data{
 
     public function crearPaciente($paciente){
         $query = "insert into tbl_paciente 
-        values('".$paciente->getRun_Paciente()."',
+        values(null,
+        '".$paciente->getRun_Paciente()."',
         '".$paciente->getNombres()."',
         '".$paciente->getApellidoPaterno()."',
         '".$paciente->getApellidoMaterno()."',
@@ -117,6 +118,7 @@ class Data{
         '".$paciente->getEstudio()."',
         '".$paciente->getActividadLaboral()."',
         '".$paciente->getDireccionParticular()."',
+        '".$paciente->getSector()."',
         '".$paciente->getEstadoCivil()."',
         '".$paciente->getComuna()."',
         ".$paciente->getEstado().")";
@@ -161,11 +163,11 @@ class Data{
         $this->ejecutar($query);
     }
 
-    public function crearPatologiasPacientes($patologiaPacientes,$patologia,$paciente){
-        $query = "insert into tbl_patologiaspacientes 
-        values(null, '".$patologiaPacientes->getFechaPatPacientes()."', 
-        '".$patologia->getIdPatologia()."', 
-        ".$paciente->getRun_Paciente().")";
+    public function crearPatologiasPacientes($patologiaPacientes){
+        $query = "insert into tbl_patologiaspacientes values(null, 
+        '".$patologiaPacientes->getFechaPatologias()."', 
+        '".$patologiaPacientes->getPatologiaID()."', 
+        ".$patologiaPacientes->getRunPaciente().")";
         
         $this->ejecutar($query);
     }
@@ -375,11 +377,38 @@ class Data{
         return $u;
     }
 
-
     public function getPacienteBusqueda($run){
         $lista = array();
 
-        $query = "SELECT run_Paciente FROM tbl_paciente WHERE run_Paciente = '$run';";
+        $query = "SELECT id_Paciente FROM tbl_paciente WHERE run_Paciente = '$run';";
+
+        $p = null;
+
+        $this->con->conectar();
+
+        $rs = $this->con->ejecutar($query);
+        if ($obj = $rs->fetch_object()) {
+            $p = new Paciente();
+
+            $p->setId_Paciente($obj->id_Paciente);
+        }
+
+        $this->con->desconectar();
+        return $p;
+    }
+
+    public function getPacienteTarjeton($run){
+        $lista = array();
+
+        $query = "SELECT run_Paciente,nombres,apellidoPaterno,apellidoMaterno,DATE_FORMAT(fechaNacimiento, '%d/%m/%Y') as fechaNacimiento,
+        sexo,participacionSocial,estudio,actividadLaboral,direccionParticular,sector,
+        ec.nombre as estadoCivil, c.nombre as comuna, e.nombre as estado
+        FROM tbl_paciente AS p
+        INNER JOIN tbl_estado_civil AS ec ON ec.id_EstadoCivil=p.estadoCivil_ID
+        INNER JOIN tbl_comuna AS c ON c.id_Comuna=p.comuna_ID
+        INNER JOIN tbl_estado AS e ON e.id_Estado=p.estado_ID 
+        WHERE run_Paciente = '$run' 
+        AND estado_ID = 1;";
 
         $p = null;
 
@@ -400,17 +429,20 @@ class Data{
         $lista = array();
 
         $query = "SELECT run_Paciente,nombres,apellidoPaterno,apellidoMaterno,DATE_FORMAT(fechaNacimiento, '%d/%m/%Y') as fechaNacimiento,
-        sexo,participacionSocial,estudio,actividadLaboral,direccionParticular, 
-        ec.nombre as estadoCivil, c.nombre as comuna, e.nombre as estado
+        sexo,participacionSocial,estudio,actividadLaboral,direccionParticular,sector,
+        t.fono as fono, ec.nombre as estadoCivil, c.nombre as comuna, e.nombre as estado
         FROM tbl_paciente AS p
         INNER JOIN tbl_estado_civil AS ec ON ec.id_EstadoCivil=p.estadoCivil_ID
         INNER JOIN tbl_comuna AS c ON c.id_Comuna=p.comuna_ID
-        INNER JOIN tbl_estado AS e ON e.id_Estado=p.estado_ID 
+        INNER JOIN tbl_estado AS e ON e.id_Estado=p.estado_ID
+        INNER JOIN tbl_Telefono AS t ON t.id_Telefono=p.id_Paciente
         WHERE (run_Paciente LIKE '$filtro' OR 
         nombres LIKE '%$filtro%' OR 
         apellidoPaterno LIKE '%$filtro%' OR
-        apellidoMaterno LIKE '%$filtro%') 
-        AND estado_ID = 1;";
+        apellidoMaterno LIKE '%$filtro%' OR
+        sector LIKE '%$filtro%') 
+        AND estado_ID = 1
+        ORDER BY 'nombres' ASC;";
 
         $this->con->conectar();
 
@@ -426,13 +458,14 @@ class Data{
     public function getPaciente(){
         $lista = array();
 
-        $query = "SELECT run_Paciente,nombres,apellidoPaterno,apellidoMaterno,DATE_FORMAT(fechaNacimiento, '%d/%m/%Y') as fechaNacimiento,
-        sexo,participacionSocial,estudio,actividadLaboral,direccionParticular, 
-        ec.nombre as estadoCivil, c.nombre as comuna, e.nombre as estado
+        $query = "SELECT id_Paciente,run_Paciente,nombres,apellidoPaterno,apellidoMaterno,DATE_FORMAT(fechaNacimiento, '%d/%m/%Y') as fechaNacimiento,
+        sexo,participacionSocial,estudio,actividadLaboral,direccionParticular,sector,
+        t.fono as fono, ec.nombre as estadoCivil, c.nombre as comuna, e.nombre as estado
         FROM tbl_paciente AS p
         INNER JOIN tbl_estado_civil AS ec ON ec.id_EstadoCivil=p.estadoCivil_ID
         INNER JOIN tbl_comuna AS c ON c.id_Comuna=p.comuna_ID
         INNER JOIN tbl_estado AS e ON e.id_Estado=p.estado_ID
+        INNER JOIN tbl_Telefono AS t ON t.id_Telefono=p.id_Paciente
         WHERE estado_ID = 1;";
 
         $this->con->conectar();
@@ -449,13 +482,14 @@ class Data{
     public function getPacientePasivos(){
         $lista = array();
 
-        $query = "SELECT run_Paciente,nombres,apellidoPaterno,apellidoMaterno,DATE_FORMAT(fechaNacimiento, '%d/%m/%Y') as fechaNacimiento,TIMESTAMPDIFF(YEAR,fechaNacimiento,CURDATE()) AS edad,
-        sexo,participacionSocial,estudio,actividadLaboral,direccionParticular, 
-        ec.nombre as estadoCivil, c.nombre as comuna, e.nombre as estado
+        $query = "SELECT run_Paciente,nombres,apellidoPaterno,apellidoMaterno,DATE_FORMAT(fechaNacimiento, '%d/%m/%Y') as fechaNacimiento,
+        sexo,participacionSocial,estudio,actividadLaboral,direccionParticular,sector,
+        t.fono as fono, ec.nombre as estadoCivil, c.nombre as comuna, e.nombre as estado
         FROM tbl_paciente AS p
         INNER JOIN tbl_estado_civil AS ec ON ec.id_EstadoCivil=p.estadoCivil_ID
         INNER JOIN tbl_comuna AS c ON c.id_Comuna=p.comuna_ID
         INNER JOIN tbl_estado AS e ON e.id_Estado=p.estado_ID
+        INNER JOIN tbl_Telefono AS t ON t.id_Telefono=p.id_Paciente
         WHERE estado_ID = 2;";
 
         $this->con->conectar();
@@ -488,33 +522,17 @@ class Data{
     public function getPacienteDiabetico(){
         $lista = array();
 
-        $query = "SELECT * FROM tbl_pacientediabetico;";
+        $query = "";
 
-        $u = null;
+        $this->con->conectar();
 
-        $this->c->conectar();
-
-        $rs = $this->c->ejecutar($query);
-        if ($obj = $rs->fetch_object()) {
-            $u = new PacienteDiabetico();
-
-            $u->setId_PacienteDiabetico($obj->id_PacienteDiabetico);
-            $u->setFechaEvalPieDiabetico($obj->fechaEvalPieDiabetico);
-            $u->setPtjePieDiabetico($obj->ptjePieDiabetico);
-            $u->setFechaQualidiab($obj->fechaQualidiab);
-            $u->setQualidiab($obj->qualidiab);
-            $u->setFechaFondoOjo($obj->fechaFondoOjo);
-            $u->setResultadoFondoOjo($obj->resultadoFondoOjo);
-            $u->setEnalapril($obj->enalapril);
-            $u->setLosartan($obj->losartan);
-            $u->setRetinopatiaDiabetica($obj->retinopatiaDiabetica);
-            $u->setAmputacion($obj->amputacion);
-            $u->setIdTarjeton($obj->idTarjeton);
-
+        $rs = $this->con->ejecutar($query);
+        while($obj = $rs->fetch_object()){
+            array_push($lista, $obj);
         }
 
-        $this->c->desconectar();
-        return $u;
+        $this->con->desconectar();
+        return $lista;
     }
 
     public function getParametrosClinicos(){
@@ -549,60 +567,24 @@ class Data{
 
         $query = "SELECT * FROM tbl_patologia;";
 
-        $u = null;
+        $this->con->conectar();
 
-        $this->c->conectar();
-
-        $rs = $this->c->ejecutar($query);
-        if ($obj = $rs->fetch_object()) {
-            $u = new Patologia();
-
-            $u->setIdPatologia($obj->idPatologia);
-            $u->setNombrePatologia($obj->nombrePatologia);
+        $rs = $this->con->ejecutar($query);
+        while($obj = $rs->fetch_object()){
+            array_push($lista, $obj);
         }
-
-        $this->c->desconectar();
-        return $u;
+        
+        $this->con->desconectar();
+        return $lista;
     }
 
-    public function getPatologiaPacientes(){
+    public function getPatologiaPacientes($filtro){
         $lista = array();
 
-        $query = "SELECT * FROM tbl_patologiaspacientes;";
-
-        $u = null;
-
-        $this->c->conectar();
-
-        $rs = $this->c->ejecutar($query);
-        if ($obj = $rs->fetch_object()) {
-            $u = new PatologiasPacientes();
-
-            $u->setIdPatPacientes($obj->idPatPacientes);
-            $u->setFechaPatPacientes($obj->fechaPatPacientes);
-            $u->setIdPatologia($obj->idPatologia);
-            $u->setRun_Paciente($obj->run_Paciente);
-        }
-
-        $this->c->desconectar();
-        return $u;
-    }
-
-    /*        $query = "SELECT run_Paciente,nombres,apellidoPaterno,apellidoMaterno,DATE_FORMAT(fechaNacimiento, '%d/%m/%Y') as fechaNacimiento,TIMESTAMPDIFF(YEAR,fechaNacimiento,CURDATE()) AS edad,
-        sexo,participacionSocial,estudio,actividadLaboral,direccionParticular, 
-        ec.nombre as estadoCivil, c.nombre as comuna, e.nombre as estado
-        FROM tbl_paciente AS p
-        INNER JOIN tbl_estado_civil AS ec ON ec.id_EstadoCivil=p.estadoCivil_ID
-        INNER JOIN tbl_comuna AS c ON c.id_Comuna=p.comuna_ID
-        INNER JOIN tbl_estado AS e ON e.id_Estado=p.estado_ID
-        WHERE estado_ID = 2;"; */
-
-    public function getProfesional(){
-        $lista = array();
-
-        $query = "SELECT *
-        FROM tbl_profesional AS pro
-        INNER JOIN tbl_estamento as e ON e.id_Estamento=pro.estamento_ID";
+        $query = "SELECT pp.fechaPatologias, p.nombre 
+        FROM tbl_patologiaspacientes AS pp 
+        INNER JOIN tbl_patologia AS p ON p.id_Patologia=pp.Patologia_ID 
+        WHERE pp.run_Paciente='$filtro';";
 
         $this->con->conectar();
 
@@ -615,15 +597,32 @@ class Data{
         return $lista;
     }
 
-   /*  */
+    public function getProfesional(){
+        $lista = array();
+
+        $query = "SELECT id_Profesional,pro.nombre,es.nombre AS estamento_ID
+        FROM tbl_profesional AS pro
+        INNER JOIN tbl_estamento as es ON es.id_Estamento=pro.estamento_ID";
+
+        $this->con->conectar();
+
+        $rs = $this->con->ejecutar($query);
+        while($obj = $rs->fetch_object()){
+            array_push($lista, $obj);
+        }
+        
+        $this->con->desconectar();
+        return $lista;
+    }
+
 
     public function getProfesionalPorFiltro($filtro){
         $lista = array();
 
-        $query = "SELECT *
+        $query = "SELECT id_Profesional, pro.nombre, es.nombre AS estamento_ID
         FROM tbl_profesional AS pro
-        INNER JOIN tbl_estamento AS e ON e.id_Estamento = pro.estamento_ID
-        WHERE nombre LIKE '%$filtro%' OR e.nombre LIKE '%$filtro%'";
+        INNER JOIN tbl_estamento AS es ON es.id_Estamento = pro.estamento_ID
+        WHERE pro.nombre LIKE '%$filtro%' OR es.nombre LIKE '%$filtro%'";
 
         $this->con->conectar();
 
@@ -637,7 +636,7 @@ class Data{
     }
 
     public function getProfesionalBusqueda($nombre){
-        $query = "SELECT * FROM tbl_profesional WHERE nombre = '$nombre'";
+        $query = "SELECT nombre FROM tbl_profesional WHERE nombre = '$nombre'";
 
         $pro = null;
 
@@ -779,6 +778,7 @@ class Data{
 
 //ELIMINAR/ACTIVAR TABLAS
 /*Estados: 1 Activo - 2 Pasivo*/
+
     public function eliminarPaciente($runPaciente){
         $delete = "update tbl_paciente set estado_ID = 2 where run_Paciente = '$runPaciente'";
         
@@ -795,8 +795,8 @@ class Data{
         $this->con->desconectar();
     }
 
-    public function activarPaciente($run){
-        $activar = "update tbl_paciente set estado = 1 where id = $run";
+    public function activarPaciente($runPaciente){
+        $activar = "update tbl_paciente set estado_ID = 1 where run_Paciente = '$runPaciente'";
         
         $this->con->conectar();
         $this->con->ejecutar($activar);
@@ -809,5 +809,53 @@ class Data{
         $this->c->conectar();
         $this->c->ejecutar($activar);
         $this->c->desconectar();
+    }
+
+    public function crearPacienteTelPat($paciente,$listPatologia,$telefono){
+        //creo el paciente
+        $query = "insert into tbl_paciente 
+        values(null,
+        '".$paciente->getRun_Paciente()."',
+        '".$paciente->getNombres()."',
+        '".$paciente->getApellidoPaterno()."',
+        '".$paciente->getApellidoMaterno()."',
+        '".$paciente->getFechaNacimiento()."',
+        '".$paciente->getSexo()."',
+        '".$paciente->getParticipacionSocial()."',
+        '".$paciente->getEstudio()."',
+        '".$paciente->getActividadLaboral()."',
+        '".$paciente->getDireccionParticular()."',
+        '".$paciente->getSector()."',
+        '".$paciente->getEstadoCivil()."',
+        '".$paciente->getComuna()."',
+        ".$paciente->getEstado().")";
+
+        $this->ejecutar($query);
+
+        //Obtengo el último paciente (id)
+        $this->con->conectar();
+
+        $idPaciente = "SELECT MAX(id_Paciente) FROM tbl_paciente";
+        $rs = $this->con->ejecutar($idPaciente);
+
+        $idPaciente = 0;
+        if ($reg = mysql_fetch_array($rs)) {
+            $idPaciente = $reg[0];
+        }
+        $this->con->desconectar();
+
+        foreach ($listPatologia as $ct) {
+            $query = "INSERT INTO tbl_patologiaspacientes 
+            VALUES (null,
+            ".$ct->fechaPatologias."',
+            '".$ct->patologiaID."',
+            ". $idPaciente.")";
+
+        $this->ejecutar($query);
+        }
+        
+        $query = "INSERT INTO tbl_telefono VALUES (null,'".$telefono->getFono()."',". $idPaciente.")";
+
+        $this->ejecutar($query);
     }
 }

@@ -1,6 +1,6 @@
-CREATE DATABASE DB_TarjetonVirtual;
+CREATE DATABASE DB_TarjetonVirtual2;
 
-USE DB_TarjetonVirtual;
+USE DB_TarjetonVirtual2;
 
 CREATE TABLE tbl_Estado(
     id_Estado INT AUTO_INCREMENT,
@@ -35,20 +35,22 @@ CREATE TABLE tbl_Comuna(
 );
 
 CREATE TABLE tbl_Paciente(
+    id_Paciente INT AUTO_INCREMENT,
     run_Paciente VARCHAR(10) NOT NULL,
     nombres VARCHAR(50) NOT NULL,
     apellidoPaterno VARCHAR(20) NOT NULL,
     apellidoMaterno VARCHAR(20) NOT NULL,
-    fechaNacimiento DATETIME NOT NULL,
+    fechaNacimiento DATE NOT NULL,
     sexo BIT NOT NULL,
     participacionSocial VARCHAR(100) NOT NULL,
     estudio VARCHAR(100) NOT NULL,
     actividadLaboral VARCHAR(100) NOT NULL,
     direccionParticular VARCHAR(100) NOT NULL,
+    sector VARCHAR(10) NOT NULL,
     estadoCivil_ID INT NOT NULL,
     comuna_ID INT NOT NULL,
     estado_ID INT NOT NULL,
-    PRIMARY KEY(run_Paciente),
+    PRIMARY KEY(id_Paciente),
     FOREIGN KEY(estadoCivil_ID) REFERENCES tbl_Estado_Civil(id_EstadoCivil),
     FOREIGN KEY(estado_ID) REFERENCES tbl_Estado(id_Estado),
     FOREIGN KEY(comuna_ID) REFERENCES tbl_Comuna(id_Comuna)
@@ -56,10 +58,10 @@ CREATE TABLE tbl_Paciente(
 
 CREATE TABLE tbl_Telefono(
     id_Telefono INT AUTO_INCREMENT,
-    fono FLOAT NOT NULL,
-    paciente_ID VARCHAR(10) NOT NULL,
+    fono VARCHAR(15) NOT NULL,
+    id_Paciente INT NOT NULL,
     PRIMARY KEY(id_Telefono),
-    FOREIGN KEY(paciente_ID) REFERENCES tbl_Paciente(run_Paciente)
+    FOREIGN KEY(id_Paciente) REFERENCES tbl_Paciente(id_Paciente)
 );
 
 CREATE TABLE tbl_Patologia(
@@ -77,11 +79,11 @@ CREATE TABLE tbl_Complicacion(
 CREATE TABLE tbl_Tarjeton(
     id_Tarjeton INT AUTO_INCREMENT,
     fechaAtencion DATETIME NOT NULL,
-    paciente_ID VARCHAR(10) NOT NULL,
+    id_Paciente INT NOT NULL,
     profesional_ID INT NOT NULL,
     estado_ID INT NOT NULL,
     PRIMARY KEY(id_Tarjeton),
-    FOREIGN KEY(paciente_ID) REFERENCES tbl_Paciente(run_Paciente),
+    FOREIGN KEY(id_Paciente) REFERENCES tbl_Paciente(id_Paciente),
     FOREIGN KEY(estado_ID) REFERENCES tbl_Estado(id_Estado),
     FOREIGN KEY(profesional_ID) REFERENCES tbl_Profesional(id_Profesional)
 );
@@ -90,9 +92,9 @@ CREATE TABLE tbl_PacienteDiabetico(
     id_PacienteDiabetico INT AUTO_INCREMENT,
     fechaEvalPieDiabetico DATETIME NOT NULL,
     ptjePieDiabetico INT NOT NULL,
-    fechaQualidiab DATETIME NOT NULL,
+    fechaQualidiab DATE NOT NULL,
     qualidiab BIT NOT NULL,
-    fechaFondoOjo DATETIME NOT NULL,
+    fechaFondoOjo DATE NOT NULL,
     resultadoFondoOjo BIT NOT NULL,
     enalapril BIT NOT NULL,
     losartan BIT NOT NULL,
@@ -143,22 +145,22 @@ CREATE TABLE tbl_Observacion(
 
 CREATE TABLE tbl_PatologiasPacientes(
     id_PatPacientes INT AUTO_INCREMENT,
-    fechaPatologias DATETIME NOT NULL,
+    fechaPatologias DATE NOT NULL,
     Patologia_ID INT NOT NULL,
-    Paciente_ID VARCHAR(10) NOT NULL,
+    id_Paciente INT NOT NULL,
     PRIMARY KEY(id_PatPacientes),
     FOREIGN KEY(Patologia_ID) REFERENCES tbl_Patologia(id_Patologia),
-    FOREIGN KEY(paciente_ID) REFERENCES tbl_Paciente(run_Paciente)
+    FOREIGN KEY(id_Paciente) REFERENCES tbl_Paciente(id_Paciente)
 );
 
 CREATE TABLE tbl_ComplicacionesPacientes(
     id_ComplicacionPac INT AUTO_INCREMENT,
-    fechaComplicaciones DATETIME NOT NULL,
+    fechaComplicaciones DATE NOT NULL,
     Complicacion_ID INT NOT NULL,
-    Paciente_ID VARCHAR(10) NOT NULL,
+    id_Paciente INT NOT NULL,
     PRIMARY KEY(id_ComplicacionPac),
     FOREIGN KEY(Complicacion_ID) REFERENCES tbl_Complicacion(id_Complicacion),
-    FOREIGN KEY(Paciente_ID) REFERENCES tbl_Paciente(run_Paciente)
+    FOREIGN KEY(id_Paciente) REFERENCES tbl_Paciente(id_Paciente)
 );
 
 CREATE TABLE tbl_ListadoExamen(
@@ -170,7 +172,7 @@ CREATE TABLE tbl_ListadoExamen(
 CREATE TABLE tbl_TipoExamenes(
     id_TipoExamenes INT AUTO_INCREMENT,
     ListaExamen_ID INT NOT NULL,
-    fechaExamen DATETIME NOT NULL,
+    fechaExamen DATE NOT NULL,
     valor FLOAT NOT NULL,
     Tarjeton_ID INT NOT NULL,
     PRIMARY KEY(id_TipoExamenes),
@@ -198,7 +200,7 @@ CREATE TABLE tbl_Log(
     nombres VARCHAR(100) NOT NULL,
     apellidos VARCHAR(100) NOT NULL,
     nombreUsuario VARCHAR(50) NOT NULL,
-    fecha DATETIME NOT NULL,
+    fecha DATE NOT NULL,
     suceso INT NOT NULL,
     PRIMARY KEY(id_Log)
 );
@@ -601,6 +603,8 @@ INSERT INTO tbl_Comuna VALUES(NULL,'Yerbas Buenas');
 INSERT INTO tbl_Comuna VALUES(NULL,'Yumbel');
 INSERT INTO tbl_Comuna VALUES(NULL,'Yungay');
 INSERT INTO tbl_Comuna VALUES(NULL,'Zapallar');
+
+INSERT INTO tbl_Paciente VALUES(NULL,'12234567-8','NO','SE','LLAMA','1990-05-20',1,'JUNTA DE VECINOS','ENSEÑANZA MEDIA','NO TRABAJO','NO VIVE','VERDE',1,261,1);
 
 
 SELECT * FROM tbl_Complicacion;

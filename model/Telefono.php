@@ -1,26 +1,26 @@
 <?php
 class Telefono {
-    private $idTelefono;
-    private $fonoTelefono;
+    private $id_Telefono;
+    private $fono;
 
     public function __construct(){
         //Constructor por defecto
     }
 
-    public function setIdTelefono($idTelefono){
-        $this->idTelefono = $idTelefono;
+    public function setIdTelefono($id_Telefono){
+        $this->id_Telefono = $id_Telefono;
     }
 
-    public function setFonoTelefono($fonoTelefono){
-        $this->fonoTelefono = $fonoTelefono;
+    public function setFono($fono){
+        $this->fono = $fono;
     }
 
     public function getIdTelefono(){
-        return $this->idTelefono;
+        return $this->id_Telefono;
     }
 
-    public function getFonoTelefono(){
-        return $this->fonoTelefono;
+    public function getFono(){
+        return $this->fono;
     }
 }
 ?>

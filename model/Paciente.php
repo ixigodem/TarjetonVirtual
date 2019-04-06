@@ -1,23 +1,30 @@
 <?php
 class Paciente{
+    private $id_Paciente;
     private $run_Paciente;
     private $nombres;
     private $apellidoPaterno;
     private $apellidoMaterno;
     private $fechaNacimiento;
+    private $edad;
     private $sexo;
     private $participacionSocial;
     private $estudio;
     private $actividadLaboral;
     private $direccionParticular;
+    private $sector;
     private $estadoCivil_ID;
     private $comuna_ID;
-    private $estado_ID;
+    private $estado_ID;    
+  
 
     public function __construct(){
         // por defecto
     }
 
+    public function setId_Paciente($id_Paciente){
+        $this->id_Paciente = $id_Paciente;
+    }
     public function setRun_Paciente($run_Paciente){
         $this->run_Paciente = $run_Paciente;
     }
@@ -36,6 +43,10 @@ class Paciente{
 
     public function setFechaNacimiento($fechaNacimiento){
         $this->fechaNacimiento = $fechaNacimiento;
+    }
+
+    public function setEdad($edad){
+        $this->edad = $edad;
     }
 
     public function setSexo($sexo){
@@ -70,6 +81,14 @@ class Paciente{
         $this->estado_ID = $estado_ID;
     }
 
+    public function setSector($sector){
+        $this->sector = $sector;
+    }
+
+    public function getId_Paciente(){
+        return $this->id_Paciente;
+    }
+
     public function getRun_Paciente(){
         return $this->run_Paciente;
     }
@@ -88,6 +107,10 @@ class Paciente{
 
     public function getFechaNacimiento(){
         return $this->fechaNacimiento;
+    }
+
+    public function getEdad(){
+        return $this->edad;
     }
 
     public function getSexo(){
@@ -122,5 +145,8 @@ class Paciente{
         return $this->estado_ID;
     }
 
+    public function getSector(){
+        return $this->sector;
+    }
 }
 ?>

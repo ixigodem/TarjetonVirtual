@@ -6,9 +6,28 @@
     <title>Crear Paciente</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="../css/crearPaciente.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+        <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="../css/materialize.min.css"  media="screen,projection"/>
+    <!-- Import jquery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
+<?php session_start(); ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <li><a class="navbar-brand" href="../index.php">
             <img src="../img/Enfermeria.png" width="30" height="30" class="d-inline-block align-top" href="../index.php">Tarjetón Virtual</a>
@@ -45,7 +64,7 @@
                 Tarjetón
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Crear Tarjetón</a>
+                <a class="dropdown-item" href="formCrearTarjeton.php">Crear Tarjetón</a>
                 <a class="dropdown-item" href="#">Busqueda de tarjetones</a>
                 </div>
             </li>
@@ -68,46 +87,54 @@
     </nav>
 
   <!-- Form para crear pacientes -->
-    <form action="../controller/crearPaciente.php" method="POST" id="formPaciente">
+    <form action="../controller/crearPaciente.php" method="POST" id="form-normal">
         <div class="form-row">
             <div class="form-group col-md-2">
                 <label for="run">RUN</label>
-                <input type="text" class="form-control" name="run" onkeyup="checkRun(this)" placeholder="Ej. 11222333-4" maxlength="10">
+                <input type="text" class="form-control" id="run" name="run" onkeyup="checkRun(this)" placeholder="Ej. 11222333-4" maxlength="10" required>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
                 <label for="nombres">NOMBRES</label>
-                <input type="text" class="form-control" name="nombres" placeholder="Nombre del Paciente:" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                <input type="text" class="form-control" name="nombres" placeholder="Nombre del Paciente:" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
                 <label for="apellidoPaterno">APELLIDO PATERNO</label>
-                <input type="text" class="form-control" name="apellidoPaterno" placeholder="Apellido Paterno del Paciente:" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                <input type="text" class="form-control" name="apellidoPaterno" placeholder="Apellido Paterno del Paciente:" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
                 <label for="apellidoMaterno">APELLIDO MATERNO</label>
-                <input type="text" class="form-control" name="apellidoMaterno" placeholder="Apellido Materno del Paciente:" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                <input type="text" class="form-control" name="apellidoMaterno" placeholder="Apellido Materno del Paciente:" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
             </div>
 
             <div class="form-group col-md-2">
                 <label for="fechaNacimiento">FECHA DE NACIMIENTO</label>
-                <input type="date" class="form-control" name="fechaNacimiento">
+                <input type="date" class="form-control" name="fechaNacimiento" required>
             </div>
 
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-2">
                 <fieldset>
-                    <legend>Sexo</legend>
+                    <label>SEXO</label>
+                    <br>
+                        <p>
                         <label>
-                            <input type="radio" name="sexo" value="0" checked="checked"> Masculino
+                            <input type="radio" name="sexo" value="0" checked="checked"> 
+                            <span>Masculino</span>
                         </label>
+                        </p>
+                        <p>
                         <label>
-                            <input type="radio" name="sexo" value="1"> Femenino
+                            <input type="radio" name="sexo" value="1"> 
+                            <span>Femenino</span>
                         </label>
+                        </p>
                 </fieldset>
             </div>
 
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
                 <label for="inputState">PARTICIPACIÓN SOCIAL</label>
-                <select id="inputState" class="form-control" name="participacionSocial">
-                    <option selected>NO TIENE</option>
+                <select id="inputState" class="form-control" name="participacionSocial" required>
+                    <option selected disabled>Seleccione una opción</option>
+                    <option>NO TIENE</option>
                     <option>JUNTA DE VECINOS</option>
                     <option>VOLUNTARIADO</option>
                     <option>CLUB SOCIAL</option>
@@ -118,8 +145,9 @@
 
             <div class="form-group col-md-4">
                 <label for="estudio">ESTUDIO</label>
-                <select id="estudio" class="form-control" name="estudio">
-                    <option selected>ENSEÑANZA BASICA</option>
+                <select id="estudio" class="form-control" name="estudio" required>
+                    <option selected disabled>Seleccione una opción</option>
+                    <option>ENSEÑANZA BASICA</option>
                     <option>ENSEÑANZA MEDIA</option>
                     <option>ENSEÑANZA CENTRO DE FORMACIÓN TECNICA</option>
                     <option>ENSEÑANZA INSTITUTO PROFESIONAL</option>
@@ -127,17 +155,31 @@
                 </select>
             </div>
 
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-2">
+                <label for="actividadLaboral">TELEFONO</label>
+                <input type="telefono" class="form-control" name="telefono" placeholder="+56987654321" pattern="(+[0-9]{3}) [0-9]{3} [0-9]{2} [0-9]{3}" title="Use el formato +56987654321" maxlength="12" required>
+            </div>
+
+            <div class="form-group col-md-4">
                 <label for="actividadLaboral">ACTIVIDAD LABORAL</label>
-                <input type="text" class="form-control" name="actividadLaboral" placeholder="Ingresar trabajo del paciente:" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                <input type="text" class="form-control" name="actividadLaboral" placeholder="Ingresar trabajo del paciente:" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
             </div>
 
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
                 <label for="direccionParticular">DIRECCIÓN PARTICULAR</label>
-                <input type="text" class="form-control" name="direccionParticular" placeholder="Ej. Almarza #1061 - Rancagua" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                <input type="text" class="form-control" name="direccionParticular" placeholder="Ej. Almarza #1061 - Rancagua" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
             </div>
 
-        <!-- Obtengo los datos del Data que conecta con la BD -->
+            <div class="form-group col-md-3">
+                <label for="sector">SECTOR</label>
+                <select id="sector" class="form-control" name="sector" required>
+                    <option selected disabled>Seleccione una opción</option>
+                    <option>AMARILLO</option>
+                    <option>VERDE</option>
+                    <option>AZUL</option>
+                </select>
+            </div>
+
             <?php
                 require_once("../model/Data.php");
 
@@ -146,11 +188,13 @@
                 $estadoCivil = $data->getEstadoCivil();
                 $comuna = $data->getComuna();
                 $estado = $data->getEstado();
+                $patologia = $data->getPatologia();
+                
            ?>
 
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
                 <label>ESTADO CIVIL</label>
-                <select name="estadoCivil" class="form-control">
+                <select name="estadoCivil" class="form-control" required>
                 <option selected disabled>Seleccione una opción</option>
                     <?php
                         foreach ($estadoCivil as $ec) {
@@ -161,9 +205,9 @@
                 </select>
             </div>
 
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
                 <label>COMUNA</label>
-                <select name="comuna" class="form-control">
+                <select name="comuna" class="form-control" required>
                 <option selected disabled>Seleccione una opción</option>
                     <?php
                         foreach($comuna as $c){
@@ -173,9 +217,9 @@
                 </select>
             </div>
 
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
                 <label>ESTADO</label>
-                <select name="estado" class="form-control">
+                <select name="estado" class="form-control" required>
                 <option selected disabled>Seleccione una opción</option>
                     <?php
                         foreach($estado as $e){
@@ -185,31 +229,52 @@
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-primary" name="btnCrearPaciente">Crear Paciente</button>
+            <div class="form-group col-md-2">
+                <button class="btn btn-primary" name="btnCrearPaciente">Crear Paciente</button>
+            </div>
         </div>
+        <!-- Crear patologias -->
+            <div id="formPatologia">
+                <div class="form-group mb-2">
+                    <label for="fechaDiagnostico">FECHA DE DIAGNOSTICO</label>
+                    <input type="date" name="fechaPatologias" id="fechaPatologias" required>
+                </div>
+                
+                <div class="form-group mb-2">
+                    <label>PATOLOGIA</label>
+                    <select name="Patologia_ID" id="Patologia_ID" class="form-control" required>
+                        <option selected disabled>Seleccione una opción</option>
+                            <?php
+                                foreach($patologia as $p){
+                                    echo "<option value='".$p->id_Patologia. "'>".$p->nombre."</option>";
+                                }
+                            ?>      
+                    </select>
+                </div>
+                
+                <a class="btn-floating btn-large waves-effect waves-light red" onclick="cargarInformacion()"><i class="material-icons">add</i></a>
+                
+                <!-- Aquí va la respuesta del JS -->
+                <div class="card" style="width: 18rem;" >
+                    <table class="table">
+                        <thead>
+                            <tr>
+                            <th scope="col">Ingresada</th>
+                            </tr>
+                        </thead>
+                        <tbody id="respuesta">
+   
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         <script src="../js/crearPaciente.js"></script>
+        <script src="../js/crearPatologia.js"></script>
     </form>
+    
 
-    <div id="mensaje">
-        <?php
-            if(isset($_GET["err"])){
-                $err = $_GET["err"];
-
-                if($err == 1){
-                    echo "Debe registrar con el botón";
-                }
-            }else if(isset($_GET["men"])){
-                $men = $_GET["men"];
-
-                if($men == 1){
-                    echo "Paciente creado exitósamente";
-                }
-            }   
-        ?>
-    </div>
-
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 </body>

@@ -32,7 +32,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="formCrearPaciente.php">Crear Paciente</a>
-                <a class="dropdown-item" href="Pacientes.php">Buscar Paciente</a>
+                <a class="dropdown-item" href="listarPaciente.php">Buscar Paciente</a>
                 </div>
             </li>
 
@@ -50,7 +50,7 @@
                 Tarjetón
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Crear Tarjetón</a>
+                <a class="dropdown-item" href="formCrearTarjeton.php">Crear Tarjetón</a>
                 <a class="dropdown-item" href="#">Busqueda de tarjetones</a>
                 </div>
             </li>

@@ -2,7 +2,7 @@ body {
     font-family: 'Varela Round', sans-serif;
 }
 
-#formProfesional {
+#form-normal {
     box-shadow: none;
     font-weight: normal;
     background: rgb(196, 223, 231);

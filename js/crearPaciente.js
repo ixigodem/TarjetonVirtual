@@ -44,4 +44,5 @@ function checkRun(run) {
 
     // Si todo sale bien, eliminar errores (decretar que es válido)
     run.setCustomValidity('');
+    // console.log('llego bien el js')
 }

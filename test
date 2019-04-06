@@ -1,0 +1,65 @@
+Creación del procedimiento almacenado
+CALL proc_crear_paciente('13234567-8','NO','SE','LLAMA','1990-05-20',1,'JUNTA DE VECINOS','ENSEÑANZA MEDIA','NO TRABAJO','NO VIVE',1,2,1,'VERDE',954199353,'2018-01-28',2);
+
+DELIMITER $$
+
+CREATE PROCEDURE crear_Paciente(IN IN prun_Paciente VARCHAR(10),IN pnombres VARCHAR(50), 
+    IN papellidoPaterno VARCHAR(20), IN papellidoMaterno VARCHAR(20), IN pfechaNacimiento DATE, IN psexo BIT(1), 
+    IN pparticipacionSocial VARCHAR(100), IN pestudio VARCHAR(100), IN pactividadLaboral VARCHAR(100), 
+    IN pdireccionParticular VARCHAR(100), IN pestadoCivil_ID INT, IN pcomuna_ID INT, IN pestado_ID INT, 
+    IN psector VARCHAR(10))
+    
+    BEGIN
+    
+    INSERT INTO tbl_paciente VALUES(prun_Paciente,pnombres,papellidoPaterno,papellidoMaterno,pfechaNacimiento,psexo,pparticipacionSocial,pestudio,
+           pactividadLaboral,pdireccionParticular,pestadoCivil_ID,pcomuna_ID,pestado_ID, psector);
+           
+    END;
+$$
+
+Creación del procedimiento almacenado que crea paciente, telefono, patologias pacientes
+
+DELIMITER $$
+CREATE PROCEDURE crear_paciente_tel_pp(IN prun_Paciente VARCHAR(10),IN pnombres VARCHAR(50), 
+    IN papellidoPaterno VARCHAR(20), IN papellidoMaterno VARCHAR(20), IN pfechaNacimiento DATE, IN psexo BIT(1), 
+    IN pparticipacionSocial VARCHAR(100), IN pestudio VARCHAR(100), IN pactividadLaboral VARCHAR(100), 
+    IN pdireccionParticular VARCHAR(100), IN pestadoCivil_ID INT, IN pcomuna_ID INT, IN pestado_ID INT, 
+    IN psector VARCHAR(10), IN pfono VARCHAR(15), IN pfechaPatologias DATE, IN pPatologia_ID INT)
+
+BEGIN
+    
+INSERT INTO tbl_paciente(id_Paciente,run_Paciente,nombres,apellidoPaterno,apellidoMaterno,fechaNacimiento,sexo,participacionSocial,estudio,actividadLaboral,direccionParticular,estadoCivil_ID,comuna_ID,estado_ID, sector) VALUES(null,prun_Paciente,pnombres,papellidoPaterno,papellidoMaterno,pfechaNacimiento,psexo,pparticipacionSocial,pestudio,pactividadLaboral,pdireccionParticular,pestadoCivil_ID,pcomuna_ID,pestado_ID, psector);
+
+SELECT @idPac := MAX(id_Paciente) FROM tbl_paciente;
+
+INSERT INTO tbl_telefono(id_Telefono,fono,id_Paciente) VALUES(null,pfono,@idPac);
+INSERT INTO tbl_patologiaspacientes(id_PatPacientes,fechaPatologias,Patologia_ID,id_Paciente) VALUES(null,pfechaPatologias,pPatologia_ID,@idPac);
+
+
+END;
+$$
+
+
+CALL crear_paciente_tel_pp('13234567-8','NO','SE','LLAMA','1990-05-20',1,'JUNTA DE VECINOS','ENSEÑANZA MEDIA','NO TRABAJO','NO VIVE',1,2,1,'VERDE','+56954199353','2018-01-28',2);
+
+
+
+Crear funcion para crear paciente
+DROP FUNCTION IF EXISTS crear_paciente_getid
+DELIMITER $$
+CREATE FUNCTION IF NOT EXISTS crear_paciente_getid()
+RETURNS INT
+
+BEGIN
+
+RETURN (SELECT MAX(id_Paciente) FROM tbl_paciente);
+
+END;
+$$
+
+SELECT crear_paciente_getid('12123456-7','NO','SE','LLAMA','1990-05-20',1,'JUNTA DE VECINOS','ENSEÑANZA MEDIA','NO TRABAJO','NO VIVE','VERDE',1,2,1);
+
+CREATE PROCEDURE crear_telefono(IN pfono VARCHAR(15))
+BEGIN
+DECLARE idPaciente;
+SET idPaciente = SELECT crear_paciente_getid
