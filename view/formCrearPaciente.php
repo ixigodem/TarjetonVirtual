@@ -4,25 +4,19 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Crear Paciente</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../css/style.css">
-        <!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="../css/materialize.min.css"  media="screen,projection"/>
     <!-- Import jquery -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
@@ -229,18 +223,16 @@
                 </select>
             </div>
 
-            <div class="form-group col-md-2">
-                <button class="btn btn-primary" name="btnCrearPaciente">Crear Paciente</button>
-            </div>
-        </div>
-        <!-- Crear patologias -->
-            <div id="formPatologia">
-                <div class="form-group mb-2">
+            <input type="hidden" name="jsonPatologias" id="jsonPatologias">
+
+             <!-- Crear patologias -->
+            <div id="formPatologia" class="form-group col-md-3">
+                <div class="form-group mb-3">
                     <label for="fechaDiagnostico">FECHA DE DIAGNOSTICO</label>
                     <input type="date" name="fechaPatologias" id="fechaPatologias" required>
                 </div>
                 
-                <div class="form-group mb-2">
+                <div class="form-group mb-3">
                     <label>PATOLOGIA</label>
                     <select name="Patologia_ID" id="Patologia_ID" class="form-control" required>
                         <option selected disabled>Seleccione una opción</option>
@@ -251,30 +243,35 @@
                             ?>      
                     </select>
                 </div>
-                
-                <a class="btn-floating btn-large waves-effect waves-light red" onclick="cargarInformacion()"><i class="material-icons">add</i></a>
-                
-                <!-- Aquí va la respuesta del JS -->
-                <div class="card" style="width: 18rem;" >
-                    <table class="table">
-                        <thead>
-                            <tr>
-                            <th scope="col">Ingresada</th>
-                            </tr>
-                        </thead>
-                        <tbody id="respuesta">
-   
-                        </tbody>
-                    </table>
+
+                <div class="form-group mb-2">
+                    <a id="btnAgregarPatologia" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">add</i></a>
                 </div>
             </div>
-        <script src="../js/crearPaciente.js"></script>
+
+            <!-- Aquí va la respuesta del JS  -->
+            <div class="table-responsive">
+                <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Patologias Ingresadas</th>
+                    </tr>
+                </thead>
+                    <tbody id="respuesta"><div id="mensajeError"></div></tbody>
+                </table>
+            </div>
+            
+
+            <!-- Crear patologias -->
+
+            <div class="form-group col-md-3">
+                <button class="btn btn-primary" name="btnCrearPaciente">Crear Paciente</button>
+            </div>
+        </div>
+        <script src="../js/validadorRun.js"></script>
         <script src="../js/crearPatologia.js"></script>
     </form>
     
-
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 </body>

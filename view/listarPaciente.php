@@ -25,7 +25,7 @@
 </head>
 <body>
 
-  <nav>
+  <!-- <nav>
     <div class="nav-wrapper">
       <img src="../img/Enfermeria.png" width="30" height="30" class="d-inline-block align-top" href="../index.php">Tarjetón Virtual</a>
       <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
@@ -77,9 +77,9 @@
             <div class="collapsible-body"><a href="#!">Control Epilepsia</a></div>
         </li>
     </ul>
-  </ul>
+  </ul> -->
 
-  <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <li><a class="navbar-brand" href="Menu.php">
             <img src="../img/Enfermeria.png" width="30" height="30" class="d-inline-block align-top" href="../index.php">Tarjetón Virtual</a>
         </li>
@@ -134,7 +134,7 @@
 
             </ul>
         </div>
-   </nav> -->
+   </nav>
 
     <?php
         require_once("../model/Data.php");
@@ -148,16 +148,23 @@
         }
     ?>
 
+    <script>  
+        $(document).ready(function() {
+            $('input#input_text, textarea#textarea2').characterCounter();
+        });
+    </script>
+
     <nav class="navbar navbar-light bg-light">
         <form class="form-inline" action="listarPaciente.php" method="POST">
-            <input 
-            class="form-control mr-sm-2" 
-            type="search" 
-            placeholder="Buscar Paciente" 
-            name="txtBuscarPaciente" 
-            value="<?php echo $filtro;?>">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="btnBuscarPaciente">Buscar</button>
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="btnMostrarPacientePasivo">Mostrar Pacientes Pasivos</button>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input type="text" id="textarea2" class="materialize-textarea" 
+                    name="txtBuscarPaciente" data-length="120" value="<?php echo $filtro;?>">
+                    <label for="textarea2">Buscar Pacientes</label>
+                </div>
+            </div>
+            <button class="waves-effect waves-light btn-small" type="submit" name="btnBuscarPaciente">Buscar</button>
+            <button class="waves-effect waves-light btn-small" type="submit" name="btnMostrarPacientePasivo">Mostrar Pacientes Pasivos</button>
         </form>
     </nav>
 
@@ -165,7 +172,7 @@
         <table class="table">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">ID</th>
+                <th scope="col">N° INSCRIPCIÓN</th>
                 <th scope="col">RUN</th>
                 <th scope="col">NOMBRES</th>
                 <th scope="col">APELLIDO PATERNO</th>
@@ -199,6 +206,7 @@
         foreach ($paciente as $p) {
             echo "<tbody>";
                 echo "<tr>";
+                    echo "<td>".$p->id_Paciente."</td>";
                     echo "<td>".$p->run_Paciente."</td>";
                     echo "<td>".$p->nombres."</td>";
                     echo "<td>".$p->apellidoPaterno."</td>";
@@ -218,20 +226,21 @@
                     echo "<td>".$p->estadoCivil."</td>";
                     echo "<td>".$p->comuna."</td>";
                     echo "<td>".$p->estado."</td>";
-
-                    echo "<td>";
-                    echo "<form action='../controller/activarPaciente.php' method='post'>";
-                        echo "<input type='hidden' name='runPaciente' value='".$p->run_Paciente."'>";
-                        echo "<input type='submit' class='btn btn-primary' value='Activar'>";
-                    echo "</form>";
-                echo "</td>";
-
-                    echo "<td>";
-                    echo "<form action='../controller/eliminarPaciente.php' method='post'>";
-                        echo "<input type='hidden' name='runPaciente' value='".$p->run_Paciente."'>";
-                        echo "<input type='submit' class='btn btn-primary' value='Eliminar'>";
-                    echo "</form>";
-                echo "</td>";
+                    if ($p->estado == 'ACTIVO') {
+                        echo "<td>";
+                            echo "<form action='../controller/eliminarPaciente.php' method='post'>";
+                                echo "<input type='hidden' name='runPaciente' value='".$p->run_Paciente."'>";
+                                echo "<input type='submit' class='btn btn-primary' value='Eliminar'>";
+                            echo "</form>";
+                        echo "</td>";
+                    } else {
+                        echo "<td>";
+                            echo "<form action='../controller/activarPaciente.php' method='post'>";
+                                echo "<input type='hidden' name='runPaciente' value='".$p->run_Paciente."'>";
+                                echo "<input type='submit' class='btn btn-primary' value='Activar'>";
+                            echo "</form>";
+                        echo "</td>";
+                    }
                 echo "</tr>";
             echo "</tbody>";
         }

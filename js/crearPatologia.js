@@ -1,74 +1,91 @@
-// alert('esta funcionando el JS');
-console.log('esta funcionando el JS');
+var btnAgregarPatologia = document.getElementById("btnAgregarPatologia");
+var divRespuesta = document.getElementById("respuesta");
+var divRespuestaError = document.getElementById("mensajeError");
+var inputJsonPatologias = document.getElementById("jsonPatologias");
 
+//Lista de patologias
+var listaPatologias = [];
 
-function cargarInformacion() {
-    var respuesta = document.getElementById('respuesta');
-    var fechaPatologias = document.querySelector("#formPatologia #fechaPatologias").value;
-    var Patologia_ID = document.querySelector("#formPatologia #Patologia_ID").value;
-    // var Patologia = document.querySelector("#formPatologia #Patologia_ID :selected").text;
+btnAgregarPatologia.addEventListener("click", function(e) {
+    e.preventDefault();
+    //Rescato los valores de los input
+    var fechaPatologia = document.getElementById("fechaPatologias").value;
+    var cboPatologia = document.getElementById("Patologia_ID");
 
-    formulario = new FormData();
-    formulario.append('fechaPatologias', document.querySelector("#formPatologia #fechaPatologias").value);
-    formulario.append('Patologia_ID', document.querySelector("#formPatologia #Patologia_ID").value);
-    // formulario.append('nombre', Patologia);
+    //Del idPatologia obtengo el indice
+    var selectedIndex = cboPatologia.selectedIndex;
+    //Ahora rescato el valor de idPatologia
+    var idPatologia = cboPatologia.value;
+    if (fechaPatologia === "" || cboPatologia.value === "Seleccione una opción") {
+        divRespuestaError.innerHTML = `
+        <th scope="row">
+        <div class="alert alert-danger" role="alert">
+        Debe Elegir Fecha y Patologia
+        </div>
+        </th>
+`
+    } else {
+        if (!existPatologia(idPatologia)) {
+            var nombrePatologia = cboPatologia.options[selectedIndex].innerHTML;
 
-    console.log('me diste click');
-    console.log(fechaPatologias)
-    console.log(Patologia_ID)
+            //Creo el objeto de la patologia (JSON)
+            var patologia = {};
 
-    $.ajax({
-        method: 'post',
-        processData: false,
-        contentType: false,
-        cache: false,
-        data: formulario,
-        enctype: 'multipart/form-data',
-        url: '../controller/crearPatologia.php',
-        success: function(response) {
-            // console.log('llego bien todo');
-            // $(respuesta).html(response);
-            for (let d of response) {
-                console.log(d)
-                respuesta.innerHTML = `
-                                <th scope="row">
-                                    <td>${d}</td>
-                                    <td><a class="btn-floating disabled"><i class="material-icons">remove</i></a></td>
-                                </th>
-                                `
-            }
+            patologia.fecha = fechaPatologia;
+            patologia.id = idPatologia;
+            patologia.nombre = nombrePatologia;
+
+            //Ahora se agregan a la lista el objeto
+            listaPatologias.push(patologia);
+
+            mostrarDatosEnForm();
+
+            console.log(listaPatologias);
+
+            inputJsonPatologias.value = JSON.stringify(listaPatologias);
+            console.log(inputJsonPatologias)
+        } else {
+            divRespuestaError.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+            Patologia ya ingresada
+            </div>
+            `
         }
+    }
+});
+
+function mostrarDatosEnForm() {
+    divRespuestaError.innerHTML = "";
+    divRespuesta.innerHTML = "";
+    for (let patologia of listaPatologias) {
+        divRespuesta.innerHTML += `
+            <div id='fila'>
+                <th scope="row">${patologia.fecha}</th>
+                <th scope="row">${patologia.id}</th>
+                <th scope="row">${patologia.nombre}</th>
+                <span></span>
+                <th scope="row">
+                <a href='#' onclick='eliminarPatologia(${patologia.id})' class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">remove</i></a>
+                </th>
+            </div>
+        `
+    }
+}
+
+function eliminarPatologia(idPatologia) {
+    listaPatologias = listaPatologias.filter(function(patologia, index, arr) {
+        return patologia.id != idPatologia;
     });
 
-    // console.log(Patologia)
-    /*
-        fetch('../controller/crearPatologia.php', {
-                method: 'POST',
-                body: formulario
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data === 'error') {
-                    respuesta.innerHTML = `
-                    <div class="alert alert-danger" role="alert" >
-                        Llena todos los datos
-                    </div>
-                    `
-                } else {
-                    console.log(data)
-                    for (let i = 0; i < data.length; i++) {
-                        const element = data[i];
-                        console.log(element[i])
-                    }
-                    for (let d of data) {
-                        console.log(d)
-                        respuesta.innerHTML = `
-                                <th scope="row">
-                                    <td>${d.value}</td>
-                                    <td><a class="btn-floating disabled"><i class="material-icons">remove</i></a></td>
-                                </th>
-                                `
-                    }
-                }
-            })*/
+    mostrarDatosEnForm();
+    inputJsonPatologias.value = JSON.stringify(listaPatologias);
+}
+
+function existPatologia(idPatologia) {
+    for (let patologia of listaPatologias) {
+        if (patologia.id == idPatologia) {
+            return true;
+        }
+    }
+    return false;
 }

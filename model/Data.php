@@ -340,41 +340,17 @@ class Data{
     public function getListadoExamen(){
         $lista = array();
 
-        $select = "SELECT * FROM tbl_listadoexamen;";
+        $query = "SELECT * FROM tbl_listadoexamen;";
 
-        $u = null;
+        $this->con->conectar();
 
-        $this->c->conectar();
-
-        $rs = $this->c->ejecutar($select);
+        $rs = $this->con->ejecutar($query);
         while($obj = $rs->fetch_object()){
             array_push($lista, $obj);
         }
-
-        $this->c->desconectar();
+        
+        $this->con->desconectar();
         return $lista;
-    }
-
-    public function getObservacion(){
-        $lista = array();
-
-        $query = "SELECT * FROM tbl_observacion;";
-
-        $u = null;
-
-        $this->c->conectar();
-
-        $rs = $this->c->ejecutar($query);
-        if ($obj = $rs->fetch_object()) {
-            $u = new Observacion();
-
-            $u->setIdObservacion($obj->idObservacion);
-            $u->setObservacion($obj->nombreObservacion);
-            $u->setIdTarjeton($obj->idTarjeton);
-        }
-
-        $this->c->desconectar();
-        return $u;
     }
 
     public function getPacienteBusqueda($run){
@@ -400,42 +376,41 @@ class Data{
     public function getPacienteTarjeton($run){
         $lista = array();
 
-        $query = "SELECT run_Paciente,nombres,apellidoPaterno,apellidoMaterno,DATE_FORMAT(fechaNacimiento, '%d/%m/%Y') as fechaNacimiento,
-        sexo,participacionSocial,estudio,actividadLaboral,direccionParticular,sector,
-        ec.nombre as estadoCivil, c.nombre as comuna, e.nombre as estado
-        FROM tbl_paciente AS p
-        INNER JOIN tbl_estado_civil AS ec ON ec.id_EstadoCivil=p.estadoCivil_ID
-        INNER JOIN tbl_comuna AS c ON c.id_Comuna=p.comuna_ID
-        INNER JOIN tbl_estado AS e ON e.id_Estado=p.estado_ID 
-        WHERE run_Paciente = '$run' 
-        AND estado_ID = 1;";
-
-        $p = null;
-
-        $this->con->conectar();
-
-        $rs = $this->con->ejecutar($query);
-        if ($obj = $rs->fetch_object()) {
-            $p = new Paciente();
-
-            $p->setRun_Paciente($obj->run_Paciente);
-        }
-
-        $this->con->desconectar();
-        return $p;
-    }
-
-    public function getPacientePorFiltro($filtro){
-        $lista = array();
-
-        $query = "SELECT run_Paciente,nombres,apellidoPaterno,apellidoMaterno,DATE_FORMAT(fechaNacimiento, '%d/%m/%Y') as fechaNacimiento,
+        $query = "SELECT id_Paciente,run_Paciente,nombres,apellidoPaterno,apellidoMaterno,DATE_FORMAT(fechaNacimiento, '%d/%m/%Y') as fechaNacimiento,
         sexo,participacionSocial,estudio,actividadLaboral,direccionParticular,sector,
         t.fono as fono, ec.nombre as estadoCivil, c.nombre as comuna, e.nombre as estado
         FROM tbl_paciente AS p
         INNER JOIN tbl_estado_civil AS ec ON ec.id_EstadoCivil=p.estadoCivil_ID
         INNER JOIN tbl_comuna AS c ON c.id_Comuna=p.comuna_ID
         INNER JOIN tbl_estado AS e ON e.id_Estado=p.estado_ID
-        INNER JOIN tbl_Telefono AS t ON t.id_Telefono=p.id_Paciente
+        INNER JOIN tbl_Telefono AS t ON t.Paciente_ID=p.id_Paciente
+        WHERE run_Paciente = '$run' 
+        AND estado_ID = 1;";
+
+        $this->con->conectar();
+
+        $rs = $this->con->ejecutar($query);
+        while ($obj = $rs->fetch_object()) {
+            array_push($lista, $obj);
+        }
+
+        $this->con->desconectar();
+
+        return $lista;
+    }
+
+    public function getPacientePorFiltro($filtro){
+        $lista = array();
+
+        $query = "SELECT id_Paciente,run_Paciente,nombres,apellidoPaterno,apellidoMaterno,
+        DATE_FORMAT(fechaNacimiento, '%d/%m/%Y') as fechaNacimiento,
+        sexo,participacionSocial,estudio,actividadLaboral,direccionParticular,sector,
+        t.fono as fono, ec.nombre as estadoCivil, c.nombre as comuna, e.nombre as estado
+        FROM tbl_paciente AS p
+        INNER JOIN tbl_estado_civil AS ec ON ec.id_EstadoCivil=p.estadoCivil_ID
+        INNER JOIN tbl_comuna AS c ON c.id_Comuna=p.comuna_ID
+        INNER JOIN tbl_estado AS e ON e.id_Estado=p.estado_ID
+        INNER JOIN tbl_Telefono AS t ON t.Paciente_ID=p.id_Paciente
         WHERE (run_Paciente LIKE '$filtro' OR 
         nombres LIKE '%$filtro%' OR 
         apellidoPaterno LIKE '%$filtro%' OR
@@ -465,13 +440,13 @@ class Data{
         INNER JOIN tbl_estado_civil AS ec ON ec.id_EstadoCivil=p.estadoCivil_ID
         INNER JOIN tbl_comuna AS c ON c.id_Comuna=p.comuna_ID
         INNER JOIN tbl_estado AS e ON e.id_Estado=p.estado_ID
-        INNER JOIN tbl_Telefono AS t ON t.id_Telefono=p.id_Paciente
+        INNER JOIN tbl_Telefono AS t ON t.Paciente_ID=p.id_Paciente
         WHERE estado_ID = 1;";
 
         $this->con->conectar();
 
         $rs = $this->con->ejecutar($query);
-        while($obj = $rs->fetch_object()){
+        while($obj = $rs->fetch_object()){ 
             array_push($lista, $obj);
         }
         
@@ -482,14 +457,14 @@ class Data{
     public function getPacientePasivos(){
         $lista = array();
 
-        $query = "SELECT run_Paciente,nombres,apellidoPaterno,apellidoMaterno,DATE_FORMAT(fechaNacimiento, '%d/%m/%Y') as fechaNacimiento,
+        $query = "SELECT id_Paciente,run_Paciente,nombres,apellidoPaterno,apellidoMaterno,DATE_FORMAT(fechaNacimiento, '%d/%m/%Y') as fechaNacimiento,
         sexo,participacionSocial,estudio,actividadLaboral,direccionParticular,sector,
         t.fono as fono, ec.nombre as estadoCivil, c.nombre as comuna, e.nombre as estado
         FROM tbl_paciente AS p
         INNER JOIN tbl_estado_civil AS ec ON ec.id_EstadoCivil=p.estadoCivil_ID
         INNER JOIN tbl_comuna AS c ON c.id_Comuna=p.comuna_ID
         INNER JOIN tbl_estado AS e ON e.id_Estado=p.estado_ID
-        INNER JOIN tbl_Telefono AS t ON t.id_Telefono=p.id_Paciente
+        INNER JOIN tbl_Telefono AS t ON t.Paciente_ID=p.id_Paciente
         WHERE estado_ID = 2;";
 
         $this->con->conectar();
@@ -499,38 +474,6 @@ class Data{
             array_push($lista, $obj);
         }
         
-        $this->con->desconectar();
-        return $lista;
-    }
-
-    public function getEstamento(){
-        $lista = array();
-
-        $query = "SELECT * FROM tbl_estamento";
-
-        $this->con->conectar();
-
-        $rs = $this->con->ejecutar($query);
-        while($obj = $rs->fetch_object()){
-            array_push($lista, $obj);
-        }
-        
-        $this->con->desconectar();
-        return $lista;
-    }
-
-    public function getPacienteDiabetico(){
-        $lista = array();
-
-        $query = "";
-
-        $this->con->conectar();
-
-        $rs = $this->con->ejecutar($query);
-        while($obj = $rs->fetch_object()){
-            array_push($lista, $obj);
-        }
-
         $this->con->desconectar();
         return $lista;
     }
@@ -653,27 +596,38 @@ class Data{
         return $pro;
     }
 
-    public function getTarjeton(){
+    public function getTarjeton($id){
         $lista = array();
 
-        $query = "SELECT * FROM tbl_tarjeton;";
+        $query = "SELECT t.fechaAtencion,o.observacion,pc.peso,pc.talla,pc.IMC,pc.diagnosticoNutricional,
+        pc.paSistolica,pc.paDistolica,pc.circunferenciaCintura,
+        GROUP_CONCAT(te.fechaExamen,' ',le.nombreExamen,' ',te.valor, ' ') AS examenes,
+        pd.fechaEvalPieDiabetico,pd.ptjePieDiabetico,pd.fechaQualidiab,pd.qualidiab,pd.fechaFondoOjo,
+        pd.resultadoFondoOjo,pd.enalapril,pd.losartan,pd.retinopatiaDiabetica,pd.amputacion,fr.insuficienciaRenal,
+        fr.IAM,fr.ACV,tc.estatinas,tc.AAS_100,ua.autovalente,ua.autovalenteConRiesgo,ua.riesgoDependencia,ua.dependencia
+        FROM tbl_tarjeton AS t
+        INNER JOIN tbl_paciente AS p ON p.id_Paciente = t.id_Paciente
+        INNER JOIN tbl_profesional AS pro ON pro.id_Profesional = t.profesional_ID
+        INNER JOIN tbl_parametrosclinicos AS pc ON pc.Tarjeton_ID = t.id_Tarjeton
+        INNER JOIN tbl_tipoexamenes AS te ON te.Tarjeton_ID = t.id_Tarjeton
+        INNER JOIN tbl_listadoexamen AS le ON le.id_ListaExamen = te.ListaExamen_ID
+        INNER JOIN tbl_pacientediabetico AS pd ON pd.Tarjeton_ID = t.id_Tarjeton
+        INNER JOIN tbl_factorderiesgo AS fr ON fr.Tarjeton_ID = t.id_Tarjeton
+        INNER JOIN tbl_tratamientocardiaco AS tc ON tc.Tarjeton_ID = t.id_Tarjeton
+        INNER JOIN tbl_usuarioadultomayor AS ua ON ua.Tarjeton_ID = t.id_Tarjeton
+        INNER JOIN tbl_observacion AS o ON o.Tarjeton_ID = t.id_Tarjeton
+        WHERE p.id_Paciente = $id;";
 
-        $u = null;
+        $this->con->conectar();
 
-        $this->c->conectar();
-
-        $rs = $this->c->ejecutar($query);
-        if ($obj = $rs->fetch_object()) {
-            $u = new Tarjeton();
-
-            $u->setIdTarjeton($obj->idTarjeton);
-            $u->setFechaAtencionTarjeton($obj->fechaAtencionTarjeton);
-            $u->setRun_Paciente($obj->run_Paciente);
-            $u->setIdProfesional($obj->idProfesional);
+        $rs = $this->con->ejecutar($query);
+        while ($obj = $rs->fetch_object()) {
+            array_push($lista, $obj);
         }
 
-        $this->c->desconectar();
-        return $u;
+        $this->con->desconectar();
+
+        return $lista;
     }
 
     public function getTelefono(){
@@ -811,6 +765,8 @@ class Data{
         $this->c->desconectar();
     }
 
+// Función que me permite crear paciente obteniendo un objeto de paciente y telefono 
+// un array de las patologias y leyendolo con un foreach
     public function crearPacienteTelPat($paciente,$listPatologia,$telefono){
         //creo el paciente
         $query = "insert into tbl_paciente 
@@ -835,26 +791,27 @@ class Data{
         //Obtengo el último paciente (id)
         $this->con->conectar();
 
-        $idPaciente = "SELECT MAX(id_Paciente) FROM tbl_paciente";
-        $rs = $this->con->ejecutar($idPaciente);
+        $query = "SELECT MAX(id_Paciente) AS id FROM tbl_paciente";
+        
+        $rs = $this->con->ejecutar($query);
 
-        $idPaciente = 0;
-        if ($reg = mysql_fetch_array($rs)) {
-            $idPaciente = $reg[0];
+        
+        $idUltimoPaciente = 0;
+        while ($reg = $rs->fetch_object()) {
+            $idUltimoPaciente = $reg->id;
         }
+
         $this->con->desconectar();
 
         foreach ($listPatologia as $ct) {
             $query = "INSERT INTO tbl_patologiaspacientes 
             VALUES (null,
-            ".$ct->fechaPatologias."',
-            '".$ct->patologiaID."',
-            ". $idPaciente.")";
-
-        $this->ejecutar($query);
+            '".$ct["fecha"]."',
+            ".$ct["id"].",
+            ". $idUltimoPaciente.")";
+            $this->ejecutar($query);
         }
-        
-        $query = "INSERT INTO tbl_telefono VALUES (null,'".$telefono->getFono()."',". $idPaciente.")";
+        $query = "INSERT INTO tbl_telefono VALUES (null,'".$telefono->getFono()."',". $idUltimoPaciente.")";
 
         $this->ejecutar($query);
     }

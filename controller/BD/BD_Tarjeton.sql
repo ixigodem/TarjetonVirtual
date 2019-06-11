@@ -185,7 +185,7 @@ CREATE TABLE tbl_ParametrosClinicos(
     peso FLOAT NOT NULL,
     talla FLOAT NOT NULL,
     IMC FLOAT NOT NULL,
-    diagnosticoNutricional FLOAT NOT NULL,
+    diagnosticoNutricional INT NOT NULL,
     paSistolica INT NOT NULL,
     paDistolica INT NOT NULL,
     circunferenciaCintura INT NOT NULL,

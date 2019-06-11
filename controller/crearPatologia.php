@@ -3,25 +3,29 @@
 
     $p = new PatologiasPacientes();
 
-    $fechaPatologias = $_REQUEST["fechaPatologias"];
-    $Patologia_ID = $_REQUEST["Patologia_ID"];
-
-    $p->setFechaPatologias($fechaPatologias);
-    $p->setPatologiaID($Patologia_ID);
+    $p->setFechaPatologias($_POST["fechaPatologias"]);
+    $p->setPatologiaID($_POST["Patologia_ID"]);
 
     if ($p->getFechaPatologias() === '' || $p->getPatologiaID() === '') {
-        echo json_encode('error');
+        header('Content-Type: application/json');
+        $datos = array('estado' => 'error');
     } else {
-        session_start();
-        if (isset($_SESSION["listado"])) {
-            $listado = $_SESSION["listado"];
-        }else{
-            $listado = array();
-        }
+        header('Content-Type: application/json');
+        $datos = array(
+            'estado' => 'ok',
+            'fechaPatologias' => $p->getFechaPatologias(),
+            'Patologia_ID' => $p->getPatologiaID()
+        );
 
-        array_push($listado,$p);
-        $_SESSION["listado"] = $listado;
-    
-        // echo json_encode($listado);
+        // session_start();
+        // if (isset($_SESSION["listado"])) {
+        //     $listado = $_SESSION["listado"];
+        // }else{
+        //     $listado = array();
+        // }
+
+        // array_push($listado,$p);
+        // $_SESSION["listado"] = $listado;
     }
+    echo json_encode($datos);
 ?>

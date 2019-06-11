@@ -44,6 +44,8 @@ require_once("../model/Telefono.php");
         $comuna_ID = $_REQUEST["comuna"];
         $estadoCivil_ID = $_REQUEST["estadoCivil"];
         $fono = $_REQUEST["telefono"];
+        $patologias = $_REQUEST["jsonPatologias"];
+        $listaPaciente = json_decode($patologias,JSON_OBJECT_AS_ARRAY); 
 
         //5.- Contruyo un objeto para el Paciente
         $paciente = new Paciente();
@@ -64,13 +66,9 @@ require_once("../model/Telefono.php");
         $paciente->setComuna($comuna_ID);
         $paciente->setEstado($estado_ID);
         $telefono->setFono($fono);
-
-        //Añadir las patologias y telefono al paciente
-        session_start();
-        $listPatologia = $_SESSION['listPatologia'];
-        
+     
         //6.- LLamo al metodo crearPaciente del Data
-        $data->crearPacienteTelPat($paciente,$listPatologia,$telefono);
+        $data->crearPacienteTelPat($paciente,$listaPaciente,$telefono);
 
         //7.- Redireccionar hacia formCrearPaciente.php con un mensaje a través del navegador
         echo "<script>

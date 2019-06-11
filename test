@@ -1,3 +1,161 @@
+
+SELECT t.fechaAtencion,o.observacion,pc.peso,pc.talla,pc.IMC,pc.diagnosticoNutricional,
+pc.paSistolica,pc.paDistolica,pc.circunferenciaCintura,
+GROUP_CONCAT(te.fechaExamen,' ',le.nombreExamen,' ',te.valor, ' ') AS examenes,
+pd.fechaEvalPieDiabetico,pd.ptjePieDiabetico,pd.fechaQualidiab,pd.qualidiab,pd.fechaFondoOjo,
+pd.resultadoFondoOjo,pd.enalapril,pd.losartan,pd.retinopatiaDiabetica,pd.amputacion,fr.insuficienciaRenal,
+fr.IAM,fr.ACV,tc.estatinas,tc.AAS_100,ua.autovalente,ua.autovalenteConRiesgo,ua.riesgoDependencia,ua.dependencia
+FROM tbl_tarjeton AS t
+INNER JOIN tbl_paciente AS p ON p.id_Paciente = t.id_Paciente
+INNER JOIN tbl_profesional AS pro ON pro.id_Profesional = t.profesional_ID
+INNER JOIN tbl_parametrosclinicos AS pc ON pc.Tarjeton_ID = t.id_Tarjeton
+INNER JOIN tbl_tipoexamenes AS te ON te.Tarjeton_ID = t.id_Tarjeton
+INNER JOIN tbl_listadoexamen AS le ON le.id_ListaExamen = te.ListaExamen_ID
+INNER JOIN tbl_pacientediabetico AS pd ON pd.Tarjeton_ID = t.id_Tarjeton
+INNER JOIN tbl_factorderiesgo AS fr ON fr.Tarjeton_ID = t.id_Tarjeton
+INNER JOIN tbl_tratamientocardiaco AS tc ON tc.Tarjeton_ID = t.id_Tarjeton
+INNER JOIN tbl_usuarioadultomayor AS ua ON ua.Tarjeton_ID = t.id_Tarjeton
+INNER JOIN tbl_observacion AS o ON o.Tarjeton_ID = t.id_Tarjeton
+WHERE p.id_Paciente =
+
+echo json_encode("<tr>");
+        echo json_encode("<td> Fecha Atención ".$t->fechaAtencion."</td>");
+        echo json_encode("<td> Observación ".$t->observacion."</td>");
+        echo json_encode("<td> Peso ".$t->peso."</td>");
+        echo json_encode("<td> Talla ".$t->talla."</td>");
+        echo json_encode("<td> IMC ".$t->IMC."</td>");
+        echo json_encode("<td> Diagnostico Nutricional ".$t->diagnosticoNutricional."</td>");
+        echo json_encode("<td> Circunferencia Cintura ".$t->circunferenciaCintura."</td>");
+        $listaExamen = $t->examenes;
+        $examenes = explode(",",$listaExamen);
+        echo json_encode("<td> Examenes ".$examenes[0]."</td>");
+        echo json_encode("<td> Examenes ".$examenes[1]."</td>");
+        echo json_encode("<td> Examenes ".$examenes[2]."</td>");
+        echo json_encode("<td> Fecha Evaluación Pie Diabetico ".$t->fechaEvalPieDiabetico."</td>");
+        echo json_encode("<td> Puntaje Pie Diabetico ".$t->ptjePieDiabetico."</td>");
+        echo json_encode("<td> Fecha Qualidiab".$t->fechaQualidiab."</td>");
+        echo json_encode("<td> Qualidiab ".$t->qualidiab."</td>");
+        echo json_encode("<td> Fecha Fondo de Ojo ".$t->fechaFondoOjo."</td>");
+        echo json_encode("<td> Enalapril ".$t->enalapril."</td>");
+        echo json_encode("<td> Losartan ".$t->losartan."</td>");
+        echo json_encode("<td> Retinopatia Diabetica ".$t->retinopatiaDiabetica."</td>");
+        echo json_encode("<td> Amputación ".$t->amputacion."</td>");
+        echo json_encode("<td> Insuficiencia Renal ".$t->insuficienciaRenal."</td>");
+        echo json_encode("<td> IAM ".$t->IAM."</td>");
+        echo json_encode("<td> ACV ".$t->ACV."</td>");
+        echo json_encode("<td> Estatinas ".$t->estatinas."</td>");
+        echo json_encode("<td> AAS_100 ".$t->AAS_100."</td>");
+        echo json_encode("<td> Autovalente ".$t->autovalente."</td>");
+        echo json_encode("<td> Autovalente Con Riesgo ".$t->autovalenteConRiesgo."</td>");
+        echo json_encode("<td Riesgo dependencia >".$t->riesgoDependencia."</td>");
+        echo json_encode("<td> Dependencia ".$t->dependencia."</td>");
+        echo json_encode("</tr>")];
+    
+    // echo json_encode("la info del paciente ID = ".$id." y lo que trae el tarjeton ahora = ");
+
+    // $lista = array();
+
+    // foreach ($tarjeton as $t) {
+    //     $lista = [$t->fechaAtencion,
+    //         $t->observacion,$t->peso, $t->talla,
+    //         $t->IMC,$t->diagnosticoNutricional,
+    //         $t->paSistolica,$t->paDistolica,
+    //         $t->circunferenciaCintura,
+    //         $t->examenes, $t->fechaEvalPieDiabetico,
+    //         $t->ptjePieDiabetico,$t->fechaQualidiab,
+    //         $t->qualidiab,$t->fechaFondoOjo,
+    //         $t->resultadoFondoOjo,$t->enalapril,
+    //         $t->losartan, $t->retinopatiaDiabetica,
+    //         $t->amputacion,$t->insuficienciaRenal,$t->IAM,$t->ACV,
+    //         $t->estatinas,$t->AAS_100,$t->autovalente,
+    //         $t->autovalenteConRiesgo,$t->riesgoDependencia,$t->dependencia];
+    // }
+
+    // echo ($lista);
+
+    // echo json_encode($lista);
+
+    // var_dump($tarjeton);
+
+    // $lista = json_decode(json_encode($tarjeton),true);
+
+    // var_dump($lista);
+
+//Formas del Fetch
+//Utilizando el promiseall obtengo un array
+    Promise.all([
+        fetch('../controller/paciente.php?edad=25', {
+            method: "GET"
+        }),
+        fetch('../controller/doctor.php', {
+            method: "POST",
+            body: formData
+        })
+    ]).then(results => {
+        /*Esto en results lo manejo dejandolo en constantes o variables dependiendo de lo que necesite sera
+        el array resultante del fetch obtenido*/
+        const paciente = results[0];
+        const doctor = results[1];
+        // crear tarjeton
+    }).catch(err => console.log(err));
+
+//Esta forma es cuando necesitas hacer muchas cosas al mismo tiempo por ejemplo cuando cree el paciente
+    fetch('../controller/doctor.php', {
+            method: "GET"
+        }).then((doctor) => {
+            fetch('../controller/paciente.php', {
+                method: "POST",
+                body: {...formData, doctor_id: doctor.id }
+            }).then(paciente => {
+                // crear tarjeton
+            })
+        })
+
+/*Query para obtener el tarjeton y sus detalles*/
+SELECT 
+    t.fechaAtencion,
+    p.run_Paciente,
+    pc.peso,
+    pc.talla,
+    pc.IMC,
+    pc.diagnosticoNutricional,
+    pc.paSistolica,
+    pc.paDistolica,
+    pc.circunferenciaCintura,
+    te.fechaExamen,
+    le.nombreExamen,
+    te.valor,
+    pd.fechaEvalPieDiabetico,
+    pd.ptjePieDiabetico,
+    pd.fechaQualidiab,
+    pd.qualidiab,
+    pd.fechaFondoOjo,
+    pd.resultadoFondoOjo,
+    pd.enalapril,
+    pd.losartan,
+    pd.retinopatiaDiabetica,
+    pd.amputacion,
+    fr.insuficienciaRenal,
+    fr.IAM,
+    fr.ACV,
+    tc.estatinas,
+    tc.AAS_100,
+    ua.autovalente,
+    ua.autovalenteConRiesgo,
+    ua.riesgoDependencia,
+    ua.dependencia
+FROM tbl_tarjeton AS t
+INNER JOIN tbl_paciente AS p ON p.id_Paciente = t.id_Paciente
+INNER JOIN tbl_profesional AS pro ON pro.id_Profesional = t.profesional_ID
+INNER JOIN tbl_parametrosclinicos AS pc ON pc.Tarjeton_ID = t.id_Tarjeton
+INNER JOIN tbl_tipoexamenes AS te ON te.Tarjeton_ID = t.id_Tarjeton
+INNER JOIN tbl_listadoexamen AS le ON le.id_ListaExamen = te.ListaExamen_ID
+INNER JOIN tbl_pacientediabetico AS pd ON pd.Tarjeton_ID = t.id_Tarjeton
+INNER JOIN tbl_factorderiesgo AS fr ON fr.Tarjeton_ID = t.id_Tarjeton
+INNER JOIN tbl_tratamientocardiaco AS tc ON tc.Tarjeton_ID = t.id_Tarjeton
+INNER JOIN tbl_usuarioadultomayor AS ua ON ua.Tarjeton_ID = t.id_Tarjeton
+WHERE p.id_Paciente = 1
+
 Creación del procedimiento almacenado
 CALL proc_crear_paciente('13234567-8','NO','SE','LLAMA','1990-05-20',1,'JUNTA DE VECINOS','ENSEÑANZA MEDIA','NO TRABAJO','NO VIVE',1,2,1,'VERDE',954199353,'2018-01-28',2);
 
@@ -63,3 +221,179 @@ CREATE PROCEDURE crear_telefono(IN pfono VARCHAR(15))
 BEGIN
 DECLARE idPaciente;
 SET idPaciente = SELECT crear_paciente_getid
+
+
+PRUEBA DE SESIONES PARA EL FORMULARIO 
+        <!-- <div id="respuesta" class="row"> 
+            <div class="col-xs-4">
+                <?php
+                require_once ("../controller/crearPatologia.php");
+                session_start();
+                    if (isset($_SESSION["listado"])) {
+                        $listado = $_SESSION["listado"];
+
+                        echo "<table class='table'>";
+                            echo "<thead>";
+                                echo "<tr>";
+                                    echo "<th scope='col'>Ingresada</th>";
+                                echo "</tr>";
+                            echo "</thead>";
+                        foreach ($listado as $l) {
+                            echo "<tbody>";
+                                echo "<tr>";
+                                    echo "<th scope='row'>";
+                                    echo "<td>".$l->getFechaPatologia()."</td>";
+                                    echo "</th>";
+                                echo "</tr>";
+                            echo "</tbody>";
+                        }
+                        echo "</table>";
+                    }
+                ?>
+            </div>
+        </div>-->
+
+    DATOS ANTIGUOS JAVASCRIPT
+
+    var respuesta = document.getElementById('respuesta');
+    var fechaPatologias = document.querySelector("#formPatologia #fechaPatologias").value;
+    var Patologia_ID = document.querySelector("#formPatologia #Patologia_ID").value;
+    // var Patologia = document.querySelector("#formPatologia #Patologia_ID :selected").text;
+    formulario = new FormData();
+    formulario.append('fechaPatologias', document.querySelector("#formPatologia #fechaPatologias").value);
+    formulario.append('Patologia_ID', document.querySelector("#formPatologia #Patologia_ID").value);
+    // formulario.append('nombre', Patologia);
+    console.log('me diste click');
+    console.log(fechaPatologias)
+    console.log(Patologia_ID)
+
+    //Agrego el formulario
+    // $("#respuesta").prepend(formulario);
+
+
+
+
+
+OPCION 1
+$.ajax({
+        method: 'post',
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        data: formulario,
+        enctype: 'multipart/form-data',
+        url: '../controller/crearPatologia.php',
+        success: function(response) {
+            for (let d of response) {
+                respuesta.innerHTML = `
+                <th scope="row">${d}</th>
+                `
+                    //Agrego un boton para eliminar las patologias
+                $("#respuesta .col-xs-4:first").append('<button id="btn-remove-patologia" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">remove</i></button>');
+            }
+        }
+    }); 
+    
+    
+
+    OPCION 2
+        var time = $.ajax({
+        method: 'POST',
+        url: '../controller/crearPatologia.php', //indicamos la ruta donde se genera la hora
+        dataType: 'text', //indicamos que es de tipo texto plano
+        data: formulario,
+        async: false //ponemos el parámetro asyn a falso
+    }).responseText;
+
+    respuesta.innerHTML = `
+                <th scope="row">${time}</th>
+                `
+
+                
+LO CREADO POR EL PROFE
+
+var btnAgregarPatologia = document.getElementById("btnAgregarPatologia");
+var btnEnviarPatología = document.getElementById("btnEnviarPatología");
+var divListaPatologias = document.getElementById("divListaPatologias");
+var inputJsonPatologias = document.getElementById("jsonPatologias");
+var divMensaje = document.getElementById("mensaje");
+
+// Listado de patologías (JS)
+var listaPatologias = [];
+
+btnAgregarPatologia.addEventListener("click", function(){
+    // Rescatando el combo completo desde html
+    var cboPatologia = document.getElementById("cboPatologia");
+
+    // Rescatando el índice seleccionado
+    var selectedIndex = cboPatologia.selectedIndex;
+
+    // Rescatando los datos de patología
+    var idPatologia = cboPatologia.value;
+    
+    if(!existPatologia(idPatologia)){
+        var nombrePatologia = cboPatologia.options[selectedIndex].innerHTML;
+
+        // Creando el objeto patología (JSON)
+        var patologia = {};
+
+        patologia.id = idPatologia;
+        patologia.nombre = nombrePatologia;
+        // Creando el objeto patología (JSON)
+
+        // Añadiendo ese objeto a la "lista"
+        listaPatologias.push(patologia);
+
+        mostrarDatosEnHtml();
+
+        console.log(listaPatologias);
+
+        inputJsonPatologias.value = JSON.stringify(listaPatologias);
+    }else{
+        divMensaje.innerHTML = "Patología Ya ingresada";
+    }
+});
+
+
+btnEnviarPatología.addEventListener("click", function(){
+    console.log("Se van a enviar estos datos: ");
+    console.log(listaPatologias);
+});
+
+function mostrarDatosEnHtml(){
+    divListaPatologias.innerHTML = "";
+    for(let patologia of listaPatologias){
+        divListaPatologias.innerHTML += `
+        <div id='fila'>
+            <span>${patologia.id}</span>
+            <span>${patologia.nombre}</span>
+            <span><a href='#' onclick='eliminarPatologia(${patologia.id})'>Eliminar</a></span>
+        </div>
+        `;
+    }
+}
+
+function eliminarPatologia(idPatologia){
+    listaPatologias = listaPatologias.filter(function(patologia, index, arr){
+        return patologia.id != idPatologia;
+    });
+
+    mostrarDatosEnHtml();
+    inputJsonPatologias.value = JSON.stringify(listaPatologias);
+}
+
+function existPatologia(idPatologia){
+    for(let patologia of listaPatologias){
+        if(patologia.id == idPatologia){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/*
+$jsonPatologias = $_POST["jsonPatologias"]; // JSON
+// como procesar json desde php
+// Investigar una funciona que pase de json string a un object --> array
+*/
