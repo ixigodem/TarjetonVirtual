@@ -3,7 +3,7 @@
     include_once('../model/Tarjeton.php');
     include_once('../model/Conexion.php');
 
-    header('Content-Type: application/json');
+    header('Content-Type: application/º');
 
     $id = $_GET["id"];
 

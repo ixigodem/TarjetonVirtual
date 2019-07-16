@@ -3,6 +3,7 @@ require_once("Complicacion.php");
 require_once("ComplicacionPacientes.php");
 require_once("Comuna.php");
 require_once("Conexion.php");
+require_once("Connection.php");
 require_once("Estado.php");
 require_once("EstadoCivil.php");
 require_once("Estamento.php");
@@ -24,12 +25,15 @@ require_once("UsuarioAdultoMayor.php");
 
 class Data{
     private $con;
+    private $con2;
 
     public function __construct(){
         $this->con = new Conexion(
             "db_tarjetonvirtual2",
             "root",
             "");
+
+        $this->con2 = new Connection();
     }
 
 //INSERT DE TODAS LAS TABLAS
@@ -610,15 +614,11 @@ LEFT JOIN tbl_tipoexamenes AS te ON t.id_Tarjeton = te.Tarjeton_ID";
 
         $query = "SELECT * FROM getTarjeton WHERE id_Paciente = $id";
 
-        $this->con->conectar();
-
-        $rs = $this->con->ejecutar($query);
+        $rs = $this->con2->execute($query);
 
         while($obj = $rs->fetch_object()){
             array_push($lista, $obj);
         }
-        
-        $this->con->desconectar();
 
         return $lista;
      }
