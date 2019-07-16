@@ -1,29 +1,37 @@
 <?php 
     include_once('../model/Data.php');
     include_once('../model/Tarjeton.php');
-
-    $d = new Data();
+    include_once('../model/Conexion.php');
 
     $id = $_GET["id"];
 
-    $tarjeton = $d->getTarjeton($id);
+    $host = "localhost";
+    $user = "root";
+    $pass = "";
+    $db = "db_tarjetonvirtual2";
+    $lista = array();
 
-    // var_dump($tarjeton);
-    $lista;
+    $mysql = mysqli_connect($host, $user, $pass) or die ("Fallo la conexión");
+    mysqli_select_db($mysql,$db) or die ("Fallo el acceso a la base de datos");
 
-    foreach ($tarjeton as $t) {
-        $listaExamen = $t->examenes;
-        $examenes = explode(",",$listaExamen);
-        $lista = [$t->fechaAtencion,$t->observacion,$t->peso,$t->talla,$t->IMC,$t->diagnosticoNutricional,
-        $t->circunferenciaCintura,$examenes[0],$examenes[1],$examenes[2],$t->fechaEvalPieDiabetico,
-        $t->ptjePieDiabetico,$t->fechaQualidiab,$t->qualidiab,$t->fechaFondoOjo,$t->enalapril,$t->losartan,
-        $t->retinopatiaDiabetica,$t->amputacion,$t->insuficienciaRenal,$t->IAM,$t->ACV,$t->estatinas,
-        $t->AAS_100,$t->autovalente,$t->autovalenteConRiesgo,$t->riesgoDependencia,$t->dependencia];
+    $query = "CALL sp_gettarjeton($id)";
+
+    $result = mysqli_query($mysql,$query);
+
+    $lista = array();
+    while ($row = mysqli_fetch_array($result)) {
+        $lista = array([0]=>id_Tarjeton);
     }
 
-    // echo ($lista);
-
-
-    // echo json_encode($tarjeton);
     echo json_encode($lista);
+
+    // $tarjeton = array();
+
+    // $d = new Data();
+
+    // $tarjeton = $d->getTarjeton($id);
+    // $tarjeton = $d->prueba();
+
+    // // var_dump($tarjeton);
+    // echo json_encode($tarjeton);
 ?>

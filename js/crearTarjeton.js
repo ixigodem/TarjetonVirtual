@@ -79,13 +79,9 @@ function getTarjeton(id) {
     fetch('../controller/getTarjeton.php?id=' + id, {
             method: 'GET'
         })
-        .then(res => res.text())
+        .then(res => res.json())
         .then(result => {
-            if (id === "") {
-                console.log("No llego ninguna información del paciente");
-            } else {
-                mostrarTarjeton(result);
-            }
+            mostrarTarjeton(result);
             console.log(result);
         }).catch(err => console.log(err));
 }
@@ -110,8 +106,6 @@ function mostrarTarjeton(datos) {
                 <th scope="col">PA Sistolica</th>
                 <th scope="col">PA Distolica</th>
                 <th scope="col">Circunferencia Cintura</th>
-
-                <th scope="col">Patologias</th>
 
                 <th scope="col">Fecha de Examen</th>
                 <th scope="col">Examen</th>
@@ -186,31 +180,21 @@ function mostrarTarjeton(datos) {
 
 function getParametros() {
     Promise.all([
-        fetch('../controller/getProfesional.php', {
-            method: "GET"
-        }),
-        fetch('../controller/getListadoExamenes.php', {
-            method: "GET"
-        })
-    ]).then(results => {
-        /*Esto en results lo manejo dejandolo en constantes o variables dependiendo de lo que necesite sera
-        el array resultante del fetch obtenido*/
-        const profesional = results[0];
-        const listExamenes = results[1];
-        // for (const pro of profesional) {
-        //     console.log(pro.id_Profesional)
-        //     console.log(pro.nombre)
-        //     console.log(pro.estamento_ID)
-        // }
-        // console.log(profesional)
-        // for (const l of listExamenes) {
-        //     console.log(l.id_ListaExamen)
-        //     console.log(l.nombreExamen)
-        // }
-        // console.log(patologia)
+            fetch('../controller/getProfesional.php', {
+                method: "GET"
+            }),
+            fetch('../controller/getListadoExamenes.php', {
+                method: "GET"
+            })
+        ]).then(res => res.json())
+        .then(results => {
+            /*Esto en results lo manejo dejandolo en constantes o variables dependiendo de lo que necesite sera
+            el array resultante del fetch obtenido*/
+            const profesional = results[0];
+            const listExamenes = results[1];
 
-        nuevoTarjeton(profesional, listExamenes)
-    }).catch(err => console.log(err));
+            nuevoTarjeton(profesional, listExamenes)
+        }).catch(err => console.log(err));
 }
 
 function nuevoTarjeton(profesional, listExamenes) {

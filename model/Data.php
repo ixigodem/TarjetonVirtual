@@ -18,33 +18,18 @@ require_once("PatologiasPacientes.php");
 require_once("Profesional.php");
 require_once("Tarjeton.php");
 require_once("Telefono.php");
+require_once("TipoExamen.php");
+require_once("TratamientoCardiaco.php");
+require_once("UsuarioAdultoMayor.php");
 
 class Data{
     private $con;
 
     public function __construct(){
-        $this->con = new Conexion("db_tarjetonvirtual2");
-    }
-
-    private function ejecutar($query){
-        $this->con->conectar();
-        $this->con->ejecutar($query);
-        $this->con->desconectar();
-    }
-
-    private function ejecutarSelect($query){
-        $lista = array();
-        
-        $this->con->conectar();
-        $rs = $this->con->ejecutar($query);
-        
-        while($ob = $rs->fetch_object()){
-            array_push($lista, $ob);
-        }
-        
-        $this->con->desconectar();
-    
-        return $lista;
+        $this->con = new Conexion(
+            "db_tarjetonvirtual2",
+            "root",
+            "");
     }
 
 //INSERT DE TODAS LAS TABLAS
@@ -340,15 +325,13 @@ class Data{
     public function getListadoExamen(){
         $lista = array();
 
-        $query = "SELECT * FROM tbl_listadoexamen;";
-
+        $query = "SELECT * FROM `tbl_listadoexamen` ORDER BY `nombreExamen` ASC;";
         $this->con->conectar();
-
         $rs = $this->con->ejecutar($query);
-        while($obj = $rs->fetch_object()){
-            array_push($lista, $obj);
+
+        while ($obj = $rs->fetch_object()) {
+            array_push($lista,$obj);
         }
-        
         $this->con->desconectar();
         return $lista;
     }
@@ -596,39 +579,47 @@ class Data{
         return $pro;
     }
 
-    public function getTarjeton($id){
+    public function prueba(){
         $lista = array();
 
-        $query = "SELECT t.fechaAtencion,o.observacion,pc.peso,pc.talla,pc.IMC,pc.diagnosticoNutricional,
-        pc.paSistolica,pc.paDistolica,pc.circunferenciaCintura,
-        GROUP_CONCAT(te.fechaExamen,' ',le.nombreExamen,' ',te.valor, ' ') AS examenes,
-        pd.fechaEvalPieDiabetico,pd.ptjePieDiabetico,pd.fechaQualidiab,pd.qualidiab,pd.fechaFondoOjo,
-        pd.resultadoFondoOjo,pd.enalapril,pd.losartan,pd.retinopatiaDiabetica,pd.amputacion,fr.insuficienciaRenal,
-        fr.IAM,fr.ACV,tc.estatinas,tc.AAS_100,ua.autovalente,ua.autovalenteConRiesgo,ua.riesgoDependencia,ua.dependencia
-        FROM tbl_tarjeton AS t
-        INNER JOIN tbl_paciente AS p ON p.id_Paciente = t.id_Paciente
-        INNER JOIN tbl_profesional AS pro ON pro.id_Profesional = t.profesional_ID
-        INNER JOIN tbl_parametrosclinicos AS pc ON pc.Tarjeton_ID = t.id_Tarjeton
-        INNER JOIN tbl_tipoexamenes AS te ON te.Tarjeton_ID = t.id_Tarjeton
-        INNER JOIN tbl_listadoexamen AS le ON le.id_ListaExamen = te.ListaExamen_ID
-        INNER JOIN tbl_pacientediabetico AS pd ON pd.Tarjeton_ID = t.id_Tarjeton
-        INNER JOIN tbl_factorderiesgo AS fr ON fr.Tarjeton_ID = t.id_Tarjeton
-        INNER JOIN tbl_tratamientocardiaco AS tc ON tc.Tarjeton_ID = t.id_Tarjeton
-        INNER JOIN tbl_usuarioadultomayor AS ua ON ua.Tarjeton_ID = t.id_Tarjeton
-        INNER JOIN tbl_observacion AS o ON o.Tarjeton_ID = t.id_Tarjeton
-        WHERE p.id_Paciente = $id;";
+        $query = "SELECT 
+t.fechaAtencion,
+t.id_Paciente,
+t.profesional_ID,
+pro.nombre,
+te.fechaExamen,
+te.valor,
+te.Tarjeton_ID
+FROM tbl_tarjeton AS t
+LEFT JOIN tbl_profesional AS pro ON t.profesional_ID = pro.id_Profesional
+LEFT JOIN tbl_tipoexamenes AS te ON t.id_Tarjeton = te.Tarjeton_ID";
 
         $this->con->conectar();
-
         $rs = $this->con->ejecutar($query);
-        while ($obj = $rs->fetch_object()) {
-            array_push($lista, $obj);
+
+        while ($obj = mysqli_fetch_array($rs)) {
+            array_push($lista,$obj);
         }
 
         $this->con->desconectar();
-
         return $lista;
     }
+
+    // public function getTarjeton($id){
+    //     $lista = array();
+        
+    //     $query = "CALL sp_gettarjeton($id)";
+
+    //     $conexion = $this->con->conectar();
+    //     $rs = mysqli_query($query,$conexion);
+
+    //     while ($obj = mysqli_fetch_object($rs)) {
+    //         array_push($lista,$obj);
+    //     }
+
+    //     $this->con->desconectar();
+    //     return $lista;
+    // }
 
     public function getTelefono(){
         $lista = array();
@@ -640,7 +631,7 @@ class Data{
         $this->c->conectar();
 
         $rs = $this->c->ejecutar($query);
-        if ($obj = $rs->fetch_object()) {
+        if ($obj = mysqli_fetch_object($rs)) {
             $u = new Telefono();
 
             $u->setIdTelefono($obj->idTelefono);

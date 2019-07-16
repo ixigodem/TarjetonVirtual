@@ -171,12 +171,12 @@ CREATE TABLE tbl_ListadoExamen(
 
 CREATE TABLE tbl_TipoExamenes(
     id_TipoExamenes INT AUTO_INCREMENT,
-    ListaExamen_ID INT NOT NULL,
+    id_ListaExamen INT NOT NULL,
     fechaExamen DATE NOT NULL,
     valor FLOAT NOT NULL,
     Tarjeton_ID INT NOT NULL,
     PRIMARY KEY(id_TipoExamenes),
-    FOREIGN KEY(ListaExamen_ID) REFERENCES tbl_ListadoExamen(id_ListaExamen),
+    FOREIGN KEY(id_ListaExamen) REFERENCES tbl_ListadoExamen(id_ListaExamen),
     FOREIGN KEY(Tarjeton_ID) REFERENCES tbl_Tarjeton(id_Tarjeton)
 );
 

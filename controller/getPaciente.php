@@ -9,4 +9,5 @@
     $paciente = $d->getPacienteTarjeton($run);
 
     echo json_encode($paciente);
+    // var_dump($paciente);
 ?>
