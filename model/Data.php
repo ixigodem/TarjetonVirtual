@@ -616,7 +616,7 @@ LEFT JOIN tbl_tipoexamenes AS te ON t.id_Tarjeton = te.Tarjeton_ID";
 
         $rs = $this->con2->execute($query);
 
-        while($obj = $rs->fetch_object()){
+        while($obj = mysqli_fetch_object($rs)){
             array_push($lista, $obj);
         }
 
