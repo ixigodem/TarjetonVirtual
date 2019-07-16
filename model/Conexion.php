@@ -26,7 +26,7 @@
         }
 
         public function ejecutar($sql){
-            return mysqli_query($sql);
+            return $this->mysql->query($sql);
         }
 
         public function desconectar(){

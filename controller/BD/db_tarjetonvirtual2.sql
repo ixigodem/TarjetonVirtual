@@ -19,6 +19,8 @@
 -- Table structure for table `tbl_complicacion`
 --
 
+use db_tarjetonvirtual2;
+
 DROP TABLE IF EXISTS `tbl_complicacion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;

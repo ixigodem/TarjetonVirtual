@@ -366,7 +366,7 @@ class Data{
         INNER JOIN tbl_estado_civil AS ec ON ec.id_EstadoCivil=p.estadoCivil_ID
         INNER JOIN tbl_comuna AS c ON c.id_Comuna=p.comuna_ID
         INNER JOIN tbl_estado AS e ON e.id_Estado=p.estado_ID
-        INNER JOIN tbl_Telefono AS t ON t.Paciente_ID=p.id_Paciente
+        INNER JOIN tbl_telefono AS t ON t.Paciente_ID=p.id_Paciente
         WHERE run_Paciente = '$run' 
         AND estado_ID = 1;";
 
@@ -605,21 +605,23 @@ LEFT JOIN tbl_tipoexamenes AS te ON t.id_Tarjeton = te.Tarjeton_ID";
         return $lista;
     }
 
-    // public function getTarjeton($id){
-    //     $lista = array();
+    public function getTarjeton($id){
+        $lista = array();
+
+        $query = "SELECT * FROM getTarjeton WHERE id_Paciente = $id";
+
+        $this->con->conectar();
+
+        $rs = $this->con->ejecutar($query);
+
+        while($obj = $rs->fetch_object()){
+            array_push($lista, $obj);
+        }
         
-    //     $query = "CALL sp_gettarjeton($id)";
+        $this->con->desconectar();
 
-    //     $conexion = $this->con->conectar();
-    //     $rs = mysqli_query($query,$conexion);
-
-    //     while ($obj = mysqli_fetch_object($rs)) {
-    //         array_push($lista,$obj);
-    //     }
-
-    //     $this->con->desconectar();
-    //     return $lista;
-    // }
+        return $lista;
+     }
 
     public function getTelefono(){
         $lista = array();
