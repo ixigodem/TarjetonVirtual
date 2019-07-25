@@ -14,12 +14,10 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
+use db_tarjetonvirtual2;
 --
 -- Table structure for table `tbl_complicacion`
 --
-
-use db_tarjetonvirtual2;
 
 DROP TABLE IF EXISTS `tbl_complicacion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -51,12 +49,12 @@ DROP TABLE IF EXISTS `tbl_complicacionespacientes`;
 CREATE TABLE `tbl_complicacionespacientes` (
   `id_ComplicacionPac` int(11) NOT NULL AUTO_INCREMENT,
   `fechaComplicaciones` date NOT NULL,
-  `Complicacion_ID` int(11) NOT NULL,
+  `id_Complicacion` int(11) NOT NULL,
   `id_Paciente` int(11) NOT NULL,
   PRIMARY KEY (`id_ComplicacionPac`),
   KEY `Complicacion_ID` (`Complicacion_ID`),
   KEY `id_Paciente` (`id_Paciente`),
-  CONSTRAINT `tbl_complicacionespacientes_ibfk_1` FOREIGN KEY (`Complicacion_ID`) REFERENCES `tbl_complicacion` (`id_Complicacion`),
+  CONSTRAINT `tbl_complicacionespacientes_ibfk_1` FOREIGN KEY (`id_Complicacion`) REFERENCES `tbl_complicacion` (`id_Complicacion`),
   CONSTRAINT `tbl_complicacionespacientes_ibfk_2` FOREIGN KEY (`id_Paciente`) REFERENCES `tbl_paciente` (`id_Paciente`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -179,10 +177,10 @@ CREATE TABLE `tbl_factorderiesgo` (
   `insuficienciaRenal` int(11) NOT NULL,
   `IAM` int(11) NOT NULL,
   `ACV` int(11) NOT NULL,
-  `Tarjeton_ID` int(11) NOT NULL,
+  `id_Tarjeton` int(11) NOT NULL,
   PRIMARY KEY (`id_FactorDeRiesgo`),
-  KEY `Tarjeton_ID` (`Tarjeton_ID`),
-  CONSTRAINT `tbl_factorderiesgo_ibfk_1` FOREIGN KEY (`Tarjeton_ID`) REFERENCES `tbl_tarjeton` (`id_Tarjeton`)
+  KEY `id_Tarjeton` (`id_Tarjeton`),
+  CONSTRAINT `tbl_factorderiesgo_ibfk_1` FOREIGN KEY (`id_Tarjeton`) REFERENCES `tbl_tarjeton` (`id_Tarjeton`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -258,10 +256,10 @@ DROP TABLE IF EXISTS `tbl_observacion`;
 CREATE TABLE `tbl_observacion` (
   `id_Observacion` int(11) NOT NULL AUTO_INCREMENT,
   `observacion` varchar(200) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `Tarjeton_ID` int(11) NOT NULL,
+  `id_Tarjeton` int(11) NOT NULL,
   PRIMARY KEY (`id_Observacion`),
-  KEY `Tarjeton_ID` (`Tarjeton_ID`),
-  CONSTRAINT `tbl_observacion_ibfk_1` FOREIGN KEY (`Tarjeton_ID`) REFERENCES `tbl_tarjeton` (`id_Tarjeton`)
+  KEY `id_Tarjeton` (`id_Tarjeton`),
+  CONSTRAINT `tbl_observacion_ibfk_1` FOREIGN KEY (`id_Tarjeton`) REFERENCES `tbl_tarjeton` (`id_Tarjeton`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -295,16 +293,16 @@ CREATE TABLE `tbl_paciente` (
   `actividadLaboral` varchar(100) COLLATE utf8mb4_spanish_ci NOT NULL,
   `direccionParticular` varchar(100) COLLATE utf8mb4_spanish_ci NOT NULL,
   `sector` varchar(10) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `estadoCivil_ID` int(11) NOT NULL,
-  `comuna_ID` int(11) NOT NULL,
-  `estado_ID` int(11) NOT NULL,
+  `id_EstadoCivil` int(11) NOT NULL,
+  `id_Comuna` int(11) NOT NULL,
+  `id_Estado` int(11) NOT NULL,
   PRIMARY KEY (`id_Paciente`),
-  KEY `estadoCivil_ID` (`estadoCivil_ID`),
-  KEY `estado_ID` (`estado_ID`),
-  KEY `comuna_ID` (`comuna_ID`),
-  CONSTRAINT `tbl_paciente_ibfk_1` FOREIGN KEY (`estadoCivil_ID`) REFERENCES `tbl_estado_civil` (`id_EstadoCivil`),
-  CONSTRAINT `tbl_paciente_ibfk_2` FOREIGN KEY (`estado_ID`) REFERENCES `tbl_estado` (`id_Estado`),
-  CONSTRAINT `tbl_paciente_ibfk_3` FOREIGN KEY (`comuna_ID`) REFERENCES `tbl_comuna` (`id_Comuna`)
+  KEY `id_EstadoCivil` (`id_EstadoCivil`),
+  KEY `id_Estado` (`id_Estado`),
+  KEY `id_Comuna` (`id_Comuna`),
+  CONSTRAINT `tbl_paciente_ibfk_1` FOREIGN KEY (`id_EstadoCivil`) REFERENCES `tbl_estado_civil` (`id_EstadoCivil`),
+  CONSTRAINT `tbl_paciente_ibfk_2` FOREIGN KEY (`id_Estado`) REFERENCES `tbl_estado` (`id_Estado`),
+  CONSTRAINT `tbl_paciente_ibfk_3` FOREIGN KEY (`id_Comuna`) REFERENCES `tbl_comuna` (`id_Comuna`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -337,10 +335,10 @@ CREATE TABLE `tbl_pacientediabetico` (
   `losartan` bit(1) NOT NULL,
   `retinopatiaDiabetica` bit(1) NOT NULL,
   `amputacion` bit(1) NOT NULL,
-  `Tarjeton_ID` int(11) NOT NULL,
+  `id_Tarjeton` int(11) NOT NULL,
   PRIMARY KEY (`id_PacienteDiabetico`),
-  KEY `Tarjeton_ID` (`Tarjeton_ID`),
-  CONSTRAINT `tbl_pacientediabetico_ibfk_1` FOREIGN KEY (`Tarjeton_ID`) REFERENCES `tbl_tarjeton` (`id_Tarjeton`)
+  KEY `id_Tarjeton` (`id_Tarjeton`),
+  CONSTRAINT `tbl_pacientediabetico_ibfk_1` FOREIGN KEY (`id_Tarjeton`) REFERENCES `tbl_tarjeton` (`id_Tarjeton`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -370,10 +368,10 @@ CREATE TABLE `tbl_parametrosclinicos` (
   `paSistolica` int(11) NOT NULL,
   `paDistolica` int(11) NOT NULL,
   `circunferenciaCintura` int(11) NOT NULL,
-  `Tarjeton_ID` int(11) NOT NULL,
+  `id_Tarjeton` int(11) NOT NULL,
   PRIMARY KEY (`id_ParametrosClinicos`),
-  KEY `Tarjeton_ID` (`Tarjeton_ID`),
-  CONSTRAINT `tbl_parametrosclinicos_ibfk_1` FOREIGN KEY (`Tarjeton_ID`) REFERENCES `tbl_tarjeton` (`id_Tarjeton`)
+  KEY `id_Tarjeton` (`id_Tarjeton`),
+  CONSTRAINT `tbl_parametrosclinicos_ibfk_1` FOREIGN KEY (`id_Tarjeton`) REFERENCES `tbl_tarjeton` (`id_Tarjeton`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -421,12 +419,12 @@ DROP TABLE IF EXISTS `tbl_patologiaspacientes`;
 CREATE TABLE `tbl_patologiaspacientes` (
   `id_PatPacientes` int(11) NOT NULL AUTO_INCREMENT,
   `fechaPatologias` date NOT NULL,
-  `Patologia_ID` int(11) NOT NULL,
+  `id_Patologia` int(11) NOT NULL,
   `id_Paciente` int(11) NOT NULL,
   PRIMARY KEY (`id_PatPacientes`),
-  KEY `Patologia_ID` (`Patologia_ID`),
+  KEY `id_Patologia` (`id_Patologia`),
   KEY `id_Paciente` (`id_Paciente`),
-  CONSTRAINT `tbl_patologiaspacientes_ibfk_1` FOREIGN KEY (`Patologia_ID`) REFERENCES `tbl_patologia` (`id_Patologia`),
+  CONSTRAINT `tbl_patologiaspacientes_ibfk_1` FOREIGN KEY (`id_Patologia`) REFERENCES `tbl_patologia` (`id_Patologia`),
   CONSTRAINT `tbl_patologiaspacientes_ibfk_2` FOREIGN KEY (`id_Paciente`) REFERENCES `tbl_paciente` (`id_Paciente`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -451,10 +449,10 @@ DROP TABLE IF EXISTS `tbl_profesional`;
 CREATE TABLE `tbl_profesional` (
   `id_Profesional` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `estamento_ID` int(11) NOT NULL,
+  `id_Estamento` int(11) NOT NULL,
   PRIMARY KEY (`id_Profesional`),
-  KEY `estamento_ID` (`estamento_ID`),
-  CONSTRAINT `tbl_profesional_ibfk_1` FOREIGN KEY (`estamento_ID`) REFERENCES `tbl_estamento` (`id_Estamento`)
+  KEY `id_Estamento` (`id_Estamento`),
+  CONSTRAINT `tbl_profesional_ibfk_1` FOREIGN KEY (`id_Estamento`) REFERENCES `tbl_estamento` (`id_Estamento`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -479,15 +477,15 @@ CREATE TABLE `tbl_tarjeton` (
   `id_Tarjeton` int(11) NOT NULL AUTO_INCREMENT,
   `fechaAtencion` date NOT NULL,
   `id_Paciente` int(11) NOT NULL,
-  `profesional_ID` int(11) NOT NULL,
-  `estado_ID` int(11) NOT NULL,
+  `id_Profesional` int(11) NOT NULL,
+  `id_Estado` int(11) NOT NULL,
   PRIMARY KEY (`id_Tarjeton`),
   KEY `id_Paciente` (`id_Paciente`),
-  KEY `estado_ID` (`estado_ID`),
-  KEY `profesional_ID` (`profesional_ID`),
+  KEY `id_Estado` (`id_Estado`),
+  KEY `id_Profesional` (`id_Profesional`),
   CONSTRAINT `tbl_tarjeton_ibfk_1` FOREIGN KEY (`id_Paciente`) REFERENCES `tbl_paciente` (`id_Paciente`),
-  CONSTRAINT `tbl_tarjeton_ibfk_2` FOREIGN KEY (`estado_ID`) REFERENCES `tbl_estado` (`id_Estado`),
-  CONSTRAINT `tbl_tarjeton_ibfk_3` FOREIGN KEY (`profesional_ID`) REFERENCES `tbl_profesional` (`id_Profesional`)
+  CONSTRAINT `tbl_tarjeton_ibfk_2` FOREIGN KEY (`id_Estado`) REFERENCES `tbl_estado` (`id_Estado`),
+  CONSTRAINT `tbl_tarjeton_ibfk_3` FOREIGN KEY (`id_Profesional`) REFERENCES `tbl_profesional` (`id_Profesional`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -511,10 +509,10 @@ DROP TABLE IF EXISTS `tbl_telefono`;
 CREATE TABLE `tbl_telefono` (
   `id_Telefono` int(11) NOT NULL AUTO_INCREMENT,
   `fono` varchar(15) COLLATE utf8mb4_spanish_ci NOT NULL,
-  `Paciente_ID` int(11) NOT NULL,
+  `id_Paciente` int(11) NOT NULL,
   PRIMARY KEY (`id_Telefono`),
-  KEY `id_Paciente` (`Paciente_ID`),
-  CONSTRAINT `tbl_telefono_ibfk_1` FOREIGN KEY (`Paciente_ID`) REFERENCES `tbl_paciente` (`id_Paciente`)
+  KEY `id_Paciente` (`id_Paciente`),
+  CONSTRAINT `tbl_telefono_ibfk_1` FOREIGN KEY (`id_Paciente`) REFERENCES `tbl_paciente` (`id_Paciente`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -537,15 +535,15 @@ DROP TABLE IF EXISTS `tbl_tipoexamenes`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tbl_tipoexamenes` (
   `id_TipoExamenes` int(11) NOT NULL AUTO_INCREMENT,
-  `id_ListaExamen` int(11) NOT NULL,
   `fechaExamen` date NOT NULL,
   `valor` float NOT NULL,
-  `Tarjeton_ID` int(11) NOT NULL,
+  `id_ListaExamen` int(11) NOT NULL,
+  `id_Tarjeton` int(11) NOT NULL,
   PRIMARY KEY (`id_TipoExamenes`),
-  KEY `ListaExamen_ID` (`id_ListaExamen`),
-  KEY `Tarjeton_ID` (`Tarjeton_ID`),
+  KEY `id_ListaExamen` (`id_ListaExamen`),
+  KEY `id_Tarjeton` (`id_Tarjeton`),
   CONSTRAINT `tbl_tipoexamenes_ibfk_1` FOREIGN KEY (`id_ListaExamen`) REFERENCES `tbl_listadoexamen` (`id_ListaExamen`),
-  CONSTRAINT `tbl_tipoexamenes_ibfk_2` FOREIGN KEY (`Tarjeton_ID`) REFERENCES `tbl_tarjeton` (`id_Tarjeton`)
+  CONSTRAINT `tbl_tipoexamenes_ibfk_2` FOREIGN KEY (`id_Tarjeton`) REFERENCES `tbl_tarjeton` (`id_Tarjeton`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -570,10 +568,10 @@ CREATE TABLE `tbl_tratamientocardiaco` (
   `id_TTOCardiaco` int(11) NOT NULL AUTO_INCREMENT,
   `estatinas` bit(1) NOT NULL,
   `AAS_100` bit(1) NOT NULL,
-  `Tarjeton_ID` int(11) NOT NULL,
+  `id_Tarjeton` int(11) NOT NULL,
   PRIMARY KEY (`id_TTOCardiaco`),
-  KEY `Tarjeton_ID` (`Tarjeton_ID`),
-  CONSTRAINT `tbl_tratamientocardiaco_ibfk_1` FOREIGN KEY (`Tarjeton_ID`) REFERENCES `tbl_tarjeton` (`id_Tarjeton`)
+  KEY `id_Tarjeton` (`id_Tarjeton`),
+  CONSTRAINT `tbl_tratamientocardiaco_ibfk_1` FOREIGN KEY (`id_Tarjeton`) REFERENCES `tbl_tarjeton` (`id_Tarjeton`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -600,10 +598,10 @@ CREATE TABLE `tbl_usuarioadultomayor` (
   `autovalenteConRiesgo` bit(1) NOT NULL,
   `riesgoDependencia` bit(1) NOT NULL,
   `dependencia` bit(1) NOT NULL,
-  `Tarjeton_ID` int(11) NOT NULL,
+  `id_Tarjeton` int(11) NOT NULL,
   PRIMARY KEY (`id_UsuAdultoMayor`),
-  KEY `Tarjeton_ID` (`Tarjeton_ID`),
-  CONSTRAINT `tbl_usuarioadultomayor_ibfk_1` FOREIGN KEY (`Tarjeton_ID`) REFERENCES `tbl_tarjeton` (`id_Tarjeton`)
+  KEY `id_Tarjeton` (`id_Tarjeton`),
+  CONSTRAINT `tbl_usuarioadultomayor_ibfk_1` FOREIGN KEY (`id_Tarjeton`) REFERENCES `tbl_tarjeton` (`id_Tarjeton`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -613,7 +611,7 @@ CREATE TABLE `tbl_usuarioadultomayor` (
 
 LOCK TABLES `tbl_usuarioadultomayor` WRITE;
 /*!40000 ALTER TABLE `tbl_usuarioadultomayor` DISABLE KEYS */;
-INSERT INTO `tbl_usuarioadultomayor` VALUES (1,'\0','','\0','\0',1);
+  INSERT INTO `tbl_usuarioadultomayor` VALUES (1,'\0','','\0','\0',1); 
 /*!40000 ALTER TABLE `tbl_usuarioadultomayor` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
