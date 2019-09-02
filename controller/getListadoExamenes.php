@@ -6,9 +6,5 @@ $d = new Data();
 
 $examenes = $d->getListadoExamen();
 
-foreach ($examenes as $e) {
-    echo json_encode($e);
-}
-
-// echo json_encode($examenes);
+echo json_encode($examenes);
 ?>

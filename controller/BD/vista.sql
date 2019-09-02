@@ -1,7 +1,7 @@
 /*
 CREATE VIEW getTarjeton AS
 SELECT
-    t.id_Tarjeton,
+	t.id_Tarjeton,
     t.fechaAtencion,
     t.id_Paciente,
     pro.nombre AS nombreProfesional,
@@ -13,9 +13,7 @@ SELECT
     pc.paSistolica,
     pc.paDistolica,
     pc.circunferenciaCintura,
-    te.fechaExamen,
-    le.nombreExamen,
-    te.valor,
+    group_concat(te.fechaExamen, ' - ',le.nombreExamen,' - ',te.valor separator ' \n ') as examenes,
     fr.insuficienciaRenal,
     fr.IAM,
     fr.ACV,
@@ -136,5 +134,12 @@ left join tbl_complicacionespacientes as cp on p.id_Paciente=cp.id_Paciente
 left join tbl_complicacion as com on cp.id_Complicacion=com.id_Complicacion
 where 
 p.id_Estado = 1;
+
+CREATE VIEW getProfesional AS
+SELECT
+p.id_Profesional,p.nombre,e.nombre AS estamento
+FROM 
+tbl_profesional AS p
+INNER JOIN tbl_estamento AS e ON p.id_Estamento=e.id_Estamento;
 
 */

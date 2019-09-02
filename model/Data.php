@@ -291,7 +291,7 @@ class Data{
     public function getEstadoCivil(){
         $lista = array();
 
-        $query = "SELECT * FROM tbl_estado_civil;";
+        $query = "SELECT * FROM tbl_estadocivil;";
 
         $this->con->conectar();
 
@@ -491,9 +491,7 @@ class Data{
     public function getProfesional(){
         $lista = array();
 
-        $query = "SELECT id_Profesional,pro.nombre,es.nombre AS estamento_ID
-        FROM tbl_profesional AS pro
-        INNER JOIN tbl_estamento as es ON es.id_Estamento=pro.estamento_ID";
+        $query = "SELECT * FROM getProfesional";
 
         $this->con->conectar();
 
@@ -506,14 +504,26 @@ class Data{
         return $lista;
     }
 
+    public function getEstamento(){
+        $listEstado = array();
+
+        $this->con->conectar();
+
+        $rs = $this->con->ejecutar("SELECT * FROM tbl_estamento");
+
+        while($obj = $rs->fetch_object()){
+            array_push($listEstado, $obj);
+        }
+        $this->con->desconectar();
+
+        return $listEstado;
+    }
 
     public function getProfesionalPorFiltro($filtro){
         $lista = array();
 
-        $query = "SELECT id_Profesional, pro.nombre, es.nombre AS estamento_ID
-        FROM tbl_profesional AS pro
-        INNER JOIN tbl_estamento AS es ON es.id_Estamento = pro.estamento_ID
-        WHERE pro.nombre LIKE '%$filtro%' OR es.nombre LIKE '%$filtro%'";
+        $query = "SELECT * FROM getProfesional AS pro
+        WHERE nombre LIKE '%$filtro%' OR estamento LIKE '%$filtro%'";
 
         $this->con->conectar();
 
@@ -526,92 +536,10 @@ class Data{
         return $lista;
     }
 
-    public function getProfesionalBusqueda($nombre){
-        $query = "SELECT nombre FROM tbl_profesional WHERE nombre = '$nombre'";
-
-        $pro = null;
-
-        $this->con->conectar();
-
-        $rs = $this->con->ejecutar($query);
-        if ($obj = $rs->fetch_object()) {
-            $pro = new Profesional();
-
-            $pro->setNombreProfesional($obj->nombreProfesional);
-        }
-
-        $this->con->desconectar();
-        return $pro;
-    }
-
-    public function prueba(){
-        $lista = array();
-
-        $query = "SELECT
-        t.id_Tarjeton,
-        t.fechaAtencion,
-        t.id_Paciente,
-        pro.nombre AS nombreProfesional,
-        o.observacion,
-        pc.peso,
-        pc.talla,
-        pc.IMC,
-        pc.diagnosticoNutricional,
-        pc.paSistolica,
-        pc.paDistolica,
-        pc.circunferenciaCintura,
-        GROUP_CONCAT(
-        te.fechaExamen,' / ',
-        le.nombreExamen,' / ',
-        te.valor) AS nombreExamen,
-        fr.insuficienciaRenal,
-        fr.IAM,
-        fr.ACV,
-        pd.fechaEvalPieDiabetico,
-        pd.ptjePieDiabetico,
-        pd.fechaQualidiab,
-        pd.qualidiab,
-        pd.fechaFondoOjo,
-        pd.resultadoFondoOjo,
-        pd.enalapril,
-        pd.losartan,
-        pd.retinopatiaDiabetica,
-        pd.amputacion,
-        tc.estatinas,
-        tc.AAS_100,
-        uam.autovalente,
-        uam.autovalenteConRiesgo,
-        uam.riesgoDependencia,
-        uam.dependencia
-    FROM
-        tbl_tarjeton AS t
-        INNER JOIN tbl_profesional AS pro ON pro.id_Profesional = t.id_Profesional
-        LEFT JOIN tbl_tipoexamenes AS te ON te.id_Tarjeton = t.id_Tarjeton
-        LEFT JOIN tbl_listadoexamen AS le ON le.id_ListaExamen = te.id_ListaExamen
-        LEFT JOIN tbl_factorderiesgo AS fr ON fr.id_Tarjeton = t.id_Tarjeton
-        LEFT JOIN tbl_observacion AS o ON o.id_Tarjeton = t.id_Tarjeton
-        LEFT JOIN tbl_pacientediabetico AS pd ON pd.id_Tarjeton = t.id_Tarjeton
-        LEFT JOIN tbl_parametrosclinicos AS pc ON pc.id_Tarjeton = t.id_Tarjeton
-        LEFT JOIN tbl_tratamientocardiaco AS tc ON tc.id_Tarjeton = t.id_Tarjeton
-        LEFT JOIN tbl_usuarioadultomayor AS uam ON uam.id_Tarjeton = t.id_Tarjeton;";
-
-        $this->con->conectar();
-        $rs = $this->con->ejecutar($query);
-
-        while ($obj = mysqli_fetch_array($rs)) {
-            array_push($lista,$obj);
-        }
-
-        $this->con->desconectar();
-        return $lista;
-    }
-
     public function getTarjeton($id){
         $lista = array();
 
-        $query = "SELECT * FROM tbl_tarjeton AS t
-INNER JOIN tbl_tipoexamenes AS te ON t.id_Tarjeton = te.id_Tarjeton
-";
+        $query = "SELECT * FROM getTarjeton WHERE id_Paciente = $id;";
 
         $this->con->conectar();
 
@@ -810,5 +738,49 @@ INNER JOIN tbl_tipoexamenes AS te ON t.id_Tarjeton = te.id_Tarjeton
         $query = "INSERT INTO tbl_telefono VALUES (null,'".$telefono->getFono()."',". $idUltimoPaciente.")";
 
         $this->ejecutar($query);
+    }
+
+    // Función que me permite crear paciente obteniendo un objeto de paciente y telefono 
+// un array de las patologias y leyendolo con un foreach
+    public function crearAtencion($tarjeton,$observacion,$parametrosClinicos,$pacienteDiabetico,$factorDeRiesgo,$tratamientoCardiaco,$usuarioAdultoMayor,$listaExamen){
+        $this->con->conectar();
+
+        foreach ($listaExamen as $l) {
+            $query = "call sp_crearAtencion(
+                '".$tarjeton->getFechaAtencion()."',
+                '".$l["id"]."',
+                '".$tarjeton->getIdProfesional()."',
+                1,
+                '".$observacion->getObservacion()."',
+                '".$parametrosClinicos->getPeso()."',
+                '".$parametrosClinicos->getTalla()."',
+                '".$parametrosClinicos->getIMC()."',
+                '".$parametrosClinicos->getDiagnosticoNutricional()."',
+                '".$parametrosClinicos->getPaSistolica()."',
+                '".$parametrosClinicos->getCircunferenciaCintura()."',
+                '".$l["fechaExamen"]."',
+                '".$l["valorExamen"]."',
+                '".$l["idExamen"]."',
+                '".$pacienteDiabetico->getFechaEvalPieDiabetico()."',
+                '".$pacienteDiabetico->getPtjePieDiabetico()."',
+                '".$pacienteDiabetico->getFechaQualidiab()."',
+                '".$pacienteDiabetico->getQualidiab()."',
+                '".$pacienteDiabetico->getFechaFondoOjo()."',
+                '".$pacienteDiabetico->getResultadoFondoOjo()."',
+                '".$pacienteDiabetico->getEnalapril()."',
+                '".$pacienteDiabetico->getLosartan()."',
+                '".$pacienteDiabetico->getRetinopatiaDiabetica()."',
+                '".$pacienteDiabetico->getAmputacion()."',
+                '".$factorDeRiesgo->getInsuficienciaRenal()."',
+                '".$factorDeRiesgo->getIam()."',
+                '".$factorDeRiesgo->getAcv()."',
+                '".$tratamientoCardiaco->getEstatinas()."',
+                '".$tratamientoCardiaco->getAAS_100()."',
+                '".$usuarioAdultoMayor->getAutovalente()."',
+                '".$usuarioAdultoMayor->getAutovalenteConRiesgo()."',
+                '".$usuarioAdultoMayor->getRiesgoDependencia()."',
+                '".$usuarioAdultoMayor->getDependencia()."');";
+                $this->ejecutar($query);
+        }
     }
 }

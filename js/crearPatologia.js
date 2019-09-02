@@ -65,7 +65,7 @@ function mostrarDatosEnForm() {
                 <th scope="row">${patologia.nombre}</th>
                 <span></span>
                 <th scope="row">
-                <a href='#' onclick='eliminarPatologia(${patologia.id})' class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">remove</i></a>
+                    <button type="button" onclick='eliminarPatologia(${patologia.id})' class="btn btn-danger">-</button>
                 </th>
             </div>
         `

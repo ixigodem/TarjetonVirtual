@@ -7,82 +7,18 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
-    <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="../css/materialize.min.css"  media="screen,projection"/>
-
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- Import css local -->
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <!-- Import jquery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 <body>
-
-  <!-- <nav>
-    <div class="nav-wrapper">
-      <img src="../img/Enfermeria.png" width="30" height="30" class="d-inline-block align-top" href="../index.php">Tarjetón Virtual</a>
-      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-
-    <ul id="nav-mobile" class="right hide-on-med-and-down">
-
-    <ul class="collapsible">
-        <li>
-            <div class="collapsible-header">Paciente</div>
-            <div class="collapsible-body"><a href="formCrearPaciente.php">Crear Paciente</a></div> 
-            <div class="collapsible-body"><a href="listarPaciente.php">Buscar Paciente</a></div>
-        </li>
-    </ul>
-
-    </ul>
-
-    </div>
-  </nav>
-
-  <ul class="sidenav" id="mobile-demo">
-    <ul class="collapsible popout">
-        <li><a class="navbar-brand" href="Menu.php">
-            <img src="../img/Enfermeria.png" width="30" height="30" class="d-inline-block align-top" href="../index.php">
-            Tarjetón Virtual
-            </a>
-        </li>
-        <li><a href="Menu.php" class="nav-link">Inicio</a></li>
-        <li>
-        <div class="collapsible-header"><i class="material-icons">filter_drama</i>Paciente</div>
-            <div class="collapsible-body"><a href="formCrearPaciente.php">Crear Paciente</a></div> 
-            <div class="collapsible-body"><a href="listarPaciente.php">Buscar Paciente</a></div>
-        </li>
-
-        <li>
-        <div class="collapsible-header"><i class="material-icons">filter_drama</i>Profesional</div>
-            <div class="collapsible-body"><a href="formCrearProfesional.php">Crear Profesional</a></div>
-        </li>
-
-        <li>
-        <div class="collapsible-header"><i class="material-icons">whatshot</i>Tarjetón</div>
-            <div class="collapsible-body"><a href="formCrearTarjeton.php">Crear Tarjetón</a></div>
-        </li>
-
-        <li>
-        <div class="collapsible-header"><i class="material-icons">whatshot</i>Gestión</div>
-            <div class="collapsible-body"><a href="#!">Reporte Tarjetón</a></div>
-            <div class="collapsible-body"><a href="#!">Control HTA</a></div>
-            <div class="collapsible-body"><a href="#!">Control DM2</a></div>
-            <div class="collapsible-body"><a href="#!">Control Epilepsia</a></div>
-        </li>
-    </ul>
-  </ul> -->
-
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <li><a class="navbar-brand" href="Menu.php">
+<!-- Navbar con los menus desplegables -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <li><a class="navbar-brand" href="../index.php">
             <img src="../img/Enfermeria.png" width="30" height="30" class="d-inline-block align-top" href="../index.php">Tarjetón Virtual</a>
-        </li>
+            </li>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -93,7 +29,7 @@
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Creación de Paciente
+                Pacientes
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="formCrearPaciente.php">Crear Paciente</a>
@@ -109,7 +45,7 @@
                 <a class="dropdown-item" href="formCrearProfesional.php">Crear Profesional</a>
                 </div>
             </li>
-
+            
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Tarjetón
@@ -132,9 +68,11 @@
                 </div>
             </li>
 
+            <li class="nav-item"><a href="http://web.saludcormun.cl/?page_id=3733" class="nav-link">Sobre Nosotros</a></li>
             </ul>
         </div>
-   </nav>
+    </nav>
+<!-- Navbar con los menus desplegables -->
 
     <?php
         require_once("../model/Data.php");
@@ -148,23 +86,15 @@
         }
     ?>
 
-    <script>  
-        $(document).ready(function() {
-            $('input#input_text, textarea#textarea2').characterCounter();
-        });
-    </script>
-
     <nav class="navbar navbar-light bg-light">
         <form class="form-inline" action="listarPaciente.php" method="POST">
             <div class="row">
                 <div class="input-field col s6">
-                    <input type="text" id="textarea2" class="materialize-textarea" 
-                    name="txtBuscarPaciente" data-length="120" value="<?php echo $filtro;?>">
-                    <label for="textarea2">Buscar Pacientes</label>
+                    <input type="text" class="form-control" name="txtBuscarPaciente" placeholder="Buscar Paciente:" data-length="120" value="<?php echo $filtro;?>">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="btnBuscarPaciente">Buscar</button>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="btnMostrarPacientePasivo">Mostrar Pacientes Pasivos</button>
                 </div>
             </div>
-            <button class="waves-effect waves-light btn-small" type="submit" name="btnBuscarPaciente">Buscar</button>
-            <button class="waves-effect waves-light btn-small" type="submit" name="btnMostrarPacientePasivo">Mostrar Pacientes Pasivos</button>
         </form>
     </nav>
 
@@ -249,30 +179,12 @@
         </table>
     </div>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('.sidenav');
-    var instances = M.Sidenav.init(elems, {edge:'left'});
-      var instance = M.Sidenav.getInstance(instances);
-  });
-
-  document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('.collapsible.popout');
-    var instances = M.Collapsible.init(elems, {accordion:true});
-    var instance = M.Collapsible.getInstance(instances);
-  });
-
-    document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('.tooltipped');
-    var instances = M.Tooltip.init(elems, {exitDelay:0});
-    var instance = M.Tooltip.getInstance(instances);
-  });
-
-</script>
-    <!--JavaScript at end of body for optimized loading-->
-    <script type="text/javascript" src="../js/materialize.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-</body>
+  </body>
 </html>

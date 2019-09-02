@@ -1,4 +1,242 @@
+function getParametros() {
+    fetch('../controller/getListadoExamenes.php', {
+        method: 'GET'
+    }).then(res => res.json())
+    .then(result1 => {
+        fetch('../controller/getProfesional.php', {
+            method: 'GET'
+        }).then(res => res.json())
+        .then(result2 => {
+        //console.log(result1,result2);
+
+    }).catch(err => console.log(err))
+    });
+}
+       
+var fechaAtencion = document.getElementsByName('fechaAtencion');
+var profesional = document.getElementsByName('profesional');
+var observacion = document.getElementsByName('txtObservacion');
+var peso = document.getElementsByName('txtPeso');
+var talla = document.getElementsByName('txtTalla');
+var imc = document.getElementsByName('txtIMC');
+var diagnosticoNutricional = document.getElementsByName('diagnosticoNutricional');
+var paSistolica = document.getElementsByName('txtPaSistolica');
+var paDistolica = document.getElementsByName('txtPaDistolica');
+var circunferencia = document.getElementsByName('txtCircunferencia');
+var fechaExamen = document.getElementsByName('fechaExamen');
+var listadoExamen = document.getElementsByName('listadoExamen');
+var valorExamen = document.getElementsByName('txtValorExamen');
+var fechaEvaPieDiabetico = document.getElementsByName('fechaEvPieDiabetico');
+var pjePieDiabetico = document.getElementsByName('txtPjPieDiabetico');
+var fechaQualidiab = document.getElementsByName('fechaQualidiab');
+var qualidiab = document.getElementsByName('txtQualidiab');
+var fechaFondoOjo = document.getElementsByName('fechaFondoOjo');
+var fondoOjo = document.getElementsByName('resultadoFondoOjo');
+var enalapril = document.getElementsByName('enalapril');
+var losartan = document.getElementsByName('losartan');
+var retinopatiaDiabetica = document.getElementsByName('retinopatiaDiabetica');
+var amputacion = document.getElementsByName('amputacion');
+var resultadoFondoOjo = document.getElementsByName('resultadoFondoOjo');
+var insuficienciaRenal = document.getElementsByName('insuficienciaRenal');
+var iam = document.getElementsByName('iam');
+var acv = document.getElementsByName('acv');
+var estatinas = document.getElementsByName('estatinas');
+var aas100 = document.getElementsByName('aas100');
+var autovalente = document.getElementsByName('autovalente');
+var autovalenteConRiesgo = document.getElementsByName('autovalenteConRiesgo');
+var riesgoDependencia = document.getElementsByName('riesgoDependencia');
+var dependencia = document.getElementsByName('dependencia');
+       
+        <form method="POST" action="../controller/createTarjeton.php">
+                <tbody style="display:none" id="seccionCreateNewTarjeton">
+                    <td><input type="date" class="form-control" name="fechaAtencion" required></td>
+
+                    <td>
+                        <select id="inputState" class="form-control" name="profesional" required>
+                            <option selected disabled>Seleccione una opción</option>
+                            <option value='${profesional.id_Profesional}'>${profesional.nombre}</option>
+                    </td>
+                    
+                    <td><input type="text" class="form-control" name="txtObservacion" placeholder="Observación" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required></td>
+                    <td><input type="number" class="form-control" name="txtPeso" id="peso" placeholder="Ej: 80" required></td>
+                    <td><input type="number" class="form-control" name="txtTalla" id="altura" onkeyup="calc_imc()" placeholder="Ej: 1,70" required></td>
+                    <td><input type="number" class="form-control" name="txtIMC" id="IMC" placeholder="Ej: 11,70"></td>
+                    <td><input type="text" class="form-control" name="diagnosticoNutricional" id="dgNutricional"><div id="errorIMC"></div></td>
+                    <td><input type="number" class="form-control" name="txtPaSistolica" placeholder="Ej: 130" required></td>
+                    <td><input type="number" class="form-control" name="txtPaDistolica" placeholder="Ej: 64" required></td>
+                    <td><input type="number" class="form-control" name="txtCircunferencia" placeholder="Ej: 102" required></td>
+                    
+                    <td><input type="date" class="form-control" name="fechaExamen" required></td>
+
+                    <td>
+                        <select id="inputState" class="form-control" name="listadoExamen" required>
+                            <option selected disabled>Seleccione una opción</option>   
+                            <option value='${listExamenes.id_ListaExamen}'>${listExamenes.nombreExamen}</option>
+                        </select>
+                    </td>
+
+                    <td><input type="number" class="form-control" name="txtValorExamen" placeholder="Ej: 102" required></td>
+
+                    <td><input type="date" class="form-control" name="fechaEvPieDiabetico" required></td>
+                    <td><input type="number" class="form-control" name="txtPjPieDiabetico" placeholder="Ej: 102" required></td>
+                    <td><input type="date" class="form-control" name="fechaQualidiab" required></td>
+                    <td><input type="number" class="form-control" name="txtQualidiab" placeholder="Ej: 102" required></td>
+                    <td><input type="date" class="form-control" name="fechaFondoOjo" required></td>
+                    <td>
+                        <select id="inputState" class="form-control" name="resultadoFondoOjo" required>
+                            <option selected disabled>Seleccione una opción</option>
+                            <option>NORMAL</option>
+                            <option>ALTERADO</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="inputState" class="form-control" name="enalapril" required>
+                            <option selected disabled>Seleccione una opción</option>
+                            <option>SI</option>
+                            <option>NO</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="inputState" class="form-control" name="losartan" required>
+                            <option selected disabled>Seleccione una opción</option>
+                            <option>SI</option>
+                            <option>NO</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="inputState" class="form-control" name="retinopatiaDiabetica" required>
+                            <option selected disabled>Seleccione una opción</option>
+                            <option>SI</option>
+                            <option>NO</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="inputState" class="form-control" name="amputacion" required>
+                            <option selected disabled>Seleccione una opción</option>
+                            <option>SI</option>
+                            <option>NO</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="inputState" class="form-control" name="insuficienciaRenal" required>
+                            <option selected disabled>Seleccione una opción</option>
+                            <option>SI</option>
+                            <option>NO</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="inputState" class="form-control" name="iam" required>
+                            <option selected disabled>Seleccione una opción</option>
+                            <option>SI</option>
+                            <option>NO</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="inputState" class="form-control" name="acv" required>
+                            <option selected disabled>Seleccione una opción</option>
+                            <option>SI</option>
+                            <option>NO</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="inputState" class="form-control" name="estatinas" required>
+                            <option selected disabled>Seleccione una opción</option>
+                            <option>SI</option>
+                            <option>NO</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="inputState" class="form-control" name="aas100" required>
+                            <option selected disabled>Seleccione una opción</option>
+                            <option>SI</option>
+                            <option>NO</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="inputState" class="form-control" name="autovalente" required>
+                            <option selected disabled>Seleccione una opción</option>
+                            <option>SI</option>
+                            <option>NO</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="inputState" class="form-control" name="autovalenteConRiesgo" required>
+                            <option selected disabled>Seleccione una opción</option>
+                            <option>SI</option>
+                            <option>NO</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="inputState" class="form-control" name="riesgoDependencia" required>
+                            <option selected disabled>Seleccione una opción</option>
+                            <option>SI</option>
+                            <option>NO</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="inputState" class="form-control" name="dependencia" required>
+                            <option selected disabled>Seleccione una opción</option>
+                            <option>SI</option>
+                            <option>NO</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-outline-primary">Enviar</button>
+                    </td>
+                </tbody>
+            </form>
+
+CREATE VIEW getTarjeton AS
+SELECT  
+    t.fechaAtencion,
+    pro.nombre AS nombreProfesional,
+    o.observacion,
+    pc.peso,
+    pc.talla,
+    pc.IMC,
+    pc.diagnosticoNutricional,
+    pc.paSistolica,
+    pc.paDistolica,
+    pc.circunferenciaCintura,
+    GROUP_CONCAT(te.fechaExamen, '\n') AS fechaExamen,
+    GROUP_CONCAT(le.nombreExamen, '\n') AS nombreExamen,
+    GROUP_CONCAT(te.valor, '\n') AS valorExamen,
+    pd.fechaEvalPieDiabetico,
+    pd.ptjePieDiabetico,
+    pd.fechaQualidiab,
+    pd.qualidiab,
+    pd.fechaFondoOjo,
+    pd.resultadoFondoOjo,
+    pd.enalapril,
+    pd.losartan,
+    pd.retinopatiaDiabetica,
+    pd.amputacion,
+    fr.insuficienciaRenal,
+    fr.IAM,
+    fr.ACV,
+    tc.estatinas,
+    tc.AAS_100,
+    uam.autovalente,
+    uam.autovalenteConRiesgo,
+    uam.riesgoDependencia,
+    uam.dependencia
+    FROM tbl_tarjeton AS t
+    INNER JOIN tbl_profesional AS pro ON pro.id_Profesional = t.id_Profesional
+    LEFT JOIN tbl_tipoexamenes AS te ON te.id_Tarjeton = t.id_Tarjeton
+    LEFT JOIN tbl_listadoexamen AS le ON le.id_ListaExamen = te.id_ListaExamen
+    LEFT JOIN tbl_factorderiesgo AS fr ON fr.id_Tarjeton = t.id_Tarjeton
+    LEFT JOIN tbl_observacion AS o ON o.id_Tarjeton = t.id_Tarjeton
+    LEFT JOIN tbl_pacientediabetico AS pd ON pd.id_Tarjeton = t.id_Tarjeton
+    LEFT JOIN tbl_parametrosclinicos AS pc ON pc.id_Tarjeton = t.id_Tarjeton
+    LEFT JOIN tbl_tratamientocardiaco AS tc ON tc.id_Tarjeton = t.id_Tarjeton
+    LEFT JOIN tbl_usuarioadultomayor AS uam ON uam.id_Tarjeton = t.id_Tarjeton
+
 //procedimiento almacenado obtener tarjeton
+
+        GROUP_CONCAT(`te.fechaExamen \n`) AS fechaExamen,
+        GROUP_CONCAT(`le.nombreExamen \n`) AS nombreExamen,
+        GROUP_CONCAT(`te.valor \n`) AS valorExamen,
+
 DROP PROCEDURE IF EXISTS sp_gettarjeton;
 CREATE PROCEDURE `sp_gettarjeton`(IN `id` INT)  
 SELECT  t.id_Tarjeton,
@@ -337,6 +575,62 @@ $$
 
 CALL crear_paciente_tel_pp('13234567-8','NO','SE','LLAMA','1990-05-20',1,'JUNTA DE VECINOS','ENSEÑANZA MEDIA','NO TRABAJO','NO VIVE',1,2,1,'VERDE','+56954199353','2018-01-28',2);
 
+
+delimiter $$
+create procedure sp_crearAtencion(
+in fechaAtencion date,
+in idPaciente int,
+in idProfesional int,
+in idEstado int,
+in observacion varchar(200),
+in peso float,
+in talla float,
+in imc float,
+in diagnosticoNutricional int,
+in paSistolica int,
+in paDistolica int,
+in circunferenciaCintura int,
+in fechaExamen date,
+in valor float,
+in idListaExamen int,
+in fechaEvPieDiabetico date,
+in ptjePieDiabetico int,
+in fechaQualidiab date,
+in qualidiab bit,
+in fechaFondoOjo date,
+in resultadoFondoOjo bit,
+in enalapril bit,
+in losartan bit,
+in retinopatiaDiabetica bit,
+in amputacion bit,
+in insuficienciaRenal int,
+in iam int,
+in acv int,
+in estatinas bit,
+in aas100 bit,
+in autovalente bit,
+in autovalenteConRiesgo bit,
+in riesgoDependencia bit,
+in dependencia bit)
+begin
+insert into tbl_tarjeton(id_Tarjeton,fechaAtencion,id_Paciente,id_Profesional,id_Estado) values(null,fechaAtencion,idPaciente,idProfesional,1);
+select @idTar := max(id_Tarjeton) from tbl_tarjeton;
+insert into tbl_parametrosclinicos(
+id_ParametrosClinicos,peso,talla,IMC,diagnosticoNutricional,paSistolica,paDistolica,circunferenciaCintura,id_Tarjeton) 
+values(null,peso,talla,imc,diagnosticoNutricional,paSistolica,paDistolica,circunferenciaCintura,@idTar);
+insert into tbl_tipoexamenes(id_TipoExamenes,fechaExamen,valor,id_ListaExamen,id_Tarjeton) 
+values(null,fechaExamen,valor,idListaExamen,@idTar);
+insert into tbl_pacientediabetico(
+id_PacienteDiabetico,fechaEvalPieDiabetico,ptjePieDiabetico,fechaQualidiab,qualidiab,fechaFondoOjo,resultadoFondoOjo,enalapril,losartan,retinopatiaDiabetica,amputacion,id_Tarjeton) 
+values(
+null,fechaEvPieDiabetico,ptjePieDiabetico,fechaQualidiab,qualidiab,fechaFondoOjo,resultadoFondoOjo,enalapril,losartan,retinopatiaDiabetica,amputacion,@idTar);
+insert into tbl_factorderiesgo(id_FactorDeRiesgo,insuficienciaRenal,IAM,ACV,id_Tarjeton) values(null,insuficienciaRenal,iam,acv,@idTar);
+insert into tbl_tratamientocardiaco(id_TTOCardiaco,estatinas,AAS_100,id_Tarjeton) values(null,estatinas,aas100,@idTar);
+insert into tbl_usuarioadultomayor(
+id_UsuAdultoMayor,autovalente,autovalenteConRiesgo,riesgoDependencia,dependencia,id_Tarjeton) 
+values(null,autovalente,autovalenteConRiesgo,riesgoDependencia,dependencia,@idTar);
+insert into tbl_observacion(id_Observacion,observacion,id_Tarjeton) values(null,observacion,@idTar);
+end; $$
 
 
 Crear funcion para crear paciente

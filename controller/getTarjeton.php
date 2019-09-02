@@ -11,8 +11,7 @@
 
     $d = new Data();
 
-    // $tarjeton = $d->getTarjeton($id);
-    $tarjeton = $d->prueba();
+    $tarjeton = $d->getTarjeton($id);
 
     echo json_encode($tarjeton);
 ?>

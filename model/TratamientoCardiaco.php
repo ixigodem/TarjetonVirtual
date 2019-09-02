@@ -2,7 +2,7 @@
 class TratamientoCardiaco {
     private $idTTOCardiaco;
     private $estatinas;
-    private $AAS100;
+    private $AAS_100;
 
     public function __construct(){
         //Constructor por defecto
@@ -16,8 +16,8 @@ class TratamientoCardiaco {
         $this->estatinas = $estatinas;
     }
 
-    public function setAAS100($AAS100){
-        $this->AAS100 = $AAS100;
+    public function setAAS100($AAS_100){
+        $this->AAS_100 = $AAS_100;
     }
 
     public function getIdTTOCardiaco(){
@@ -28,7 +28,7 @@ class TratamientoCardiaco {
         return $this->estatinas;
     }
 
-    public function getAAS100(){
-        return $this->AAS100;
+    public function getAAS_100(){
+        return $this->AAS_100;
     }
 }

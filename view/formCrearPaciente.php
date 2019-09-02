@@ -4,25 +4,19 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Crear Paciente</title>
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <meta id="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="../css/materialize.min.css"  media="screen,projection"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- Import css local -->
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
     <!-- Import jquery -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
 <?php session_start(); ?>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<!-- Navbar con los menus desplegables -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
         <li><a class="navbar-brand" href="../index.php">
             <img src="../img/Enfermeria.png" width="30" height="30" class="d-inline-block align-top" href="../index.php">Tarjetón Virtual</a>
             </li>
@@ -36,7 +30,7 @@
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Creación de Paciente
+                Pacientes
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="formCrearPaciente.php">Crear Paciente</a>
@@ -79,8 +73,11 @@
             </ul>
         </div>
     </nav>
+<!-- Navbar con los menus desplegables -->
+
 
   <!-- Form para crear pacientes -->
+
     <form action="../controller/crearPaciente.php" method="POST" id="form-normal">
         <div class="form-row">
             <div class="form-group col-md-2">
@@ -183,8 +180,7 @@
                 $comuna = $data->getComuna();
                 $estado = $data->getEstado();
                 $patologia = $data->getPatologia();
-                
-           ?>
+            ?>
 
             <div class="form-group col-md-3">
                 <label>ESTADO CIVIL</label>
@@ -238,14 +234,14 @@
                         <option selected disabled>Seleccione una opción</option>
                             <?php
                                 foreach($patologia as $p){
-                                    echo "<option value='".$p->id_Patologia. "'>".$p->nombre."</option>";
+                                    echo "<option value='".$p->id_Patologia."'>".$p->nombre."</option>";
                                 }
                             ?>      
                     </select>
                 </div>
 
                 <div class="form-group mb-2">
-                    <a id="btnAgregarPatologia" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">add</i></a>
+                <button type="button" id="btnAgregarPatologia" class="btn btn-success btn-circle btn-xl">+</button>
                 </div>
             </div>
 
@@ -271,7 +267,12 @@
         <script src="../js/validadorRun.js"></script>
         <script src="../js/crearPatologia.js"></script>
     </form>
-    
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 </body>

@@ -10,7 +10,7 @@ class FactorDeRiesgo{
     }
 
     public function setIdFactorDeRiesgo($idFactorDeRiesgo){
-        $this->id = $idFactorDeRiesgo;
+        $this->idFactorDeRiesgo = $idFactorDeRiesgo;
     }
     public function setInsuficienciaRenal($insuficienciaRenal){
         $this->insuficienciaRenal = $insuficienciaRenal;
@@ -25,7 +25,7 @@ class FactorDeRiesgo{
     }
 
     public function getIdFactorDeRiesgo(){
-        return $this->id;
+        return $this->idFactorDeRiesgo;
     }
 
     public function getInsuficienciaRenal(){
