@@ -9,10 +9,10 @@ class TratamientoCardiaco {
     }
 
     public function setIdTTOCardiaco($idTTOCardiaco){
-        $this->id = $idTTOCardiaco;
+        $this->idTTOCardiaco = $idTTOCardiaco;
     }
 
-    public function setEstaninas($estatinas){
+    public function setEstatinas($estatinas){
         $this->estatinas = $estatinas;
     }
 
@@ -21,7 +21,7 @@ class TratamientoCardiaco {
     }
 
     public function getIdTTOCardiaco(){
-        return $this->id;
+        return $this->idTTOCardiaco;
     }
 
     public function getEstatinas(){

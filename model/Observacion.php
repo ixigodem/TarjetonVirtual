@@ -1,7 +1,7 @@
 <?php
 class Observacion {
     private $idObservacion;
-    private $nombreObservacion;
+    private $observacion;
 
     public function __construct(){
         //Constructor por defecto
@@ -11,8 +11,8 @@ class Observacion {
         $this->idObservacion = $idObservacion;
     }
 
-    public function setObservacion($nombreObservacion){
-        $this->nombreObservacion = $nombreObservacion;
+    public function setObservacion($observacion){
+        $this->observacion = $observacion;
     }
 
     public function getIdObservacion(){
@@ -20,7 +20,7 @@ class Observacion {
     }
 
     public function getObservacion(){
-        return $this->nombreObservacion;
+        return $this->observacion;
     }
 }
 ?>

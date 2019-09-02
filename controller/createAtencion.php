@@ -11,6 +11,7 @@ include_once('../model/UsuarioAdultoMayor.php');
     if (isset($_POST['btnCrearAtencion'])) {
         $d = new Data();
 
+        //Rescato los datos que vienen por POST del formCrearTarjeton.php
         $fechaAtencion = $_REQUEST["fechaAtencion"];
         $id_Profesional = $_REQUEST["profesional"];
         $txtObservacion = $_REQUEST["txtObservacion"];
@@ -105,7 +106,19 @@ include_once('../model/UsuarioAdultoMayor.php');
         $usuarioAdultoMayor->setRiesgoDependencia($riesgoDependencia);
         $usuarioAdultoMayor->setDependencia($dependencia);
 
+        //LLamo al metodo crearAtencion del Data
         $d->crearAtencion($tarjeton,$observacion,$parametrosClinicos,$pacienteDiabetico,$factorDeRiesgo,$tratamientoCardiaco,$usuarioAdultoMayor,$listaExamen);
       
+        //Redireccionar hacia formCrearTarjeton.php con un mensaje a través del navegador
+        echo "<script>
+            alert('¡¡Atención creada con exito!!');
+            window.location= '../view/formCrearTarjeton.php'
+        </script>";
+    } else {
+        //Si no vienen los datos, redirigir hacia formCrearTarjeton.php con mensaje de error a través del método GET
+        echo "<script>
+                alert('¡¡Error Atención no fue creada!!');
+                window.location= '../view/formCrearTarjeton.php'
+            </script>";
     }
 ?>
