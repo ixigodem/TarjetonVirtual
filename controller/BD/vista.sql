@@ -45,6 +45,53 @@ FROM
     LEFT JOIN tbl_tratamientocardiaco AS tc ON tc.id_Tarjeton = t.id_Tarjeton
     LEFT JOIN tbl_usuarioadultomayor AS uam ON uam.id_Tarjeton = t.id_Tarjeton;
 
+CREATE VIEW getTarjeton AS
+SELECT
+	t.id_Tarjeton,
+	t.id_Paciente,
+    t.fechaAtencion,
+    pro.nombre AS nombreProfesional,
+    o.observacion,
+    pc.peso,
+    pc.talla,
+    pc.IMC,
+    pc.diagnosticoNutricional,
+    pc.paSistolica,
+    pc.paDistolica,
+    pc.circunferenciaCintura,
+    GROUP_CONCAT(te.fechaExamen, '\n') AS fechaExamen,
+    GROUP_CONCAT(le.nombreExamen, '\n') AS nombreExamen,
+    GROUP_CONCAT(te.valor, '\n') AS valorExamen,
+    pd.fechaEvalPieDiabetico,
+    pd.ptjePieDiabetico,
+    pd.fechaQualidiab,
+    pd.qualidiab,
+    pd.fechaFondoOjo,
+    pd.resultadoFondoOjo,
+    pd.enalapril,
+    pd.losartan,
+    pd.retinopatiaDiabetica,
+    pd.amputacion,
+    fr.insuficienciaRenal,
+    fr.IAM,
+    fr.ACV,
+    tc.estatinas,
+    tc.AAS_100,
+    uam.autovalente,
+    uam.autovalenteConRiesgo,
+    uam.riesgoDependencia,
+    uam.dependencia
+    FROM tbl_tarjeton AS t
+    INNER JOIN tbl_profesional AS pro ON pro.id_Profesional = t.id_Profesional
+    LEFT JOIN tbl_tipoexamenes AS te ON te.id_Tarjeton = t.id_Tarjeton
+    LEFT JOIN tbl_listadoexamen AS le ON le.id_ListaExamen = te.id_ListaExamen
+    LEFT JOIN tbl_factorderiesgo AS fr ON fr.id_Tarjeton = t.id_Tarjeton
+    LEFT JOIN tbl_observacion AS o ON o.id_Tarjeton = t.id_Tarjeton
+    LEFT JOIN tbl_pacientediabetico AS pd ON pd.id_Tarjeton = t.id_Tarjeton
+    LEFT JOIN tbl_parametrosclinicos AS pc ON pc.id_Tarjeton = t.id_Tarjeton
+    LEFT JOIN tbl_tratamientocardiaco AS tc ON tc.id_Tarjeton = t.id_Tarjeton
+    LEFT JOIN tbl_usuarioadultomayor AS uam ON uam.id_Tarjeton = t.id_Tarjeton
+
 CREATE VIEW getPaciente AS
 SELECT 
 	p.id_Paciente,

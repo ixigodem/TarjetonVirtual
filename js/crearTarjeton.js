@@ -45,7 +45,6 @@ function newAtencion(id,idTarjeton) {
                     examen.nombre = nombreExamen;
                     examen.valor = valorExamen;
                     examen.idPaciente = id;
-                    examen.idTarjeton = idTarjeton;
 
                     //Ahora agrego en la lista el objeto
                     listExamen.push(examen);

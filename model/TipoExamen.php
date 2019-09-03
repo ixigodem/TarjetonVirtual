@@ -1,8 +1,9 @@
 <?php
 class TipoExamen {
     private $idTipoExamen;
-    private $fechaTipoExamen;
-    private $valorTipoExamen;
+    private $fechaExamen;
+    private $valor;
+    private $idListaExamen;
 
     public function __construct(){
         //Constructor por defecto
@@ -12,23 +13,31 @@ class TipoExamen {
         $this->idTipoExamen = $idTipoExamen;
     }
 
-    public function setFechaTipoExamen($fechaTipoExamen){
-        $this->fechaTipoExamen = $fechaTipoExamen;
+    public function setFechaExamen($fechaExamen){
+        $this->fechaExamen = $fechaExamen;
     }
 
-    public function setValorTipoExamen($valorTipoExamen){
-        $this->valorTipoExamen = $valorTipoExamen;
+    public function setValorExamen($valor){
+        $this->valor = $valor;
+    }
+
+    public function setIdListaExamen($idListaExamen){
+        $this->idListaExamen = $idListaExamen;
     }
 
     public function getIdTipoExamen(){
         return $this->idTipoExamen;
     }
 
-    public function getFechaTipoExamen(){
-        return $this->fechaTipoExamen;
+    public function getFechaExamen(){
+        return $this->fechaExamen;
     }
 
-    public function getValorTipoExamen(){
-        return $this->valorTipoExamen;
+    public function getValorExamen(){
+        return $this->valor;
+    }
+
+    public function getIdListaExamen(){
+        return $this->idListaExamen;
     }
 }

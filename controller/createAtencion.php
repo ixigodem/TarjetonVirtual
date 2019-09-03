@@ -7,6 +7,7 @@ include_once('../model/ParametrosClinicos.php');
 include_once('../model/PacienteDiabetico.php');
 include_once('../model/TratamientoCardiaco.php');
 include_once('../model/UsuarioAdultoMayor.php');
+include_once('../model/TipoExamen.php');
 
     if (isset($_POST['btnCrearAtencion'])) {
         $d = new Data();
@@ -66,6 +67,16 @@ include_once('../model/UsuarioAdultoMayor.php');
         $autovalenteConRiesgo = $_REQUEST["autovalenteConRiesgo"];
         $riesgoDependencia = $_REQUEST["riesgoDependecia"];
         $dependencia = $_REQUEST["dependencia"];
+        $idPaciente;
+        $fecha;
+        $valor;
+        $idListaExamen;
+        foreach ($listaExamen as $l) {
+            $idPaciente = $l["idPaciente"];
+            $fecha = $l["fecha"];
+            $valor = $l["valor"];
+            $idListaExamen = $l["id"];
+        }
         
         // //Construyo los objetos
         $tarjeton = new Tarjeton();
@@ -75,14 +86,16 @@ include_once('../model/UsuarioAdultoMayor.php');
         $parametrosClinicos = new ParametrosClinicos();
         $tratamientoCardiaco = new TratamientoCardiaco();
         $usuarioAdultoMayor = new UsuarioAdultoMayor();
+        $tipoExamen = new TipoExamen();
 
         $tarjeton->setFechaAtencion($fechaAtencion);
-        $observacion->setObservacion($observacion);
+        $tarjeton->setIdPaciente($idPaciente);
+        $observacion->setObservacion($txtObservacion);
         $tarjeton->setIdProfesional($id_Profesional);
         $parametrosClinicos->setPeso($txtPeso);
         $parametrosClinicos->setTalla($txtTalla);
         $parametrosClinicos->setIMC($txtIMC);
-        $parametrosClinicos->setDiagnosticoNutricional($dgNutricional);
+        $parametrosClinicos->setDiagnosticoNutricional($dgNutricionalValor);
         $parametrosClinicos->setPaSistolica($txtPaSistolica);
         $parametrosClinicos->setPaDistolica($txtPaDistolica);
         $parametrosClinicos->setCircunferenciaCintura($txtCircunferencia);
@@ -105,15 +118,19 @@ include_once('../model/UsuarioAdultoMayor.php');
         $usuarioAdultoMayor->setAutovalenteConRiesgo($autovalenteConRiesgo);
         $usuarioAdultoMayor->setRiesgoDependencia($riesgoDependencia);
         $usuarioAdultoMayor->setDependencia($dependencia);
+        $tipoExamen->setFechaExamen($fecha);
+        $tipoExamen->setValorExamen($valor);
+        $tipoExamen->setIdListaExamen($idListaExamen);
+        
 
         //LLamo al metodo crearAtencion del Data
-        $d->crearAtencion($tarjeton,$observacion,$parametrosClinicos,$pacienteDiabetico,$factorDeRiesgo,$tratamientoCardiaco,$usuarioAdultoMayor,$listaExamen);
+        $d->crearAtencion($tarjeton,$observacion,$parametrosClinicos,$pacienteDiabetico,$factorDeRiesgo,$tratamientoCardiaco,$usuarioAdultoMayor,$tipoExamen);
       
         //Redireccionar hacia formCrearTarjeton.php con un mensaje a través del navegador
         echo "<script>
-            alert('¡¡Atención creada con exito!!');
-            window.location= '../view/formCrearTarjeton.php'
-        </script>";
+                alert('¡¡Atención creada con exito!!');
+                window.location= '../view/formCrearTarjeton.php'
+            </script>";
     } else {
         //Si no vienen los datos, redirigir hacia formCrearTarjeton.php con mensaje de error a través del método GET
         echo "<script>

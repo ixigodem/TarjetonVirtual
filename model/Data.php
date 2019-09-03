@@ -742,45 +742,47 @@ class Data{
 
     // Función que me permite crear paciente obteniendo un objeto de paciente y telefono 
 // un array de las patologias y leyendolo con un foreach
-    public function crearAtencion($tarjeton,$observacion,$parametrosClinicos,$pacienteDiabetico,$factorDeRiesgo,$tratamientoCardiaco,$usuarioAdultoMayor,$listaExamen){
-        $this->con->conectar();
+    public function crearAtencion($tarjeton,$observacion,$parametrosClinicos,$pacienteDiabetico,$factorDeRiesgo,$tratamientoCardiaco,$usuarioAdultoMayor,$tipoExamen){
+        $query = "call sp_crearAtencion(
+            '".$tarjeton->getFechaAtencion()."',
+            '".$tarjeton->getIdPaciente()."',
+            '".$tarjeton->getIdProfesional()."',
+            '1',
+            '".$observacion->getObservacion()."',
+            '".$parametrosClinicos->getPeso()."',
+            '".$parametrosClinicos->getTalla()."',
+            '".$parametrosClinicos->getIMC()."',
+            '".$parametrosClinicos->getDiagnosticoNutricional()."',
+            '".$parametrosClinicos->getPaSistolica()."',
+            '".$parametrosClinicos->getPaDistolica()."',
+            '".$parametrosClinicos->getCircunferenciaCintura()."',
+            '".$tipoExamen->getFechaExamen()."',
+            '".$tipoExamen->getValorExamen()."',
+            '".$tipoExamen->getIdListaExamen()."',
+            '".$pacienteDiabetico->getFechaEvalPieDiabetico()."',
+            '".$pacienteDiabetico->getPtjePieDiabetico()."',
+            '".$pacienteDiabetico->getFechaQualidiab()."',
+            '".$pacienteDiabetico->getQualidiab()."',
+            '".$pacienteDiabetico->getFechaFondoOjo()."',
+            '".$pacienteDiabetico->getResultadoFondoOjo()."',
+            '".$pacienteDiabetico->getEnalapril()."',
+            '".$pacienteDiabetico->getLosartan()."',
+            '".$pacienteDiabetico->getRetinopatiaDiabetica()."',
+            '".$pacienteDiabetico->getAmputacion()."',
+            '".$factorDeRiesgo->getInsuficienciaRenal()."',
+            '".$factorDeRiesgo->getIam()."',
+            '".$factorDeRiesgo->getAcv()."',
+            '".$tratamientoCardiaco->getEstatinas()."',
+            '".$tratamientoCardiaco->getAAS_100()."',
+            '".$usuarioAdultoMayor->getAutovalente()."',
+            '".$usuarioAdultoMayor->getAutovalenteConRiesgo()."',
+            '".$usuarioAdultoMayor->getRiesgoDependencia()."',
+            '".$usuarioAdultoMayor->getDependencia()."');";
 
-        foreach ($listaExamen as $l) {
-            $query = "call sp_crearAtencion(
-                '".$tarjeton->getFechaAtencion()."',
-                '".$l["id"]."',
-                '".$tarjeton->getIdProfesional()."',
-                1,
-                '".$observacion->getObservacion()."',
-                '".$parametrosClinicos->getPeso()."',
-                '".$parametrosClinicos->getTalla()."',
-                '".$parametrosClinicos->getIMC()."',
-                '".$parametrosClinicos->getDiagnosticoNutricional()."',
-                '".$parametrosClinicos->getPaSistolica()."',
-                '".$parametrosClinicos->getCircunferenciaCintura()."',
-                '".$l["fechaExamen"]."',
-                '".$l["valorExamen"]."',
-                '".$l["idExamen"]."',
-                '".$pacienteDiabetico->getFechaEvalPieDiabetico()."',
-                '".$pacienteDiabetico->getPtjePieDiabetico()."',
-                '".$pacienteDiabetico->getFechaQualidiab()."',
-                '".$pacienteDiabetico->getQualidiab()."',
-                '".$pacienteDiabetico->getFechaFondoOjo()."',
-                '".$pacienteDiabetico->getResultadoFondoOjo()."',
-                '".$pacienteDiabetico->getEnalapril()."',
-                '".$pacienteDiabetico->getLosartan()."',
-                '".$pacienteDiabetico->getRetinopatiaDiabetica()."',
-                '".$pacienteDiabetico->getAmputacion()."',
-                '".$factorDeRiesgo->getInsuficienciaRenal()."',
-                '".$factorDeRiesgo->getIam()."',
-                '".$factorDeRiesgo->getAcv()."',
-                '".$tratamientoCardiaco->getEstatinas()."',
-                '".$tratamientoCardiaco->getAAS_100()."',
-                '".$usuarioAdultoMayor->getAutovalente()."',
-                '".$usuarioAdultoMayor->getAutovalenteConRiesgo()."',
-                '".$usuarioAdultoMayor->getRiesgoDependencia()."',
-                '".$usuarioAdultoMayor->getDependencia()."');";
-                $this->ejecutar($query);
-        }
+            $this->con->conectar();
+            $this->con->ejecutar($query);
+            $this->con->desconectar();
+            
+            var_dump($query);
     }
 }
