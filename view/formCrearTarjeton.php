@@ -92,6 +92,7 @@
             <input class="form-control mr-sm-2" name="txtRun" id="txtRun"
             onkeyup="checkRun(this)" placeholder="Ej. 11222333-4" maxlength="10">
             <button class="btn btn-outline-success my-2 my-sm-0" name="btnBuscarPaciente" type="submit">Buscar Paciente</button>
+            <input class="btn btn-primary" type="reset" value="Limpiar" onclick="clearForm()">
         </form>
     </nav>
 <!-- Formulario de busqueda de paciente -->

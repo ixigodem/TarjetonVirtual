@@ -4,6 +4,14 @@ var tituloTablaTarjeton = document.getElementById('tituloTablaTarjeton');
 var cuerpoTablaTarjeton = document.getElementById('cuerpoTablaTarjeton');
 var formGetPaciente = document.getElementById('formGetPaciente');
 
+function clearForm() {
+    tituloTablaTarjeton.innerHTML = "";
+    tituloTablaPaciente.innerHTML = "";
+    cuerpoTablaPaciente.innerHTML = "";
+    cuerpoTablaTarjeton.innerHTML = "";
+    formGetPaciente.reset();
+}
+
 formGetPaciente.addEventListener('submit', function(e) {
     e.preventDefault();
     var formDataPaciente = new FormData(formGetPaciente);
@@ -16,10 +24,12 @@ formGetPaciente.addEventListener('submit', function(e) {
         .then(res => res.json())
         .then(result => {
             if (run === "") {
-                run.focus();
+                alert("Sección run esta vacia, debe ingresar algún dato");
             } else { crearTablaPaciente(result); }
         }).catch(err => console.log(err));
 })
+
+
 
 function crearTablaPaciente(resultado) {
     tituloTablaPaciente.innerHTML = "";
@@ -71,7 +81,7 @@ function crearTablaPaciente(resultado) {
             <td class="table-light">${r.estadoCivil}</td>
             <td class="table-light">${r.comuna}</td>
         </tr>
-`
+        `
     }
 }
 
@@ -81,17 +91,28 @@ function getTarjeton(id) {
         })
         .then(res => res.json())
         .then(result => {
-            mostrarTarjeton(result,id);
-            console.log(result);
+            if (result == "") {
+                tituloTablaTarjeton.innerHTML = "";
+                tituloTablaTarjeton.innerHTML +=
+                `
+                <tr>
+                    <button type="button" id="btnNewTarjeton" 
+                    class="btn btn-lg btn-outline-info"
+                    data-toggle="modal" data-target="#exampleModalLong"
+                    onclick="newAtencion(${id})">
+                    Nuevo
+                    </button>
+                </tr>
+                `
+                cuerpoTablaTarjeton.innerHTML = "";
+            } else {
+                mostrarTarjeton(result,id);
+            }
+            
         }).catch(err => console.log(err));
 }
 
-$('#exampleModalLong').on('shown.bs.modal', function () {
-    $('#myInput').trigger('focus')
-})
-
 function mostrarTarjeton(datos,id) {
-    for (let d of datos) {
     tituloTablaTarjeton.innerHTML = "";
     cuerpoTablaTarjeton.innerHTML = "";
     tituloTablaTarjeton.innerHTML +=
@@ -100,7 +121,7 @@ function mostrarTarjeton(datos,id) {
             <button type="button" id="btnNewTarjeton" 
             class="btn btn-lg btn-outline-info"
             data-toggle="modal" data-target="#exampleModalLong"
-            onclick="newAtencion(${id,d.id_Tarjeton})">
+            onclick="newAtencion(${id})">
             Nuevo
             </button>
         </tr>
@@ -145,13 +166,12 @@ function mostrarTarjeton(datos,id) {
             <th scope="col">Dependencia</th>
         </tr>
     `
-
-    
+    for (let d of datos) {
         cuerpoTablaTarjeton.innerHTML +=
             `
             <tr>
                 <th scope="row">${d.fechaAtencion}</th>
-                <td>${d.nombreProfesional}</td>
+                <td>${d.nombre}</td>
                 <td>${d.observacion}</td>
                 <td>${d.peso}</td>
                 <td>${d.talla}</td>
@@ -162,7 +182,7 @@ function mostrarTarjeton(datos,id) {
                 <td>${d.circunferenciaCintura}</td>
                 <td>${d.fechaExamen}</td>
                 <td>${d.nombreExamen}</td>
-                <td>${d.valorExamen}</td>
+                <td>${d.valor}</td>
                 <td>${d.fechaEvalPieDiabetico}</td>
                 <td>${d.ptjePieDiabetico}</td>
                 <td>${d.fechaQualidiab}</td>
@@ -183,6 +203,6 @@ function mostrarTarjeton(datos,id) {
                 <td>${d.riesgoDependencia}</td>
                 <td>${d.dependencia}</td>
             </tr>
-`
+        `
     }
 }

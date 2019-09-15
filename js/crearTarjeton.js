@@ -4,7 +4,7 @@ var divRespuesta = document.getElementById("respuesta");
 var divRespuestaError = document.getElementById("mensajeError");
 var inputJsonExamen = document.getElementById("jsonExamenes");
 
-function newAtencion(id,idTarjeton) {
+function newAtencion(id) {
     if (cuerpoFormulario.style.display == 'none') {
         cuerpoFormulario.style.display = 'block';
 
