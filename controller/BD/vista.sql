@@ -1,4 +1,52 @@
 /*
+create view getTarjeton as
+SELECT
+t.id_Tarjeton,
+t.id_Paciente,
+t.fechaAtencion,
+pro.nombre,
+t.id_Estado,
+o.observacion,
+pc.peso,
+pc.talla,
+pc.IMC,
+pc.diagnosticoNutricional,
+pc.paSistolica,
+pc.paDistolica,
+pc.circunferenciaCintura,
+pd.fechaEvalPieDiabetico,
+pd.ptjePieDiabetico,
+pd.fechaQualidiab,
+pd.qualidiab,
+pd.fechaFondoOjo,
+pd.resultadoFondoOjo,
+pd.enalapril,
+pd.losartan,
+pd.retinopatiaDiabetica,
+pd.amputacion,
+fdr.insuficienciaRenal,
+fdr.IAM,
+fdr.ACV,
+tc.estatinas,
+tc.AAS_100,
+uam.autovalente,
+uam.autovalenteConRiesgo,
+uam.riesgoDependencia,
+uam.dependencia,
+group_concat(te.fechaExamen,"\n") as fechaExamen,
+group_concat(le.nombreExamen,'\n') as nombreExamen,
+group_concat(te.valor,'\n') as valor
+from tbl_tarjeton as t 
+inner join tbl_observacion as o on o.id_Tarjeton = t.id_Tarjeton
+inner join tbl_profesional as pro on pro.id_Profesional = t.id_Profesional
+inner join tbl_parametrosclinicos as pc on pc.id_Tarjeton = t.id_Tarjeton
+inner join tbl_pacientediabetico as pd on pd.id_Tarjeton = t.id_Tarjeton
+inner join tbl_factorderiesgo as fdr on fdr.id_Tarjeton = t.id_Tarjeton
+inner join tbl_tratamientocardiaco as tc on tc.id_Tarjeton = t.id_Tarjeton
+inner join tbl_usuarioadultomayor as uam on uam.id_Tarjeton = t.id_Tarjeton
+inner join tbl_tipoexamenes as te on te.id_Tarjeton = t.id_Tarjeton
+inner join tbl_listadoexamen as le on le.id_ListaExamen = te.id_ListaExamen
+
 CREATE VIEW getTarjeton AS
 SELECT
 	t.id_Tarjeton,

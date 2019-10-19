@@ -1,4 +1,4 @@
-<?php @session_start(); ?>
+<?php @session_start();?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -78,48 +78,10 @@
     <a class="carousel-item" href="#eight!"><img src="img/fotos/operativos5.jpg"></a>
   </div>
 
-    <!-- <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel"> 
-      <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1" ></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2" ></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="3" ></li>
-      </ol>
-      <div class="carousel-inner">
-        <div class="carousel-item active" data-interval="5000">
-          <img src="img/fotos/portadas.jpg" class="d-block w-100" alt="...">
-        </div>
-        <div class="carousel-item" data-interval="5000">
-          <img src="img/fotos/portadas1.jpg" class="d-block w-100" alt="...">
-        </div>
-        <div class="carousel-item" data-interval="5000">
-          <img src="img/fotos/portadas2.jpg" class="d-block w-100" alt="...">
-        </div>
-        <div class="carousel-item" data-interval="5000" >
-          <img src="img/fotos/operativos1.jpg" class="d-block w-100" alt="...">
-        </div>
-      </div>
-      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
--->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript">
-	// Prevent dropdown menu from closing when click inside the form
-	// $(document).on("click", ".navbar-right .dropdown-menu", function(e){
-		// e.stopPropagation();
-  // });
-
-</script>
-      <!--JavaScript at end of body for optimized loading-->
-      <!-- <script type="text/javascript" src="js/materialize.min.js"></script> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript"></script>
+  
     <!-- Optional JavaScript -->
     <script src="js/inicio.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

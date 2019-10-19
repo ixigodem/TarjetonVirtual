@@ -1,3 +1,7 @@
+<?php 
+  @session_start(); 
+  include("../controller/Seguridad.php");
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,7 +56,6 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="formCrearTarjeton.php">Crear Tarjetón</a>
-                <a class="dropdown-item" href="#">Busqueda de tarjetones</a>
                 </div>
             </li>
 
@@ -170,3 +173,4 @@
   
   </body>
 </html>
+<?php exit(); ?>

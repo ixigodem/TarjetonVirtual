@@ -6,6 +6,6 @@ Si en control.php se determina que el usuario y contraseña ingresado correspond
 al usuario y contraseña que se encuentra en el Active Directory, 
 redirecciona hacia un archivo app.php el cual es nuestra primera página de nuestra aplicación.*/
 
-    define('DOMINIO', 'dominiotest.cl');
-    define('DN', 'dc=dominiotest,dc=cl');
+    define('DOMINIO', 'saludcormun.cl');
+    define('DN', 'dc=saludcormun,dc=cl');
 ?>

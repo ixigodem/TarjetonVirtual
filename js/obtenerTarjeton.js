@@ -29,8 +29,6 @@ formGetPaciente.addEventListener('submit', function(e) {
         }).catch(err => console.log(err));
 })
 
-
-
 function crearTablaPaciente(resultado) {
     tituloTablaPaciente.innerHTML = "";
     cuerpoTablaPaciente.innerHTML = "";
@@ -164,6 +162,8 @@ function mostrarTarjeton(datos,id) {
             <th scope="col">Autovalente con Riesgo</th>
             <th scope="col">Riesgo de Dependencia</th>
             <th scope="col">Dependencia</th>
+
+            <th scope="col">Estado</th>
         </tr>
     `
     for (let d of datos) {
@@ -202,6 +202,7 @@ function mostrarTarjeton(datos,id) {
                 <td>${d.autovalenteConRiesgo}</td>
                 <td>${d.riesgoDependencia}</td>
                 <td>${d.dependencia}</td>
+                <td>${d.id_Estado}</td>
             </tr>
         `
     }

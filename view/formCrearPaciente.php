@@ -1,3 +1,7 @@
+<?php 
+  @session_start(); 
+  include("../controller/Seguridad.php");
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +18,6 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 <body>
-<?php session_start(); ?>
 <!-- Navbar con los menus desplegables -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <li><a class="navbar-brand" href="../index.php">
@@ -53,7 +56,6 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="formCrearTarjeton.php">Crear Tarjetón</a>
-                <a class="dropdown-item" href="#">Busqueda de tarjetones</a>
                 </div>
             </li>
 
@@ -77,7 +79,6 @@
 
 
   <!-- Form para crear pacientes -->
-
     <form action="../controller/crearPaciente.php" method="POST" id="form-normal">
         <div class="form-row">
             <div class="form-group col-md-2">
@@ -277,3 +278,4 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 </body>
 </html>
+<?php exit(); ?>

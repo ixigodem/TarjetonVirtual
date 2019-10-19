@@ -1,3 +1,7 @@
+<?php 
+  @session_start(); 
+  include("../controller/Seguridad.php");
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -52,7 +56,6 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="formCrearTarjeton.php">Crear Tarjetón</a>
-                <a class="dropdown-item" href="#">Busqueda de tarjetones</a>
                 </div>
             </li>
 
@@ -188,3 +191,4 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
   </body>
 </html>
+<?php exit();?>
