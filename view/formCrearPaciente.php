@@ -64,7 +64,7 @@
                 Gestión
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Reporte Tarjetón</a>
+                <a class="dropdown-item" href="formGestion.php">Reporte Tarjetón</a>
                 <a class="dropdown-item" href="#">Control HTA</a>
                 <a class="dropdown-item" href="#">Control DM2</a>
                 <a class="dropdown-item" href="#">Control Epilepsia</a>

@@ -60,7 +60,7 @@
                 Gestión
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Reporte Tarjetón</a>
+                <a class="dropdown-item" href="formGestion.php">Reporte Tarjetón</a>
                 <a class="dropdown-item" href="#">Control HTA</a>
                 <a class="dropdown-item" href="#">Control DM2</a>
                 <a class="dropdown-item" href="#">Control Epilepsia</a>
@@ -97,7 +97,7 @@
 <!-- Formulario de busqueda de paciente -->
 
     <div class="table-responsive">
-        <table class="table table-hover">
+        <table class="table table-bordered">
             <thead class="thead-light" id="tituloTablaPaciente"></thead>
             <tbody id="cuerpoTablaPaciente"></tbody>
         </table>
@@ -105,12 +105,11 @@
 
 
 <!-- Formulario del Obtener Tarjeton -->
-
-<script>
-    $('#exampleModalLong').on('shown.bs.modal', function () {
-        $('#myInput').trigger('focus')
-    })
-</script>
+    <script>
+        $('#exampleModalLong').on('shown.bs.modal', function () {
+            $('#myInput').trigger('focus')
+        })
+    </script>
 
     <!-- Modal -->
     <div class="modal fade modal-xl" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -402,15 +401,18 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead id="tituloTablaTarjeton"></thead>
-            <tbody id="cuerpoTablaTarjeton"></tbody>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-light" id="tituloTablaTarjeton"></thead>
+            <tbody id="cuerpoTablaTarjeton">
+                <div id="idModalActualizar"></div>
+            </tbody>
         </table>
     </div>
 
     <script src="../js/crearTarjeton.js"></script>
     <script src="../js/validadorRun.js"></script>
     <script src="../js/obtenerTarjeton.js"></script>
+    <script src="../js/updateTarjeton.js"></script>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

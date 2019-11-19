@@ -16,7 +16,6 @@ formGetPaciente.addEventListener('submit', function(e) {
     e.preventDefault();
     var formDataPaciente = new FormData(formGetPaciente);
     var run = formDataPaciente.get('txtRun');
-    var boton = formDataPaciente.get('btnBuscarPaciente');
 
     fetch('../controller/getPaciente.php?run=' + run, {
             method: 'GET'
@@ -83,12 +82,14 @@ function crearTablaPaciente(resultado) {
     }
 }
 
+var json = [];
 function getTarjeton(id) {
     fetch('../controller/getTarjeton.php?id=' + id, {
             method: 'GET'
         })
         .then(res => res.json())
         .then(result => {
+        json = result;
             if (result == "") {
                 tituloTablaTarjeton.innerHTML = "";
                 tituloTablaTarjeton.innerHTML +=
@@ -105,6 +106,7 @@ function getTarjeton(id) {
                 cuerpoTablaTarjeton.innerHTML = "";
             } else {
                 mostrarTarjeton(result,id);
+                // console.log(result);
             }
             
         }).catch(err => console.log(err));
@@ -113,70 +115,92 @@ function getTarjeton(id) {
 function mostrarTarjeton(datos,id) {
     tituloTablaTarjeton.innerHTML = "";
     cuerpoTablaTarjeton.innerHTML = "";
-    tituloTablaTarjeton.innerHTML +=
-        `
-        <tr>
-            <button type="button" id="btnNewTarjeton" 
-            class="btn btn-lg btn-outline-info"
-            data-toggle="modal" data-target="#exampleModalLong"
-            onclick="newAtencion(${id})">
-            Nuevo
-            </button>
-        </tr>
-        <tr>
-            <th scope="col">Fecha Atención</th>
-            <th scope="col">Nombre profesional</th>
-            <th scope="col">Observación</th>
-                
-            <th scope="col">Peso Paciente</th>
-            <th scope="col">Altura/Talla</th>
-            <th scope="col">Indice de Masa Corporal</th>
-            <th scope="col">Diagnostico Nutricional</th>
-            <th scope="col">PA Sistolica</th>
-            <th scope="col">PA Distolica</th>
-            <th scope="col">Circunferencia Cintura</th>
-
-            <th scope="col">Fecha Examen</th>
-            <th scope="col">Nombre Examen</th>
-            <th scope="col">Valor Examen</th>
+     tituloTablaTarjeton.innerHTML +=
+         `
+         <tr>
+             <button type="button" id="btnNewTarjeton" 
+             class="btn btn-lg btn-outline-info"
+             data-toggle="modal" data-target="#exampleModalLong"
+             onclick="newAtencion(${id})">
+             Nuevo
+             </button>
+         </tr>
+         <tr>
+             <th scope="col">ID</th>
+             <th scope="col">Fecha Atención</th>
+             <th scope="col">Nombre profesional</th>
+             <th scope="col">Observación</th>
+          
+             <th scope="col">Peso Paciente</th>
+             <th scope="col">Altura/Talla</th>
+             <th scope="col">Indice de Masa Corporal</th>
+             <th scope="col">Diagnostico Nutricional</th>
+             <th scope="col">PA Sistolica</th>
+             <th scope="col">PA Distolica</th>
+             <th scope="col">Circunferencia Cintura</th>
+             <th scope="col">Fecha Examen</th>
+             <th scope="col">Nombre Examen</th>
+             <th scope="col">Valor Examen</th>
+      
+             <th scope="col">Fecha Evaluación Pie Diabetico</th>
+             <th scope="col">Puntaje Pie Diabetico</th>
+             <th scope="col">Fecha Qualidiab</th>
+             <th scope="col">Qualidiab</th>
+             <th scope="col">Fecha Fondo de Ojo</th>
+             <th scope="col">Resultado de Fondo de Ojo</th>
             
-            <th scope="col">Fecha Evaluación Pie Diabetico</th>
-            <th scope="col">Puntaje Pie Diabetico</th>
-            <th scope="col">Fecha Qualidiab</th>
-            <th scope="col">Qualidiab</th>
-            <th scope="col">Fecha Fondo de Ojo</th>
-            <th scope="col">Resultado de Fondo de Ojo</th>
-            
-            <th scope="col">Enalapril</th>
-            <th scope="col">Losartan</th>
-            <th scope="col">Retinopatia Diabetica</th>
-            <th scope="col">Amputación</th>
-            <th scope="col">Insuficiencia Renal</th>
-            <th scope="col">IAM</th>
-            <th scope="col">ACV</th>
-            
-            <th scope="col">Estatinas</th>
-            <th scope="col">AAS_100</th>
-
-            <th scope="col">Autovalente</th>
-            <th scope="col">Autovalente con Riesgo</th>
-            <th scope="col">Riesgo de Dependencia</th>
-            <th scope="col">Dependencia</th>
-
-            <th scope="col">Estado</th>
-        </tr>
-    `
+             <th scope="col">Enalapril</th>
+             <th scope="col">Losartan</th>
+             <th scope="col">Retinopatia Diabetica</th>
+             <th scope="col">Amputación</th>
+             <th scope="col">Insuficiencia Renal</th>
+             <th scope="col">IAM</th>
+             <th scope="col">ACV</th>
+      
+             <th scope="col">Estatinas</th>
+             <th scope="col">AAS_100</th>
+             <th scope="col">Autovalente</th>
+             <th scope="col">Autovalente con Riesgo</th>
+             <th scope="col">Riesgo de Dependencia</th>
+             <th scope="col">Dependencia</th>
+             <th scope="col">Estado</th>
+             <th scope="col">Editar</th>
+             <th scope="col">Eliminar</th>
+         </tr>
+     `
+     
     for (let d of datos) {
+        var dgNutricional = d.diagnosticoNutricional;
+        var dgNutricionalValor;
+        if (dgNutricional == 1) {
+            dgNutricionalValor = "Delgadez Severa";
+        } else if (dgNutricional == 2) {
+            dgNutricionalValor = "Delgadez Moderada";
+        } else if (dgNutricional == 3) {
+            dgNutricionalValor = "Delgadez Aceptable";
+        } else if (dgNutricional == 4) {
+            dgNutricionalValor = "Peso Normal";
+        } else if (dgNutricional == 5) {
+            dgNutricionalValor = "Sobrepeso";
+        } else if (dgNutricional == 6) {
+            dgNutricionalValor = "Obeso: Tipo I";
+        } else if (dgNutricional == 7) {
+            dgNutricionalValor = "Obeso: Tipo II";
+        } else if (dgNutricional == 8) {
+            dgNutricionalValor = "Obeso: Tipo III";
+        }
+
         cuerpoTablaTarjeton.innerHTML +=
             `
             <tr>
-                <th scope="row">${d.fechaAtencion}</th>
+                <td scope="row">${d.id_Tarjeton}</td>
+                <td>${d.fechaAtencion}</td>
                 <td>${d.nombre}</td>
                 <td>${d.observacion}</td>
                 <td>${d.peso}</td>
                 <td>${d.talla}</td>
                 <td>${d.IMC}</td>
-                <td>${d.diagnosticoNutricional}</td>
+                <td>${dgNutricionalValor}</td>
                 <td>${d.paSistolica}</td>
                 <td>${d.paDistolica}</td>
                 <td>${d.circunferenciaCintura}</td>
@@ -186,23 +210,33 @@ function mostrarTarjeton(datos,id) {
                 <td>${d.fechaEvalPieDiabetico}</td>
                 <td>${d.ptjePieDiabetico}</td>
                 <td>${d.fechaQualidiab}</td>
-                <td>${d.qualidiab}</td>
+                <td>${d.qualidiab ? "SI" : "NO"}</td>
                 <td>${d.fechaFondoOjo}</td>
-                <td>${d.resultadoFondoOjo}</td>
-                <td>${d.enalapril}</td>
-                <td>${d.losartan}</td>
-                <td>${d.retinopatiaDiabetica}</td>
-                <td>${d.amputacion}</td>
-                <td>${d.insuficienciaRenal}</td>
-                <td>${d.IAM}</td>
-                <td>${d.ACV}</td>
-                <td>${d.estatinas}</td>
-                <td>${d.AAS_100}</td>
-                <td>${d.autovalente}</td>
-                <td>${d.autovalenteConRiesgo}</td>
-                <td>${d.riesgoDependencia}</td>
-                <td>${d.dependencia}</td>
-                <td>${d.id_Estado}</td>
+                <td>${d.resultadoFondoOjo ? "SI" : "NO"}</td>
+                <td>${d.enalapril ? "SI" : "NO"}</td>
+                <td>${d.losartan ? "SI" : "NO"}</td>
+                <td>${d.retinopatiaDiabetica ? "SI" : "NO"}</td>
+                <td>${d.amputacion ? "SI" : "NO"}</td>
+                <td>${d.insuficienciaRenal ? "SI" : "NO"}</td>
+                <td>${d.IAM ? "SI" : "NO"}</td>
+                <td>${d.ACV ? "SI" : "NO"}</td>
+                <td>${d.estatinas ? "SI" : "NO"}</td>
+                <td>${d.AAS_100 ? "SI" : "NO"}</td>
+                <td>${d.autovalente ? "SI" : "NO"}</td>
+                <td>${d.autovalenteConRiesgo ? "SI" : "NO"}</td>
+                <td>${d.riesgoDependencia ? "SI" : "NO"}</td>
+                <td>${d.dependencia ? "SI" : "NO"}</td>
+                <td>${d.id_Estado ? "Activo" : "Eliminado"}</td>
+
+                <td><button type="button" class="btn btn-outline-warning" data-toggle="modal" 
+                data-target=".bd-example-modal-xl"
+                onclick="actualizarTarjeton(${json})">
+                Editar
+                </button></td>
+                
+                <td><a href="../controller/deleteAtencion.php?id=${d.id_Tarjeton}" class="btn btn-outline-danger" role="button" aria-pressed="true">
+                Eliminar
+                </a></td>
             </tr>
         `
     }
