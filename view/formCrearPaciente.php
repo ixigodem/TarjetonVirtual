@@ -20,7 +20,7 @@
 <body>
 <!-- Navbar con los menus desplegables -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <li><a class="navbar-brand" href="../index.php">
+        <li><a class="navbar-brand" href="Menu.php">
             <img src="../img/Enfermeria.png" width="30" height="30" class="d-inline-block align-top" href="../index.php">Tarjetón Virtual</a>
             </li>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +64,7 @@
                 Gestión
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Reporte Tarjetón</a>
+                <a class="dropdown-item" href="formGestion.php">Reporte Tarjetón</a>
                 <a class="dropdown-item" href="#">Control HTA</a>
                 <a class="dropdown-item" href="#">Control DM2</a>
                 <a class="dropdown-item" href="#">Control Epilepsia</a>
@@ -258,9 +258,7 @@
                 </table>
             </div>
             
-
             <!-- Crear patologias -->
-
             <div class="form-group col-md-3">
                 <button class="btn btn-primary" name="btnCrearPaciente">Crear Paciente</button>
             </div>

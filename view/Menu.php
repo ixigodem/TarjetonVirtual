@@ -16,9 +16,10 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <li><a class="navbar-brand" href="../index.php">
-            <img src="../img/Enfermeria.png" width="30" height="30" class="d-inline-block align-top" href="../index.php">Tarjetón Virtual</a>
-            </li>
+        <li><a class="navbar-brand" href="Menu.php">
+            <img src="../img/Enfermeria.png" width="30" height="30" class="d-inline-block align-top" href="../index.php">
+            Tarjetón Virtual
+        </a></li>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -59,7 +60,7 @@
                 Gestión
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Reporte Tarjetón</a>
+                <a class="dropdown-item" href="formGestion.php">Reporte Tarjetón</a>
                 <a class="dropdown-item" href="#">Control HTA</a>
                 <a class="dropdown-item" href="#">Control DM2</a>
                 <a class="dropdown-item" href="#">Control Epilepsia</a>
@@ -67,6 +68,20 @@
             </li>
 
             <li class="nav-item"><a href="http://web.saludcormun.cl/?page_id=3733" class="nav-link">Sobre Nosotros</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-left ml-auto">			
+              <li class="nav-item">
+                <div class="alert alert-success" role="alert">
+                  <h2 class="alert-heading">Bienvenido: <?php echo $_SESSION['user']; ?></h2>
+                </div>
+              </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-left ml-auto">			
+              <li class="nav-item">
+                  <a class="btn btn-outline-dark" href="../controller/Salir.php" role="button">Cerrar Sesion</a>
+              </li>
             </ul>
         </div>
     </nav>
@@ -103,10 +118,10 @@
       </a>
     </div>
 
+    <!-- Optional JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="../js/menu.js" type="text/javascript"></script>
-    <!-- Optional JavaScript -->
+
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>

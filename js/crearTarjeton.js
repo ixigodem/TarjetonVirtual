@@ -5,64 +5,62 @@ var divRespuestaError = document.getElementById("mensajeError");
 var inputJsonExamen = document.getElementById("jsonExamenes");
 
 function newAtencion(id) {
-    if (cuerpoFormulario.style.display == 'none') {
-        cuerpoFormulario.style.display = 'block';
+    $("#seccionCreateNewTarjeton").modal("show");
 
-        //Creare una lista para el JSON
-        listExamen = [];
+    //Creare una lista para el JSON
+    listExamen = [];
 
-        btnAgregarExamen.addEventListener('click',function(e){
-            e.preventDefault();
+    btnAgregarExamen.addEventListener('click',function(e){
+        e.preventDefault();
 
-            //Rescatando los datos del formulario
-            var fechaExamen = document.getElementById('fechaExamen').value;
-            var cboExamen = document.getElementById('listadoExamen');
-            var valorExamen = document.getElementById('txtValorExamen').value;
+        //Rescatando los datos del formulario
+        var fechaExamen = document.getElementById('fechaExamen').value;
+        var cboExamen = document.getElementById('listadoExamen');
+        var valorExamen = document.getElementById('txtValorExamen').value;
 
-            //Obtener el id del comboBox
-            var selectedIndex = cboExamen.selectedIndex;
+        //Obtener el id del comboBox
+        var selectedIndex = cboExamen.selectedIndex;
 
-            //Ahora obtengo el nombre del examen
-            var idExamen = cboExamen.value;
+        //Ahora obtengo el nombre del examen
+        var idExamen = cboExamen.value;
 
-            if (fechaExamen === "" || cboExamen.value === "Seleccione una opción" || valorExamen === "") {
-                divRespuestaError.innerHTML = `
-                <th scope="row">
-                <div class="alert alert-danger" role="alert">
-                Debe ingresar los siguientes datos Fecha, Examen y Valor
-                </div>
-                </th>
-        `
+        if (fechaExamen === "" || cboExamen.value === "Seleccione una opción" || valorExamen === "") {
+            divRespuestaError.innerHTML = `
+            <th scope="row">
+            <div class="alert alert-danger" role="alert">
+            Debe ingresar los siguientes datos Fecha, Examen y Valor
+            </div>
+            </th>
+    `
+        }else {
+            if(!existExamen(idExamen)){
+                //Obtengo el valor elegido en el indice del combobox
+                var nombreExamen = cboExamen.options[selectedIndex].innerHTML;
+
+                //Creo un objeto Examen en formato JSON
+                var examen = {};
+                examen.fecha = fechaExamen;
+                examen.id = idExamen;
+                examen.nombre = nombreExamen;
+                examen.valor = valorExamen;
+                examen.idPaciente = id;
+
+                //Ahora agrego en la lista el objeto
+                listExamen.push(examen);
+
+                mostrarDatosEnForm();
+
+                console.log(listExamen);
+                inputJsonExamen.value = JSON.stringify(listExamen);
             }else {
-                if(!existExamen(idExamen)){
-                    //Obtengo el valor elegido en el indice del combobox
-                    var nombreExamen = cboExamen.options[selectedIndex].innerHTML;
-
-                    //Creo un objeto Examen en formato JSON
-                    var examen = {};
-                    examen.fecha = fechaExamen;
-                    examen.id = idExamen;
-                    examen.nombre = nombreExamen;
-                    examen.valor = valorExamen;
-                    examen.idPaciente = id;
-
-                    //Ahora agrego en la lista el objeto
-                    listExamen.push(examen);
-
-                    mostrarDatosEnForm();
-
-                    console.log(listExamen);
-                    inputJsonExamen.value = JSON.stringify(listExamen);
-                }else {
-                    divRespuestaError.innerHTML = `
-                    <div class="alert alert-danger" role="alert">
-                    Examen ya ingresado
-                    </div>
-                    `
-                }
+                divRespuestaError.innerHTML = `
+                <div class="alert alert-danger" role="alert">
+                Examen ya ingresado
+                </div>
+                `
             }
-        })
-    }
+        }
+    })
 }
 
 function mostrarDatosEnForm() {

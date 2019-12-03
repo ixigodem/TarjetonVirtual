@@ -39,7 +39,7 @@ include_once('../model/TipoExamen.php');
         } else if ($dgNutricional == "Obeso: Tipo III") {
             $dgNutricionalValor = 8;
         }
-        
+    
         $txtPaSistolica = $_REQUEST["txtPaSistolica"];
         $txtPaDistolica = $_REQUEST["txtPaDistolica"];
         $txtCircunferencia = $_REQUEST["txtCircunferencia"];
@@ -68,16 +68,11 @@ include_once('../model/TipoExamen.php');
         $riesgoDependencia = $_REQUEST["riesgoDependecia"];
         $dependencia = $_REQUEST["dependencia"];
         $idPaciente;
-        $fecha;
-        $valor;
-        $idListaExamen;
+
         foreach ($listaExamen as $l) {
             $idPaciente = $l["idPaciente"];
-            $fecha = $l["fecha"];
-            $valor = $l["valor"];
-            $idListaExamen = $l["id"];
         }
-        
+
         // //Construyo los objetos
         $tarjeton = new Tarjeton();
         $factorDeRiesgo = new FactorDeRiesgo();
@@ -86,7 +81,6 @@ include_once('../model/TipoExamen.php');
         $parametrosClinicos = new ParametrosClinicos();
         $tratamientoCardiaco = new TratamientoCardiaco();
         $usuarioAdultoMayor = new UsuarioAdultoMayor();
-        $tipoExamen = new TipoExamen();
 
         $tarjeton->setFechaAtencion($fechaAtencion);
         $tarjeton->setIdPaciente($idPaciente);
@@ -118,13 +112,9 @@ include_once('../model/TipoExamen.php');
         $usuarioAdultoMayor->setAutovalenteConRiesgo($autovalenteConRiesgo);
         $usuarioAdultoMayor->setRiesgoDependencia($riesgoDependencia);
         $usuarioAdultoMayor->setDependencia($dependencia);
-        $tipoExamen->setFechaExamen($fecha);
-        $tipoExamen->setValorExamen($valor);
-        $tipoExamen->setIdListaExamen($idListaExamen);
         
-
         //LLamo al metodo crearAtencion del Data
-        $d->crearAtencion($tarjeton,$observacion,$parametrosClinicos,$pacienteDiabetico,$factorDeRiesgo,$tratamientoCardiaco,$usuarioAdultoMayor,$tipoExamen);
+        $d->crearAtencion($tarjeton,$observacion,$parametrosClinicos,$pacienteDiabetico,$factorDeRiesgo,$tratamientoCardiaco,$usuarioAdultoMayor,$listaExamen);
       
         //Redireccionar hacia formCrearTarjeton.php con un mensaje a través del navegador
         echo "<script>

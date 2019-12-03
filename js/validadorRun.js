@@ -1,3 +1,6 @@
+function nuevollamado(parametro) {
+    alert("Prueba exitosa");
+}
 function checkRun(run) {
     // Despejar Puntos
     var valor = run.value.replace('.', '');

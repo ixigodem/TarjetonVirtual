@@ -1,22 +1,18 @@
-<?php
-    include_once('../model/Data.php');
-    include_once('../model/Tarjeton.php');
-    include_once('../model/Conexion.php');
+    <?php
+        include_once('../model/Data.php');
+        include_once('../model/Tarjeton.php');
+        include_once('../model/Conexion.php');
 
-    header('Content-Type: application/json');
+        header('Content-Type: application/json');
 
-    // $id = $_GET["id"];
-    $id = 1;
-    $tarjeton = array();
+        // $id = $_GET["id"];
+        $id=1;
 
-    $d = new Data();
+        $tarjeton = array();
 
-    $tarjeton = $d->getTarjeton($id);
+        $d = new Data();
 
-    // print_r($tarjeton);
-
-    // $newTarjeton = array_values(array_unique($tarjeton, SORT_REGULAR));
-    echo json_encode($tarjeton);
-
-    // var_dump($newTarjeton);
-?>
+        $tarjeton = $d->getTarjeton($id);
+        echo json_encode($tarjeton, JSON_UNESCAPED_UNICODE);
+        //var_dump(json_encode($tarjeton));
+    ?>

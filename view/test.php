@@ -12,9 +12,9 @@
 
     <body>
     <form method="POST" action="../controller/getTarjeton.php">
-      <input type="text" name="id" value="1">
+      <input type="text" name="id" onkeyup="checkRun(this)">
       <button type="submit">+</button>
     </form>
-
+    <script src="../js/validadorRun.js"></script>
     </body>
   </html>
