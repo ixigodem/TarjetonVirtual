@@ -86,15 +86,28 @@
 
 <!-- Tabla de la busqueda Paciente -->
     <div class="table-responsive">
-        <table class="table table-hover">
+        <table class="table table-bordered">
             <thead class="thead-light" id="tituloTablaPaciente"></thead>
             <tbody id="cuerpoTablaPaciente"></tbody>
         </table>
     </div>
 <!-- Tabla de la busqueda Paciente -->
 
+<<<<<<< HEAD
 <!-- Modal Crear Atención-->
     <div class="modal fade" id="seccionCreateNewTarjeton" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+=======
+
+<!-- Formulario del Obtener Tarjeton -->
+    <script>
+        $('#exampleModalLong').on('shown.bs.modal', function () {
+            $('#myInput').trigger('focus')
+        })
+    </script>
+
+    <!-- Modal -->
+    <div class="modal fade modal-xl" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+>>>>>>> f708cda4d2de057f6026de6ae620e52afd7b0cca
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
         <div class="modal-header">
@@ -671,12 +684,15 @@
     </div>
 <!-- Fin modal para editar tarjetón -->
     <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead id="tituloTablaTarjeton"></thead>
-            <tbody id="cuerpoTablaTarjeton"></tbody>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-light" id="tituloTablaTarjeton"></thead>
+            <tbody id="cuerpoTablaTarjeton">
+                <div id="idModalActualizar"></div>
+            </tbody>
         </table>
     </div>
 
+<<<<<<< HEAD
     <script src="./res/js/programacion/centro.js?ver=<?php echo filemtime('./res/js/programacion/centro.js'); ?>"></script>
 
     <script src="../js/validadorRun.js?ver=<?php echo filemtime('../js/validadorRun.js');?>"></script>
@@ -684,6 +700,13 @@
     <script src="../js/updateTarjeton.js?ver=<?php echo filemtime('../js/updateTarjeton.js');?>"></script>
     <script src="../js/crearTarjeton.js?ver=<?php echo filemtime('../js/crearTarjeton.js');?>"></script>
 
+=======
+    <script src="../js/crearTarjeton.js"></script>
+    <script src="../js/validadorRun.js"></script>
+    <script src="../js/obtenerTarjeton.js"></script>
+    <script src="../js/updateTarjeton.js"></script>
+    
+>>>>>>> f708cda4d2de057f6026de6ae620e52afd7b0cca
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!-- Optional JavaScript -->

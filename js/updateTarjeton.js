@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 function actualizarTarjeton(id) {
     var datos = tarjetonGlobal;
     $("#editarTarjeton").modal("show");
@@ -13,4 +14,8 @@ function actualizarTarjeton(id) {
         
         }
     });
+=======
+function actualizarTarjeton(datos) {
+    console.log(datos);
+>>>>>>> f708cda4d2de057f6026de6ae620e52afd7b0cca
 }

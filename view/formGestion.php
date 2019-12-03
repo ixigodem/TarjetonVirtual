@@ -80,7 +80,10 @@
     </nav>
 <!-- Navbar con los menus desplegables -->
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> f708cda4d2de057f6026de6ae620e52afd7b0cca
 <!-- Menú desplegables para selección de diagnosticos -->
     <form id="formGetPatologia">
         <h3>Seleccione patologia</h1>
@@ -118,12 +121,15 @@
     </div>
 <!-- Tabla de obtención de datos -->
 
+<<<<<<< HEAD
 <p>
     <a href="#" class="btn btn-primary" id="submitExport">
         <i class="fa fa-download"></i> Exportar a Excel
     </a>
 </p>
 
+=======
+>>>>>>> f708cda4d2de057f6026de6ae620e52afd7b0cca
     <script src="../js/getGestion.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

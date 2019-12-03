@@ -83,14 +83,25 @@ function crearTablaPaciente(resultado) {
         `
     }
 }
+<<<<<<< HEAD
 var tarjetonGlobal = "";
+=======
+
+var json = [];
+>>>>>>> f708cda4d2de057f6026de6ae620e52afd7b0cca
 function getTarjeton(id) {
     fetch('../controller/getTarjeton.php?id=' + id, {
             method: 'GET'
         })
         .then(res => res.json())
+<<<<<<< HEAD
         .then(tarjeton => {
             if (tarjeton == "") {
+=======
+        .then(result => {
+        json = result;
+            if (result == "") {
+>>>>>>> f708cda4d2de057f6026de6ae620e52afd7b0cca
                 tituloTablaTarjeton.innerHTML = "";
                 tituloTablaTarjeton.innerHTML +=
                 `
@@ -105,9 +116,14 @@ function getTarjeton(id) {
                 `
                 cuerpoTablaTarjeton.innerHTML = "";
             } else {
+<<<<<<< HEAD
                 tarjetonGlobal = tarjeton;
                 mostrarTarjeton(tarjeton,id);
                 console.log(tarjeton);
+=======
+                mostrarTarjeton(result,id);
+                // console.log(result);
+>>>>>>> f708cda4d2de057f6026de6ae620e52afd7b0cca
             }
         }).catch(err => console.log(err));
 }
@@ -228,8 +244,14 @@ function mostrarTarjeton(datos,id) {
                 <td>${d.dependencia ? "SI" : "NO"}</td>
                 <td>${d.id_Estado ? "Activo" : "Eliminado"}</td>
 
+<<<<<<< HEAD
                 <td><button type="button" class="btn btn-outline-warning"                
                 onclick="actualizarTarjeton(${d.id_Tarjeton});">
+=======
+                <td><button type="button" class="btn btn-outline-warning" data-toggle="modal" 
+                data-target=".bd-example-modal-xl"
+                onclick="actualizarTarjeton(${json})">
+>>>>>>> f708cda4d2de057f6026de6ae620e52afd7b0cca
                 Editar
                 </button></td>
                 

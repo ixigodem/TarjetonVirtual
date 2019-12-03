@@ -423,9 +423,15 @@ class Data{
         uam.autovalenteConRiesgo,
         uam.riesgoDependencia,
         uam.dependencia,
+<<<<<<< HEAD
         te.fechaExamen as fechaExamen,
         GROUP_CONCAT(le.nombreExamen SEPARATOR '\n') as nombreExamen,
         GROUP_CONCAT(CONCAT(FORMAT(te.valor,0)) SEPARATOR '\n') as valor,
+=======
+        group_concat(te.fechaExamen SEPARATOR '\n') as fechaExamen,
+        GROUP_CONCAT(le.nombreExamen SEPARATOR '\n') as nombreExamen,
+        GROUP_CONCAT(FORMAT(te.valor,0) SEPARATOR '\n') as valor,
+>>>>>>> f708cda4d2de057f6026de6ae620e52afd7b0cca
         t.id_Estado
         from tbl_tarjeton as t 
         inner join tbl_observacion as o on o.id_Tarjeton = t.id_Tarjeton
@@ -437,8 +443,13 @@ class Data{
         inner join tbl_usuarioadultomayor as uam on uam.id_Tarjeton = t.id_Tarjeton
         inner join tbl_tipoexamenes as te on te.id_Tarjeton = t.id_Tarjeton
         inner join tbl_listadoexamen as le on le.id_ListaExamen = te.id_ListaExamen
+<<<<<<< HEAD
         where t.id_Paciente = $id
         GROUP BY o.observacion, te.fechaExamen;";
+=======
+        where t.id_Paciente = $id and t.id_Estado = 1
+        GROUP BY te.fechaExamen";
+>>>>>>> f708cda4d2de057f6026de6ae620e52afd7b0cca
 
         $this->con->conectar();
 
