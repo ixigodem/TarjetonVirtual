@@ -163,14 +163,14 @@
                         echo "<td>";
                             echo "<form action='../controller/eliminarPaciente.php' method='post'>";
                                 echo "<input type='hidden' name='runPaciente' value='".$p->run_Paciente."'>";
-                                echo "<input type='submit' class='btn btn-primary' value='Eliminar'>";
+                                echo "<input type='submit' class='btn btn-outline-danger' value='Eliminar'>";
                             echo "</form>";
                         echo "</td>";
                     } else {
                         echo "<td>";
                             echo "<form action='../controller/activarPaciente.php' method='post'>";
                                 echo "<input type='hidden' name='runPaciente' value='".$p->run_Paciente."'>";
-                                echo "<input type='submit' class='btn btn-primary' value='Activar'>";
+                                echo "<input type='submit' class='btn btn-outline-success' value='Activar'>";
                             echo "</form>";
                         echo "</td>";
                     }

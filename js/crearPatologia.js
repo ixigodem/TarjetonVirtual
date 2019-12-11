@@ -43,7 +43,6 @@ btnAgregarPatologia.addEventListener("click", function(e) {
             console.log(listaPatologias);
 
             inputJsonPatologias.value = JSON.stringify(listaPatologias);
-            console.log(inputJsonPatologias)
         } else {
             divRespuestaError.innerHTML = `
             <div class="alert alert-danger" role="alert">

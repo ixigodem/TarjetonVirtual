@@ -1,3 +1,5 @@
 SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 
 query para deshabilitar ONLY_FULL_GROUP_BY
+
+insert into tbl_paciente values(null, '5591531-8', 'JULIO RAFAEL', 'ARANDA', 'SEGUEL', '1949-04-12', 0, 'NO TIENE', 'ENSEÑANZA MEDIA', 'NO TIENE', 'COVADONGA 202 - POBLACIÓN LA GRANJA', 'AMARILLO', '1', 1, '261')

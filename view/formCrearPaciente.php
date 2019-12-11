@@ -81,29 +81,29 @@
   <!-- Form para crear pacientes -->
     <form action="../controller/crearPaciente.php" method="POST" id="form-normal">
         <div class="form-row">
-            <div class="form-group col-md-2">
+            <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label for="run">RUN</label>
                 <input type="text" class="form-control" id="run" name="run" onkeyup="checkRun(this)" placeholder="Ej. 11222333-4" maxlength="10" required>
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label for="nombres">NOMBRES</label>
                 <input type="text" class="form-control" name="nombres" placeholder="Nombre del Paciente:" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label for="apellidoPaterno">APELLIDO PATERNO</label>
                 <input type="text" class="form-control" name="apellidoPaterno" placeholder="Apellido Paterno del Paciente:" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label for="apellidoMaterno">APELLIDO MATERNO</label>
                 <input type="text" class="form-control" name="apellidoMaterno" placeholder="Apellido Materno del Paciente:" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
             </div>
 
-            <div class="form-group col-md-2">
+            <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label for="fechaNacimiento">FECHA DE NACIMIENTO</label>
                 <input type="date" class="form-control" name="fechaNacimiento" required>
             </div>
 
-            <div class="form-group col-md-2">
+            <div class="form-group col-md-2 col-lg-2 col-sm-12">
                 <fieldset>
                     <label>SEXO</label>
                     <br>
@@ -122,7 +122,7 @@
                 </fieldset>
             </div>
 
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label for="inputState">PARTICIPACIÓN SOCIAL</label>
                 <select id="inputState" class="form-control" name="participacionSocial" required>
                     <option selected disabled>Seleccione una opción</option>
@@ -135,7 +135,7 @@
                 </select>
             </div>
 
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label for="estudio">ESTUDIO</label>
                 <select id="estudio" class="form-control" name="estudio" required>
                     <option selected disabled>Seleccione una opción</option>
@@ -147,22 +147,22 @@
                 </select>
             </div>
 
-            <div class="form-group col-md-2">
+            <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label for="actividadLaboral">TELEFONO</label>
                 <input type="telefono" class="form-control" name="telefono" placeholder="+56987654321" pattern="(+[0-9]{3}) [0-9]{3} [0-9]{2} [0-9]{3}" title="Use el formato +56987654321" maxlength="12" required>
             </div>
 
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-4 col-lg-4 col-sm-12">
                 <label for="actividadLaboral">ACTIVIDAD LABORAL</label>
                 <input type="text" class="form-control" name="actividadLaboral" placeholder="Ingresar trabajo del paciente:" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
             </div>
 
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-4 col-lg-4 col-sm-12">
                 <label for="direccionParticular">DIRECCIÓN PARTICULAR</label>
                 <input type="text" class="form-control" name="direccionParticular" placeholder="Ej. Almarza #1061 - Rancagua" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
             </div>
 
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label for="sector">SECTOR</label>
                 <select id="sector" class="form-control" name="sector" required>
                     <option selected disabled>Seleccione una opción</option>
@@ -181,9 +181,10 @@
                 $comuna = $data->getComuna();
                 $estado = $data->getEstado();
                 $patologia = $data->getPatologia();
+                $complicacion = $data->getComplicacion();
             ?>
 
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label>ESTADO CIVIL</label>
                 <select name="estadoCivil" class="form-control" required>
                 <option selected disabled>Seleccione una opción</option>
@@ -196,7 +197,7 @@
                 </select>
             </div>
 
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label>COMUNA</label>
                 <select name="comuna" class="form-control" required>
                 <option selected disabled>Seleccione una opción</option>
@@ -208,7 +209,7 @@
                 </select>
             </div>
 
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label>ESTADO</label>
                 <select name="estado" class="form-control" required>
                 <option selected disabled>Seleccione una opción</option>
@@ -221,15 +222,16 @@
             </div>
 
             <input type="hidden" name="jsonPatologias" id="jsonPatologias">
+            <input type="hidden" name="jsonComplicaciones" id="jsonComplicaciones">
 
              <!-- Crear patologias -->
-            <div id="formPatologia" class="form-group col-md-3">
-                <div class="form-group mb-3">
+            <div id="formPatologia" class="form-group col-md-6 col-lg-6 col-sm-12">
+                <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label for="fechaDiagnostico">FECHA DE DIAGNOSTICO</label>
                     <input type="date" name="fechaPatologias" id="fechaPatologias" required>
                 </div>
                 
-                <div class="form-group mb-3">
+                <div class="form-group col-md-6 col-lg-6 col-sm-12">
                     <label>PATOLOGIA</label>
                     <select name="Patologia_ID" id="Patologia_ID" class="form-control" required>
                         <option selected disabled>Seleccione una opción</option>
@@ -241,13 +243,37 @@
                     </select>
                 </div>
 
-                <div class="form-group mb-2">
+                <div class="form-group col-md-1 col-lg-1 col-sm-12">
                 <button type="button" id="btnAgregarPatologia" class="btn btn-success btn-circle btn-xl">+</button>
+                </div>
+            </div>
+            
+            <!-- Crear complicaciones -->
+            <div id="formComplicacion" class="form-group col-md-6 col-lg-6 col-sm-12">
+                <div class="form-group col-md-3 col-lg-3 col-sm-12">
+                    <label for="fechaDiagnostico">FECHA DE COMPLICACIONES</label>
+                    <input type="date" name="fechaComplicacion" id="fechaComplicacion" required>
+                </div>
+                
+                <div class="form-group col-md-6 col-lg-6 col-sm-12">
+                    <label>COMPLICACIÓN</label>
+                    <select name="complicacion_ID" id="complicacion_ID" class="form-control" required>
+                        <option selected disabled>Seleccione una opción</option>
+                            <?php
+                                foreach($complicacion as $c){
+                                    echo "<option value='".$c->id_Complicacion."'>".$c->nombre."</option>";
+                                }
+                            ?>      
+                    </select>
+                </div>
+
+                <div class="form-group col-md-1 col-lg-1 col-sm-12">
+                <button type="button" id="btnAgregarComplicacion" class="btn btn-success btn-circle btn-xl">+</button>
                 </div>
             </div>
 
             <!-- Aquí va la respuesta del JS  -->
-            <div class="table-responsive">
+            <div class="table-responsive" class="form-group col-md-6 col-lg-6 col-sm-12">
                 <table class="table">
                 <thead>
                     <tr>
@@ -257,14 +283,28 @@
                     <tbody id="respuesta"><div id="mensajeError"></div></tbody>
                 </table>
             </div>
-            
             <!-- Crear patologias -->
+
+            <!-- Aquí va la respuesta del JS  -->
+            <div class="table-responsive" class="form-group col-md-6 col-lg-6 col-sm-12">
+                <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Complicaciones Ingresadas</th>
+                    </tr>
+                </thead>
+                    <tbody id="respuestaComplicacion"><div id="mensajeErrorComplicacion"></div></tbody>
+                </table>
+            </div>
+            
             <div class="form-group col-md-3">
                 <button class="btn btn-primary" name="btnCrearPaciente">Crear Paciente</button>
             </div>
         </div>
-        <script src="../js/validadorRun.js"></script>
-        <script src="../js/crearPatologia.js"></script>
+
+        <script src="../js/validadorRun.js?ver=<?php echo filemtime('../js/validadorRun.js');?>"></script>
+        <script src="../js/crearPatologia.js?ver=<?php echo filemtime('../js/crearPatologia.js');?>"></script>
+        <script src="../js/crearComplicacion.js?ver=<?php echo filemtime('../js/crearComplicacion.js');?>"></script>
     </form>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

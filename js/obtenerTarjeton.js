@@ -70,7 +70,7 @@ function crearTablaPaciente(resultado) {
             <td class="table-light">${r.apellidoPaterno}</td>
             <td class="table-light">${r.apellidoMaterno}</td>
             <td class="table-light">${r.fechaNacimiento}</td>
-            <td class="table-light">${r.sexo ? "MUJER" : "HOMBRE"}</td>
+            <td class="table-light">${r.sexo == 0 ? "MUJER" : "HOMBRE"}</td>
             <td class="table-light">${r.participacionSocial}</td>
             <td class="table-light">${r.estudio}</td>
             <td class="table-light">${r.actividadLaboral}</td>
@@ -79,29 +79,20 @@ function crearTablaPaciente(resultado) {
             <td class="table-light">${r.fono}</td>
             <td class="table-light">${r.estadoCivil}</td>
             <td class="table-light">${r.comuna}</td>
+            <td class="table-light">${r.estado}</td>
         </tr>
         `
     }
 }
-<<<<<<< HEAD
-var tarjetonGlobal = "";
-=======
 
-var json = [];
->>>>>>> f708cda4d2de057f6026de6ae620e52afd7b0cca
+var tarjetonGlobal = "";
 function getTarjeton(id) {
     fetch('../controller/getTarjeton.php?id=' + id, {
             method: 'GET'
         })
         .then(res => res.json())
-<<<<<<< HEAD
         .then(tarjeton => {
             if (tarjeton == "") {
-=======
-        .then(result => {
-        json = result;
-            if (result == "") {
->>>>>>> f708cda4d2de057f6026de6ae620e52afd7b0cca
                 tituloTablaTarjeton.innerHTML = "";
                 tituloTablaTarjeton.innerHTML +=
                 `
@@ -116,14 +107,9 @@ function getTarjeton(id) {
                 `
                 cuerpoTablaTarjeton.innerHTML = "";
             } else {
-<<<<<<< HEAD
                 tarjetonGlobal = tarjeton;
                 mostrarTarjeton(tarjeton,id);
                 console.log(tarjeton);
-=======
-                mostrarTarjeton(result,id);
-                // console.log(result);
->>>>>>> f708cda4d2de057f6026de6ae620e52afd7b0cca
             }
         }).catch(err => console.log(err));
 }
@@ -186,37 +172,26 @@ function mostrarTarjeton(datos,id) {
      `
      
     for (let d of datos) {
-        var dgNutricional = d.diagnosticoNutricional;
-        var dgNutricionalValor;
-        if (dgNutricional == 1) {
-            dgNutricionalValor = "Delgadez Severa";
-        } else if (dgNutricional == 2) {
-            dgNutricionalValor = "Delgadez Moderada";
-        } else if (dgNutricional == 3) {
-            dgNutricionalValor = "Delgadez Aceptable";
-        } else if (dgNutricional == 4) {
-            dgNutricionalValor = "Peso Normal";
-        } else if (dgNutricional == 5) {
-            dgNutricionalValor = "Sobrepeso";
-        } else if (dgNutricional == 6) {
-            dgNutricionalValor = "Obeso: Tipo I";
-        } else if (dgNutricional == 7) {
-            dgNutricionalValor = "Obeso: Tipo II";
-        } else if (dgNutricional == 8) {
-            dgNutricionalValor = "Obeso: Tipo III";
-        }
-
         cuerpoTablaTarjeton.innerHTML +=
             `
             <tr>
                 <td scope="row">${d.id_Tarjeton}</td>
                 <td>${d.fechaAtencion}</td>
-                <td>${d.nombre}</td>
+                <td>${d.nombreProfesional}</td>
                 <td>${d.observacion}</td>
                 <td>${d.peso}</td>
                 <td>${d.talla}</td>
                 <td>${d.IMC}</td>
-                <td>${dgNutricionalValor}</td>
+                <td>${
+                    d.diagnosticoNutricional == 1 ? "Delgadez Severa" : 
+                    d.diagnosticoNutricional == 2 ? "Delgadez Moderada" : 
+                    d.diagnosticoNutricional == 3 ? "Delgadez Aceptable" :
+                    d.diagnosticoNutricional == 4 ? "Peso Normal" : 
+                    d.diagnosticoNutricional == 5 ? "Sobrepeso" : 
+                    d.diagnosticoNutricional == 6 ? "Obeso: Tipo I" : 
+                    d.diagnosticoNutricional == 7 ? "Obeso: Tipo II" : 
+                    "Obeso: Tipo III"
+                }</td>
                 <td>${d.paSistolica}</td>
                 <td>${d.paDistolica}</td>
                 <td>${d.circunferenciaCintura}</td>
@@ -226,32 +201,26 @@ function mostrarTarjeton(datos,id) {
                 <td>${d.fechaEvalPieDiabetico}</td>
                 <td>${d.ptjePieDiabetico}</td>
                 <td>${d.fechaQualidiab}</td>
-                <td>${d.qualidiab ? "SI" : "NO"}</td>
+                <td>${d.qualidiab == 0 ? "SI" : "NO"}</td>
                 <td>${d.fechaFondoOjo}</td>
-                <td>${d.resultadoFondoOjo ? "SI" : "NO"}</td>
-                <td>${d.enalapril ? "SI" : "NO"}</td>
-                <td>${d.losartan ? "SI" : "NO"}</td>
-                <td>${d.retinopatiaDiabetica ? "SI" : "NO"}</td>
-                <td>${d.amputacion ? "SI" : "NO"}</td>
-                <td>${d.insuficienciaRenal ? "SI" : "NO"}</td>
-                <td>${d.IAM ? "SI" : "NO"}</td>
-                <td>${d.ACV ? "SI" : "NO"}</td>
-                <td>${d.estatinas ? "SI" : "NO"}</td>
-                <td>${d.AAS_100 ? "SI" : "NO"}</td>
-                <td>${d.autovalente ? "SI" : "NO"}</td>
-                <td>${d.autovalenteConRiesgo ? "SI" : "NO"}</td>
-                <td>${d.riesgoDependencia ? "SI" : "NO"}</td>
-                <td>${d.dependencia ? "SI" : "NO"}</td>
-                <td>${d.id_Estado ? "Activo" : "Eliminado"}</td>
+                <td>${d.resultadoFondoOjo == 0 ? "SI" : "NO"}</td>
+                <td>${d.enalapril == 0 ? "SI" : "NO"}</td>
+                <td>${d.losartan == 0 ? "SI" : "NO"}</td>
+                <td>${d.retinopatiaDiabetica == 0 ? "SI" : "NO"}</td>
+                <td>${d.amputacion == 0 ? "SI" : "NO"}</td>
+                <td>${d.insuficienciaRenal == 0 ? "SI" : "NO"}</td>
+                <td>${d.IAM == 0 ? "SI" : "NO"}</td>
+                <td>${d.ACV == 0 ? "SI" : "NO"}</td>
+                <td>${d.estatinas == 0 ? "SI" : "NO"}</td>
+                <td>${d.AAS_100 == 0 ? "SI" : "NO"}</td>
+                <td>${d.autovalente == 0 ? "SI" : "NO"}</td>
+                <td>${d.autovalenteConRiesgo == 0 ? "SI" : "NO"}</td>
+                <td>${d.riesgoDependencia == 0 ? "SI" : "NO"}</td>
+                <td>${d.dependencia == 0 ? "SI" : "NO"}</td>
+                <td>${d.id_Estado == 1 ? "Activo" : "Eliminado"}</td>
 
-<<<<<<< HEAD
                 <td><button type="button" class="btn btn-outline-warning"                
                 onclick="actualizarTarjeton(${d.id_Tarjeton});">
-=======
-                <td><button type="button" class="btn btn-outline-warning" data-toggle="modal" 
-                data-target=".bd-example-modal-xl"
-                onclick="actualizarTarjeton(${json})">
->>>>>>> f708cda4d2de057f6026de6ae620e52afd7b0cca
                 Editar
                 </button></td>
                 

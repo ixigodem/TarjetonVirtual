@@ -10,7 +10,7 @@ require_once("Config.php");
     $ldappass = trim($pass);
     $ds = DOMINIO;
     $dn = DN;
-    $sv = '192.168.164.135';
+    $sv = '192.168.164.156';
     $puertoldap = 389;  
     $ldapconn = ldap_connect($sv,$puertoldap);
     ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION,3);

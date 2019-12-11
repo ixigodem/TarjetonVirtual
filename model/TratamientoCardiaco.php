@@ -16,7 +16,7 @@ class TratamientoCardiaco {
         $this->estatinas = $estatinas;
     }
 
-    public function setAAS100($AAS_100){
+    public function setAAS_100($AAS_100){
         $this->AAS_100 = $AAS_100;
     }
 

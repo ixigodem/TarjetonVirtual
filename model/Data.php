@@ -51,7 +51,7 @@ class Data{
         '".$paciente->getComuna()."',
         ".$paciente->getEstado().")";
         
-        $this->ejecutar($query);
+        $this->con->ejecutar($query);
     }
 
     public function crearPacienteDiabetico($pacienteDiabetico,$tarjeton){
@@ -68,13 +68,13 @@ class Data{
         '".$pacienteDiabetico->getAmputacion()."',
         ".$tarjeton->getIdTarjeton().")";
         
-        $this->ejecutar($query);
+        $this->con->ejecutar($query);
     }
 
     public function crearPatologia($patologia){
         $query = "insert into tbl_patologia values(null, '".$patologia->getNombrePatologia()."')";
         
-        $this->ejecutar($query);
+        $this->con->ejecutar($query);
     }
 
     public function crearPatologiasPacientes($patologiaPacientes){
@@ -83,7 +83,7 @@ class Data{
         '".$patologiaPacientes->getPatologiaID()."', 
         ".$patologiaPacientes->getRunPaciente().")";
         
-        $this->ejecutar($query);
+        $this->con->ejecutar($query);
     }
 
     public function crearProfesional($profesional){
@@ -91,7 +91,7 @@ class Data{
         values(null, '".$profesional->getNombreProfesional()."', 
         ".$profesional->getEstamento().")";
         
-        $this->ejecutar($query);
+        $this->con->ejecutar($query);
     }
 
     public function crearTelefono($telefono,$paciente){
@@ -99,7 +99,7 @@ class Data{
         values(null, '".$telefono->getFonoTelefono()."', 
         ".$paciente->getRun_Paciente().")";
         
-        $this->ejecutar($query);
+        $this->con->ejecutar($query);
     }
 
     public function crearTipoExamen($tipoExamen,$listadoExamen,$tarjeton){
@@ -109,7 +109,7 @@ class Data{
         '".$tipoExamen->getValorTipoExamen()."', 
         ".$tarjeton->getIdTarjeton().")";
         
-        $this->ejecutar($query);
+        $this->con->ejecutar($query);
     }
 
     public function crearTratamientoCardiaco($ttoCardiaco,$tarjeton){
@@ -118,10 +118,25 @@ class Data{
         '".$ttoCardiaco->getAAS100()."', 
         ".$tarjeton->getIdTarjeton().")";
         
-        $this->ejecutar($query);
+        $this->con->ejecutar($query);
     }
 
     //LISTAR TODAS LAS TABLAS
+    public function getComplicacion(){
+        $listComplicacion = array();
+
+        $this->con->conectar();
+
+        $rs = $this->con->ejecutar("SELECT * FROM tbl_complicacion");
+
+        while($obj = $rs->fetch_object()){
+            array_push($listComplicacion, $obj);
+        }
+        $this->con->desconectar();
+
+        return $listComplicacion;
+    }
+
     public function getComuna(){
         $listComuna = array();
 
@@ -389,67 +404,7 @@ class Data{
     public function getTarjeton($id){
         $lista = array();
 
-        // $query = "select * from getTarjeton where id_Paciente = $id";
-        $query = "SELECT
-        t.id_Tarjeton,
-        t.id_Paciente,
-        t.fechaAtencion,
-        pro.id_Profesional,
-        pro.nombre as nombreProfesional,
-        o.observacion,
-        pc.peso,
-        pc.talla,
-        pc.IMC,
-        pc.diagnosticoNutricional,
-        pc.paSistolica,
-        pc.paDistolica,
-        pc.circunferenciaCintura,
-        pd.fechaEvalPieDiabetico,
-        pd.ptjePieDiabetico,
-        pd.fechaQualidiab,
-        pd.qualidiab,
-        pd.fechaFondoOjo,
-        pd.resultadoFondoOjo,
-        pd.enalapril,
-        pd.losartan,
-        pd.retinopatiaDiabetica,
-        pd.amputacion,
-        fdr.insuficienciaRenal,
-        fdr.IAM,
-        fdr.ACV,
-        tc.estatinas,
-        tc.AAS_100,
-        uam.autovalente,
-        uam.autovalenteConRiesgo,
-        uam.riesgoDependencia,
-        uam.dependencia,
-<<<<<<< HEAD
-        te.fechaExamen as fechaExamen,
-        GROUP_CONCAT(le.nombreExamen SEPARATOR '\n') as nombreExamen,
-        GROUP_CONCAT(CONCAT(FORMAT(te.valor,0)) SEPARATOR '\n') as valor,
-=======
-        group_concat(te.fechaExamen SEPARATOR '\n') as fechaExamen,
-        GROUP_CONCAT(le.nombreExamen SEPARATOR '\n') as nombreExamen,
-        GROUP_CONCAT(FORMAT(te.valor,0) SEPARATOR '\n') as valor,
->>>>>>> f708cda4d2de057f6026de6ae620e52afd7b0cca
-        t.id_Estado
-        from tbl_tarjeton as t 
-        inner join tbl_observacion as o on o.id_Tarjeton = t.id_Tarjeton
-        inner join tbl_profesional as pro on pro.id_Profesional = t.id_Profesional
-        inner join tbl_parametrosclinicos as pc on pc.id_Tarjeton = t.id_Tarjeton
-        inner join tbl_pacientediabetico as pd on pd.id_Tarjeton = t.id_Tarjeton
-        inner join tbl_factorderiesgo as fdr on fdr.id_Tarjeton = t.id_Tarjeton
-        inner join tbl_tratamientocardiaco as tc on tc.id_Tarjeton = t.id_Tarjeton
-        inner join tbl_usuarioadultomayor as uam on uam.id_Tarjeton = t.id_Tarjeton
-        inner join tbl_tipoexamenes as te on te.id_Tarjeton = t.id_Tarjeton
-        inner join tbl_listadoexamen as le on le.id_ListaExamen = te.id_ListaExamen
-<<<<<<< HEAD
-        where t.id_Paciente = $id
-        GROUP BY o.observacion, te.fechaExamen;";
-=======
-        where t.id_Paciente = $id and t.id_Estado = 1
-        GROUP BY te.fechaExamen";
->>>>>>> f708cda4d2de057f6026de6ae620e52afd7b0cca
+        $query = "select * from getTarjeton where id_Paciente = $id";
 
         $this->con->conectar();
 
@@ -484,7 +439,66 @@ class Data{
         return $lista;
     }
 
-/*ACTUALIZAR TABLAS
+/*ACTUALIZAR TABLAS*/
+
+    public function updateTarjeton($tarjeton,$factorDeRiesgo,$parametrosClinicos,$tratamientoCardiaco,$usuarioAdultoMayor,$obser){
+        $updateTarjeton = "update tbl_tarjeton set 
+        fechaAtencion = '".$tarjeton->getFechaAtencion()."', 
+        id_Paciente = '".$tarjeton->getIdPaciente()."',
+        id_Profesional = '".$tarjeton->getIdProfesional()."'
+        where id_Tarjeton = '".$tarjeton->getIdTarjeton()."'";
+
+        $this->con->conectar();
+        $this->con->ejecutar($updateTarjeton);
+
+        $updateFactor = "update tbl_factorderiesgo set 
+        insuficienciaRenal = ".$factorDeRiesgo->getInsuficienciaRenal().",
+        IAM = ".$factorDeRiesgo->getIam().",
+        ACV = ".$factorDeRiesgo->getAcv()."
+        where id_Tarjeton = '".$tarjeton->getIdTarjeton()."'";
+
+        $this->con->conectar();
+        $this->con->ejecutar($updateFactor);
+
+        $updateParametros = "update tbl_parametrosclinicos set 
+        peso = '".$parametrosClinicos->getPeso()."',
+        talla = '".$parametrosClinicos->getTalla()."',
+        IMC = '".$parametrosClinicos->getIMC()."',
+        diagnosticoNutricional = '".$parametrosClinicos->getDiagnosticoNutricional()."',
+        paSistolica = '".$parametrosClinicos->getPaSistolica()."',
+        paDistolica = '".$parametrosClinicos->getPaDistolica()."',
+        circunferenciaCintura = '".$parametrosClinicos->getCircunferenciaCintura()."'
+        where id_Tarjeton = '".$tarjeton->getIdTarjeton()."'";
+
+        $this->con->conectar();
+        $this->con->ejecutar($updateParametros);
+
+        $updateTratamiento = "update tbl_tratamientocardiaco set 
+        estatinas = ".$tratamientoCardiaco->getEstatinas().",
+        AAS_100 = ".$tratamientoCardiaco->getAAS_100()."
+        where id_Tarjeton = '".$tarjeton->getIdTarjeton()."'";
+
+        $this->con->conectar();
+        $this->con->ejecutar($updateTratamiento);
+
+        $updateUsuario = "update tbl_usuarioadultomayor set 
+        autovalente = ".$usuarioAdultoMayor->getAutovalente().",
+        autovalenteConRiesgo = ".$usuarioAdultoMayor->getAutovalenteConRiesgo().",
+        riesgoDependencia = ".$usuarioAdultoMayor->getRiesgoDependencia().",
+        dependencia = ".$usuarioAdultoMayor->getDependencia()."
+        where id_Tarjeton = '".$tarjeton->getIdTarjeton()."'";
+
+        $this->con->conectar();
+        $this->con->ejecutar($updateUsuario);
+
+        $updateObservacion = "update tbl_observacion set 
+        observacion = '".$obser->getObservacion()."'
+        where id_Tarjeton = '".$tarjeton->getIdTarjeton()."'";
+
+        $this->con->conectar();
+        $this->con->ejecutar($updateObservacion);
+        $this->con->desconectar();
+    }
 
 //ELIMINAR/ACTIVAR TABLAS
 /*Estados: 1 Activo - 2 Pasivo*/
@@ -523,35 +537,34 @@ class Data{
 
 // Función que me permite crear paciente obteniendo un objeto de paciente y telefono 
 // un array de las patologias y leyendolo con un foreach
-    public function crearPacienteTelPat($paciente,$listPatologia,$telefono){
+    public function crearPacienteTelPat($paciente,$listPatologia,$listComplicaciones,$telefono){
         //creo el paciente
-        $query = "insert into tbl_paciente 
+        $queryPaciente = "insert into tbl_paciente 
         values(null,
         '".$paciente->getRun_Paciente()."',
         '".$paciente->getNombres()."',
         '".$paciente->getApellidoPaterno()."',
         '".$paciente->getApellidoMaterno()."',
         '".$paciente->getFechaNacimiento()."',
-        '".$paciente->getSexo()."',
+        ".$paciente->getSexo().",
         '".$paciente->getParticipacionSocial()."',
         '".$paciente->getEstudio()."',
         '".$paciente->getActividadLaboral()."',
         '".$paciente->getDireccionParticular()."',
         '".$paciente->getSector()."',
         '".$paciente->getEstadoCivil()."',
-        '".$paciente->getComuna()."',
-        ".$paciente->getEstado().")";
+        ".$paciente->getEstado().",
+        '".$paciente->getComuna()."')";
 
-        $this->ejecutar($query);
+        $this->con->ejecutar($queryPaciente);
 
         //Obtengo el último paciente (id)
         $this->con->conectar();
 
-        $query = "SELECT MAX(id_Paciente) AS id FROM tbl_paciente";
+        $queryUltimo = "SELECT MAX(id_Paciente) AS id FROM tbl_paciente";
         
-        $rs = $this->con->ejecutar($query);
+        $rs = $this->con->ejecutar($queryUltimo);
 
-        
         $idUltimoPaciente = 0;
         while ($reg = $rs->fetch_object()) {
             $idUltimoPaciente = $reg->id;
@@ -559,17 +572,27 @@ class Data{
 
         $this->con->desconectar();
 
-        foreach ($listPatologia as $ct) {
+        foreach ($listPatologia as $lp) {
             $query = "INSERT INTO tbl_patologiaspacientes 
             VALUES (null,
-            '".$ct["fecha"]."',
-            ".$ct["id"].",
+            '".$lp["fecha"]."',
+            ".$lp["id"].",
             ". $idUltimoPaciente.")";
-            $this->ejecutar($query);
+            $this->con->ejecutar($query);
         }
-        $query = "INSERT INTO tbl_telefono VALUES (null,'".$telefono->getFono()."',". $idUltimoPaciente.")";
 
-        $this->ejecutar($query);
+        foreach ($listComplicaciones as $lc) {
+            $query = "INSERT INTO tbl_complicacionespacientes 
+            VALUES (null,
+            '".$lc["fecha"]."',
+            ".$lc["id"].",
+            ". $idUltimoPaciente.")";
+            $this->con->ejecutar($query);
+        }
+
+        $queryTelefono = "INSERT INTO tbl_telefono VALUES (null,'".$telefono->getFono()."',". $idUltimoPaciente.")";
+
+        $this->con->ejecutar($queryTelefono);
     }
 
     public function crearAtencion($tarjeton,$observacion,$parametrosClinicos,$pacienteDiabetico,$factorDeRiesgo,$tratamientoCardiaco,$usuarioAdultoMayor,$listaExamen){
@@ -595,8 +618,6 @@ class Data{
         while ($reg = $rs->fetch_object()) {
             $idUltimoTarjeton = $reg->id;
         }
-
-        $this->con->desconectar();
 
         //Creo los parametros clinicos
         $queryParametrosClinicos = "insert into tbl_parametrosclinicos values(
@@ -678,5 +699,7 @@ class Data{
             '".$idUltimoTarjeton."';";
         
         $this->con->ejecutar($queryObservacion);
+
+        $this->con->desconectar();
     }
 }
