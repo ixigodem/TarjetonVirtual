@@ -53,13 +53,13 @@ function actualizarTarjeton(id) {
             inputJson.value = JSON.stringify(listaExamen);
 
             var td = '<tr>'+
-            '<td width="15%">' + fechaExamen + '</td>'+
-            '<td width="2">' + idExamen + '</td>'+
-            '<td width="18%">' + nombreExamen + '</td>'+
-            '<td width="2%">' + valorExamen + '</td>'+
+            '<td width="100">' + fechaExamen + '</td>'+
+            '<td width="30" style="text-align:right">' + idExamen.replace(/\n/g, "<br />") + '</td>'+
+            '<td width="200">' + nombreExamen.replace(/\n/g, "<br />") + '</td>'+
+            '<td width="30" style="text-align:right">' + valorExamen.replace(/\n/g, "<br />") + '</td>'+
             '</tr>';
           
-            $('#respE tbody').append(td);
+            $('#respuestaE').html(td);
             calc_imcE();
         }
     })

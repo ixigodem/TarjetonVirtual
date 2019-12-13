@@ -70,7 +70,7 @@ function crearTablaPaciente(resultado) {
             <td class="table-light">${r.apellidoPaterno}</td>
             <td class="table-light">${r.apellidoMaterno}</td>
             <td class="table-light">${r.fechaNacimiento}</td>
-            <td class="table-light">${r.sexo == 0 ? "MUJER" : "HOMBRE"}</td>
+            <td class="table-light">${r.sexo == 0 ? "HOMBRE" : "MUJER"}</td>
             <td class="table-light">${r.participacionSocial}</td>
             <td class="table-light">${r.estudio}</td>
             <td class="table-light">${r.actividadLaboral}</td>
@@ -199,7 +199,8 @@ function mostrarTarjeton(datos,id) {
                 <td>${d.nombreExamen}</td>
                 <td>${d.valor}</td>
                 <td>${d.fechaEvalPieDiabetico}</td>
-                <td>${d.ptjePieDiabetico}</td>
+                <td>${d.ptjePieDiabetico == 1 ? "BAJO" :
+                d.ptjePieDiabetico == 2 ? "MODERADO" : "ALTO"}</td>
                 <td>${d.fechaQualidiab}</td>
                 <td>${d.qualidiab == 0 ? "SI" : "NO"}</td>
                 <td>${d.fechaFondoOjo}</td>

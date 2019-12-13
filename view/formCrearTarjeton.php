@@ -76,7 +76,7 @@
 <!-- Formulario de busqueda de paciente -->
     <nav class="navbar navbar-light bg-light">
         <form id="formGetPaciente" method="POST" class="form-inline">
-            <input class="form-control mr-sm-2" name="txtRun" id="txtRun" value="17504702-6"
+            <input class="form-control mr-sm-2" name="txtRun" id="txtRun"
             onkeyup="checkRun(this)" placeholder="Ej. 11222333-4" maxlength="10">
             <button class="btn btn-outline-success my-2 my-sm-0" name="btnBuscarPaciente" type="submit">Buscar Paciente</button>
             <input class="btn btn-primary" type="reset" value="Limpiar" onclick="clearForm()">
@@ -500,19 +500,19 @@
                 <!-- Aqui se ingresa los examenes -->
 
                 <!-- Aquí va la respuesta del JS de examenes -->
-                <div class="table-responsive-sm" class="form-group col-md-6 col-lg-6 col-sm-12">
-                    <table class="table" id="respE">
+                <div class="table-responsive" class="form-group col-md-12 col-lg-12 col-sm-12">
+                    <table class="table table-bordered" style="background-color:aliceblue" id="respE">
                     <thead>
                         <tr>
                             <th scope="col">FECHA EXAMEN</th>
                             <th scope="col">ID</th>
                             <th scope="col">NOMBRE EXAMEN</th>
-                            <th scope="col"></th>
                             <th scope="col">VALOR EXAMEN</th>
                         </tr>
                     </thead>
-                        <tbody id="respuestaE"><div id="mensajeErrorE"></div></tbody>
+                        <tbody id="respuestaE"></tbody>
                     </table>
+                    <div id="mensajeErrorE"></div>
                 </div>
                 <!-- Aquí va la respuesta del JS de examenes -->
 

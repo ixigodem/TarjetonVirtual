@@ -65,17 +65,20 @@ SELECT
 	t.fono as fono,
 	cp.fechaComplicaciones,
 	com.nombre AS nombreComplicaciones,
+    ec.id_EstadoCivil,
 	ec.nombre as estadoCivil,
+    c.id_Comuna,
 	c.nombre as comuna,
+    e.id_Estado,
 	e.nombre as estado
 FROM 
     tbl_paciente AS p
 	INNER JOIN tbl_estadocivil AS ec ON ec.id_EstadoCivil=p.id_EstadoCivil
 	INNER JOIN tbl_comuna AS c ON c.id_Comuna=p.id_Comuna
 	INNER JOIN tbl_estado AS e ON e.id_Estado=p.id_Estado
-	INNER JOIN tbl_telefono AS t ON t.id_Paciente=p.id_Paciente
-	INNER JOIN tbl_complicacionespacientes AS cp ON cp.id_Paciente=p.id_Paciente
-	INNER JOIN tbl_complicacion AS com ON com.id_Complicacion=cp.id_Complicacion
+	LEFT JOIN tbl_telefono AS t ON t.id_Paciente=p.id_Paciente
+	LEFT JOIN tbl_complicacionespacientes AS cp ON cp.id_Paciente=p.id_Paciente
+	LEFT JOIN tbl_complicacion AS com ON com.id_Complicacion=cp.id_Complicacion
 WHERE 
     p.id_Estado = 1;
 

@@ -217,10 +217,10 @@ class Data{
         return $p;
     }
 
-    public function getPacienteTarjeton($run){
+    public function getPacienteTarjeton($run,$id){
         $lista = array();
 
-        $query = "SELECT * FROM getPaciente WHERE run_Paciente = '$run';";
+        $query = "SELECT * FROM getPaciente WHERE run_Paciente = '$run' OR id_Paciente = '$id';";
 
         $this->con->conectar();
 
@@ -441,6 +441,36 @@ class Data{
 
 /*ACTUALIZAR TABLAS*/
 
+    public function updatePaciente($paciente,$telefono){
+        $updatePaciente = "update tbl_paciente set 
+        nombres = '".$paciente->getNombres()."',
+        apellidoPaterno = '".$paciente->getApellidoPaterno()."',
+        apellidoMaterno = '".$paciente->getApellidoMaterno()."',
+        fechaNacimiento = '".$paciente->getFechaNacimiento()."',
+        sexo = ".$paciente->getSexo().",
+        participacionSocial = '".$paciente->getParticipacionSocial()."',
+        estudio = '".$paciente->getEstudio()."',
+        actividadLaboral = '".$paciente->getActividadLaboral()."',
+        direccionParticular = '".$paciente->getDireccionParticular()."',
+        sector = '".$paciente->getSector()."',
+        id_EstadoCivil = '".$paciente->getEstadoCivil()."',
+        id_Estado = '".$paciente->getEstado()."',
+        id_Comuna = '".$paciente->getComuna()."'
+        where id_Paciente = '".$paciente->getId_Paciente()."';";
+
+        $this->con->conectar();
+        $this->con->ejecutar($updatePaciente);
+
+        $updateTelefono = "update tbl_telefono set
+        fono = '".$telefono->getFono()."' where id_Paciente = '".$paciente->getId_Paciente()."';";
+        
+        $this->con->conectar();
+        $this->con->ejecutar($updateTelefono);
+        $this->con->desconectar();
+
+        var_dump($updatePaciente,$updateTelefono);
+    }
+
     public function updateTarjeton($tarjeton,$factorDeRiesgo,$parametrosClinicos,$tratamientoCardiaco,$usuarioAdultoMayor,$obser){
         $updateTarjeton = "update tbl_tarjeton set 
         fechaAtencion = '".$tarjeton->getFechaAtencion()."', 
@@ -604,6 +634,7 @@ class Data{
             '".$tarjeton->getIdProfesional()."',
             1);";
 
+        $this->con->conectar();
         $this->con->ejecutar($queryTarjeton);
 
         //Obtengo el ultimo ID del tarjeton
@@ -631,6 +662,7 @@ class Data{
             '".$parametrosClinicos->getCircunferenciaCintura()."',
             '".$idUltimoTarjeton."');";
 
+            $this->con->conectar();
             $this->con->ejecutar($queryParametrosClinicos);
 
         //Creo los tipo de examenes desde el Array
@@ -640,63 +672,68 @@ class Data{
             '".$l["fecha"]."',
             '".$l["valor"]."',
             '".$l["id"]."',
-            ". $idUltimoTarjeton.")";
+            ". $idUltimoTarjeton.");";
 
+            $this->con->conectar();
             $this->con->ejecutar($queryTipoExamenes);
         }
 
         //Creo el paciente diabetico
         $queryPacienteDiabetico = "insert into tbl_pacientediabetico values(
             null,
-            '".$pacienteDiabetico->getFechaEvalPieDiabetico()."'
-            '".$pacienteDiabetico->getPtjePieDiabetico()."'
-            '".$pacienteDiabetico->getFechaQualidiab()."'
-            '".$pacienteDiabetico->getQualidiab()."'
-            '".$pacienteDiabetico->getFechaFondoOjo()."'
-            '".$pacienteDiabetico->getResultadoFondoOjo()."'
-            '".$pacienteDiabetico->getEnalapril()."'
-            '".$pacienteDiabetico->getLosartan()."'
-            '".$pacienteDiabetico->getRetinopatiaDiabetica()."'
-            '".$pacienteDiabetico->getAmputacion()."'
-            '".$idUltimoTarjeton."'";
+            '".$pacienteDiabetico->getFechaEvalPieDiabetico()."',
+            '".$pacienteDiabetico->getPtjePieDiabetico()."',
+            '".$pacienteDiabetico->getFechaQualidiab()."',
+            ".$pacienteDiabetico->getQualidiab().",
+            '".$pacienteDiabetico->getFechaFondoOjo()."',
+            ".$pacienteDiabetico->getResultadoFondoOjo().",
+            ".$pacienteDiabetico->getEnalapril().",
+            ".$pacienteDiabetico->getLosartan().",
+            ".$pacienteDiabetico->getRetinopatiaDiabetica().",
+            ".$pacienteDiabetico->getAmputacion().",
+            '".$idUltimoTarjeton."');";
 
+        $this->con->conectar();
         $this->con->ejecutar($queryPacienteDiabetico);
 
         //Creo los factores de riesgo
         $queryFactoDeRiesgo = "insert into tbl_factorderiesgo values(
             NULL,
-            '".$factorDeRiesgo->getInsuficienciaRenal()."',
-            '".$factorDeRiesgo->getIam()."',
-            '".$factorDeRiesgo->getAcv()."',
-            '".$idUltimoTarjeton."';";
+            ".$factorDeRiesgo->getInsuficienciaRenal().",
+            ".$factorDeRiesgo->getIam().",
+            ".$factorDeRiesgo->getAcv().",
+            '".$idUltimoTarjeton."');";
 
+        $this->con->conectar();   
         $this->con->ejecutar($queryFactoDeRiesgo);
 
         //Creo el tratamiento cardiaco
         $queryTratamientoCardiaco = "insert into tbl_tratamientocardiaco values(
             NULL,
-            '".$tratamientoCardiaco->getEstatinas()."',
-            '".$tratamientoCardiaco->getAAS_100()."',
-            '".$idUltimoTarjeton."';";
+            ".$tratamientoCardiaco->getEstatinas().",
+            ".$tratamientoCardiaco->getAAS_100().",
+            '".$idUltimoTarjeton."');";
 
+        $this->con->conectar();
         $this->con->ejecutar($queryTratamientoCardiaco);
 
         //Creo el usuario adulto mayor
         $queryUsuarioAdultoMayor = "insert into tbl_usuarioadultomayor values(
             NULL,
-            '".$usuarioAdultoMayor->getAutovalente()."',
-            '".$usuarioAdultoMayor->getAutovalenteConRiesgo()."',
-            '".$usuarioAdultoMayor->getRiesgoDependencia()."',
-            '".$usuarioAdultoMayor->getDependencia()."',
-            '".$idUltimoTarjeton."';";
+            ".$usuarioAdultoMayor->getAutovalente().",
+            ".$usuarioAdultoMayor->getAutovalenteConRiesgo().",
+            ".$usuarioAdultoMayor->getRiesgoDependencia().",
+            ".$usuarioAdultoMayor->getDependencia().",
+            '".$idUltimoTarjeton."');";
         
+        $this->con->conectar();
         $this->con->ejecutar($queryUsuarioAdultoMayor);
 
         //Creo la observación
         $queryObservacion = "insert into tbl_observacion values(
             NULL,
             '".$observacion->getObservacion()."',
-            '".$idUltimoTarjeton."';";
+            '".$idUltimoTarjeton."');";
         
         $this->con->ejecutar($queryObservacion);
 

@@ -107,7 +107,7 @@ include_once('../model/TipoExamen.php');
         $factorDeRiesgo->setIAM($iam);
         $factorDeRiesgo->setACV($acv);
         $tratamientoCardiaco->setEstatinas($estatinas);
-        $tratamientoCardiaco->setAAS100($aas100);
+        $tratamientoCardiaco->setAAS_100($aas100);
         $usuarioAdultoMayor->setAutovalente($autovalente);
         $usuarioAdultoMayor->setAutovalenteConRiesgo($autovalenteConRiesgo);
         $usuarioAdultoMayor->setRiesgoDependencia($riesgoDependencia);

@@ -20,7 +20,6 @@ require_once("../model/Observacion.php");
         $talla = $_REQUEST["tallaE"];
         $IMC = $_REQUEST["imcE"];
         $dgNutricionalE = $_REQUEST["diagnosticoNutricionalE"];
-        echo $dgNutricionalE;
         $dgNutricionalValorE;
         if ($dgNutricionalE == "Delgadez Severa") {
             $dgNutricionalValorE = 1;
@@ -106,10 +105,10 @@ require_once("../model/Observacion.php");
         $d->updateTarjeton($tarjeton,$factorDeRiesgo,$parametrosClinicos,$tratamientoCardiaco,$usuarioAdultoMayor,$obser);
 
         //6.- Redireccionar hacia formCrearPaciente.php con un mensaje a través del navegador
-        // echo "<script>
-        //         alert('¡¡Atencion actualizada con exito!!');
-        //         window.location= '../view/formCrearTarjeton.php'
-        //     </script>";
+        echo "<script>
+                alert('¡¡Atencion actualizada con exito!!');
+                window.location= '../view/formCrearTarjeton.php'
+            </script>";
         
     }else {
         //Si no vienen los datos, redirigir hacia formCrearPaciente.php con mensaje de error a través del método GET

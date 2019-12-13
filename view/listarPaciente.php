@@ -20,7 +20,7 @@
 <body>
 <!-- Navbar con los menus desplegables -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <li><a class="navbar-brand" href="../index.php">
+        <li><a class="navbar-brand" href="Menu.php">
             <img src="../img/Enfermeria.png" width="30" height="30" class="d-inline-block align-top" href="../index.php">Tarjetón Virtual</a>
             </li>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -93,7 +93,7 @@
         <form class="form-inline" action="listarPaciente.php" method="POST">
             <div class="row">
                 <div class="input-field col s6">
-                    <input type="text" class="form-control" name="txtBuscarPaciente" placeholder="Buscar Paciente:" data-length="120" value="<?php echo $filtro;?>">
+                    <input type="text" class="form-control" name="txtBuscarPaciente" placeholder="Ej: Juan Perez" data-length="120" value="<?php echo $filtro;?>">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="btnBuscarPaciente">Buscar</button>
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="btnMostrarPacientePasivo">Mostrar Pacientes Pasivos</button>
                 </div>
@@ -161,6 +161,10 @@
                     echo "<td>".$p->estado."</td>";
                     if ($p->estado == 'ACTIVO') {
                         echo "<td>";
+                            echo "<button type='button' onclick='actualizarPaciente($p->id_Paciente);' class='btn btn-outline-warning'>Editar</button>";
+                        echo "</td>";
+
+                        echo "<td>";
                             echo "<form action='../controller/eliminarPaciente.php' method='post'>";
                                 echo "<input type='hidden' name='runPaciente' value='".$p->run_Paciente."'>";
                                 echo "<input type='submit' class='btn btn-outline-danger' value='Eliminar'>";
@@ -181,6 +185,167 @@
         
         </table>
     </div>
+
+    <div class="modal fade" id="editarPaciente" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Paciente</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="../controller/updatePaciente.php" method="POST" id="form-normal">
+                    <div class="form-row">
+                        <input type="hidden" name="idPaciente" id="idPaciente">
+                        <div class="form-group col-md-3 col-lg-3 col-sm-12">
+                            <label for="run">RUN</label>
+                            <input type="text" class="form-control" id="runE" name="runE" maxlength="10" readonly required>
+                        </div>
+                        <div class="form-group col-md-3 col-lg-3 col-sm-12">
+                            <label for="nombres">NOMBRES</label>
+                            <input type="text" class="form-control" id="nombresE" name="nombresE" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                        </div>
+                        <div class="form-group col-md-3 col-lg-3 col-sm-12">
+                            <label for="apellidoPaterno">APELLIDO PATERNO</label>
+                            <input type="text" class="form-control" id="apellidoPaternoE" name="apellidoPaternoE" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                        </div>
+                        <div class="form-group col-md-3 col-lg-3 col-sm-12">
+                            <label for="apellidoMaterno">APELLIDO MATERNO</label>
+                            <input type="text" class="form-control" id="apellidoMaternoE" name="apellidoMaternoE" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                        </div>
+
+                        <div class="form-group col-md-3 col-lg-3 col-sm-12">
+                            <label for="fechaNacimiento">FECHA DE NACIMIENTO</label>
+                            <input type="date" class="form-control" id="fechaNacimientoE" name="fechaNacimientoE" required>
+                        </div>
+
+                        <div class="form-group col-md-2 col-lg-2 col-sm-12">
+                            <fieldset>
+                                <label>SEXO</label>
+                                <br>
+                                    <p>
+                                    <label>
+                                        <input type="radio" id="sexoE" name="sexoE" value="0"> 
+                                        <span>Masculino</span>
+                                    </label>
+                                    </p>
+                                    <p>
+                                    <label>
+                                        <input type="radio" id="sexoE" name="sexoE" value="1"> 
+                                        <span>Femenino</span>
+                                    </label>
+                                    </p>
+                            </fieldset>
+                        </div>
+
+                        <div class="form-group col-md-3 col-lg-3 col-sm-12">
+                            <label for="inputState">PARTICIPACIÓN SOCIAL</label>
+                            <select id="inputState" class="form-control" id="participacionSocialE" name="participacionSocialE" required>
+                                <option value="NO TIENE">NO TIENE</option>
+                                <option value="JUNTA DE VECINOS">JUNTA DE VECINOS</option>
+                                <option value="VOLUNTARIADO">VOLUNTARIADO</option>
+                                <option value="CLUB SOCIAL">CLUB SOCIAL</option>
+                                <option value="ORGANIZACIONES SOCIALES">ORGANIZACIONES SOCIALES</option>
+                                <option value="IGLESIA">IGLESIA</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3 col-lg-3 col-sm-12">
+                            <label for="estudio">ESTUDIO</label>
+                            <select id="estudio" class="form-control" id="estudioE" name="estudioE" required>
+                                <option value="ENSEÑANZA BASICA">ENSEÑANZA BASICA</option>
+                                <option value="ENSEÑANZA MEDIA">ENSEÑANZA MEDIA</option>
+                                <option value="CENTRO DE FORMACIÓN TECNICA">CENTRO DE FORMACIÓN TECNICA</option>
+                                <option value="INSTITUTO PROFESIONAL">INSTITUTO PROFESIONAL</option>
+                                <option value="UNIVERSITARIA">UNIVERSITARIA</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3 col-lg-3 col-sm-12">
+                            <label for="actividadLaboral">TELEFONO</label>
+                            <input type="telefono" class="form-control" id="telefonoE" name="telefonoE"  pattern="(+[0-9]{3}) [0-9]{3} [0-9]{2} [0-9]{3}" title="Use el formato +56987654321" maxlength="12" required>
+                        </div>
+
+                        <div class="form-group col-md-4 col-lg-4 col-sm-12">
+                            <label for="actividadLaboral">ACTIVIDAD LABORAL</label>
+                            <input type="text" class="form-control" id="actividadLaboralE" name="actividadLaboralE" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                        </div>
+
+                        <div class="form-group col-md-4 col-lg-4 col-sm-12">
+                            <label for="direccionParticular">DIRECCIÓN PARTICULAR</label>
+                            <input type="text" class="form-control" id="direccionParticularE" name="direccionParticularE" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                        </div>
+
+                        <div class="form-group col-md-3 col-lg-3 col-sm-12">
+                            <label for="sector">SECTOR</label>
+                            <select id="sector" class="form-control" id="sectorE" name="sectorE" required>
+                                <option value="AMARILLO">AMARILLO</option>
+                                <option value="VERDE">VERDE</option>
+                                <option value="AZUL">AZUL</option>
+                            </select>
+                        </div>
+
+                        <?php
+                            require_once("../model/Data.php");
+
+                            $data = new Data();
+
+                            $estadoCivil = $data->getEstadoCivil();
+                            $comuna = $data->getComuna();
+                            $estado = $data->getEstado();
+                            $patologia = $data->getPatologia();
+                            $complicacion = $data->getComplicacion();
+                        ?>
+
+                        <div class="form-group col-md-3 col-lg-3 col-sm-12">
+                            <label>ESTADO CIVIL</label>
+                            <select id="estadoCivilE" name="estadoCivilE" class="form-control" required>
+                            <option selected disabled>Seleccione una opción</option>
+                                <?php
+                                    foreach ($estadoCivil as $ec) {
+                                        echo "<option value='".$ec->id_EstadoCivil."'>".$ec->nombre."</option>";
+                                    }
+                                ?> 
+            
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3 col-lg-3 col-sm-12">
+                            <label>COMUNA</label>
+                            <select id="comunaE" name="comunaE" class="form-control" required>
+                            <option selected disabled>Seleccione una opción</option>
+                                <?php
+                                    foreach($comuna as $c){
+                                        echo "<option value='".$c->id_Comuna. "'>".$c->nombre."</option>";  
+                                    }
+                                ?>      
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3 col-lg-3 col-sm-12">
+                            <label>ESTADO</label>
+                            <select id="estadoE" name="estadoE" class="form-control" required>
+                            <option selected disabled>Seleccione una opción</option>
+                                <?php
+                                    foreach($estado as $e){
+                                        echo "<option value='".$e->id_Estado. "'>".$e->nombre."</option>";
+                                    }
+                                ?>      
+                            </select>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="submit" name="btnEditarPaciente" class="btn btn-primary">Actualizar</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/updatePaciente.js?ver=<?php echo filemtime('../js/updatePaciente.js');?>"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

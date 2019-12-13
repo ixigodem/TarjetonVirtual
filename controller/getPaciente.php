@@ -4,10 +4,10 @@
 
     $d = new Data();
 
-    $run = $_GET["run"];
+    $id = isset($_GET["id"])?$_GET["id"]:'';
+    $run = isset($_GET["run"])?$_GET["run"]:'';
 
-    $paciente = $d->getPacienteTarjeton($run);
+    $paciente = $d->getPacienteTarjeton($run,$id);
 
     echo json_encode($paciente);
-    // var_dump($paciente);
 ?>
