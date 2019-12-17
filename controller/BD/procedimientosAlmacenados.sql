@@ -1,4 +1,118 @@
+-- Obtener cantidad por patologia
+DELIMITER $$
+CREATE PROCEDURE sp_getCantidadPorPatologia(IN patologia varchar(50)) 
+BEGIN
+SELECT
+SUM(IF(edad BETWEEN 0 and 4,1,0)) as 'cero',
+SUM(IF(edad BETWEEN 5 and 9,1,0)) as 'cinco',
+SUM(IF(edad BETWEEN 10 and 19,1,0)) as 'diez',
+SUM(IF(edad BETWEEN 20 and 29,1,0)) as 'veinte',
+SUM(IF(edad BETWEEN 30 and 39,1,0)) as 'treinta',
+SUM(IF(edad BETWEEN 40 and 49,1,0)) as 'cuarenta',
+SUM(IF(edad BETWEEN 50 and 59,1,0)) as 'cincuenta',
+SUM(IF(edad BETWEEN 60 and 69,1,0)) as 'sesenta',
+SUM(IF(edad BETWEEN 70 and 79,1,0)) as 'setenta',
+SUM(IF(edad >=80, 1, 0)) as 'ochenta'
+FROM (select timestampdiff(year,fechaNacimiento,curdate()) as edad
+from tbl_paciente as p
+inner join tbl_patologiaspacientes as pp on pp.id_Paciente = p.id_Paciente
+inner join tbl_patologia as pat on pat.id_Patologia = pp.id_Patologia
+where pat.nombre like patologia) as obtencion;
+END $$
+
+-- Crear paciente
+DELIMITER $$
+CREATE PROCEDURE sp_getPaciente (IN run VARCHAR(10), IN id INT)
+BEGIN
+SELECT 
+	p.id_Paciente,
+	p.run_Paciente,
+	p.nombres,
+	p.apellidoPaterno,
+	p.apellidoMaterno,
+	DATE_FORMAT(p.fechaNacimiento, '%d/%m/%Y') as fechaNacimiento,
+	p.sexo,p.participacionSocial,
+	p.estudio,
+	p.actividadLaboral,
+	p.direccionParticular,
+	p.sector,
+	t.fono as fono,
+	cp.fechaComplicaciones,
+	com.nombre AS nombreComplicaciones,
+    ec.id_EstadoCivil,
+	ec.nombre as estadoCivil,
+    c.id_Comuna,
+	c.nombre as comuna,
+    e.id_Estado,
+	e.nombre as estado
+FROM 
+    tbl_paciente AS p
+	INNER JOIN tbl_estadocivil AS ec ON ec.id_EstadoCivil=p.id_EstadoCivil
+	INNER JOIN tbl_comuna AS c ON c.id_Comuna=p.id_Comuna
+	INNER JOIN tbl_estado AS e ON e.id_Estado=p.id_Estado
+	LEFT JOIN tbl_telefono AS t ON t.id_Paciente=p.id_Paciente
+	LEFT JOIN tbl_complicacionespacientes AS cp ON cp.id_Paciente=p.id_Paciente
+	LEFT JOIN tbl_complicacion AS com ON com.id_Complicacion=cp.id_Complicacion
+WHERE 
+    p.id_Estado = 1 AND p.run_Paciente = run OR p.id_Paciente = id;
+END $$
+
 -- Crear atención
+DELIMITER $$
+CREATE PROCEDURE sp_getTarjeton (in id int)
+BEGIN
+SELECT
+t.id_Tarjeton,
+t.id_Paciente,
+t.fechaAtencion,
+pro.id_Profesional,
+pro.nombre as nombreProfesional,
+o.observacion,
+pc.peso,
+pc.talla,
+pc.IMC,
+pc.diagnosticoNutricional,
+pc.paSistolica,
+pc.paDistolica,
+pc.circunferenciaCintura,
+pd.fechaEvalPieDiabetico,
+pd.ptjePieDiabetico,
+pd.fechaQualidiab,
+pd.qualidiab,
+pd.fechaFondoOjo,
+pd.resultadoFondoOjo,
+pd.enalapril,
+pd.losartan,
+pd.retinopatiaDiabetica,
+pd.amputacion,
+fdr.insuficienciaRenal,
+fdr.IAM,
+fdr.ACV,
+tc.estatinas,
+tc.AAS_100,
+uam.autovalente,
+uam.autovalenteConRiesgo,
+uam.riesgoDependencia,
+uam.dependencia,
+te.fechaExamen as fechaExamen,
+GROUP_CONCAT(te.id_ListaExamen SEPARATOR '\n') as idExamen,
+GROUP_CONCAT(le.nombreExamen SEPARATOR '\n') as nombreExamen,
+GROUP_CONCAT(CONCAT(FORMAT(te.valor,0)) SEPARATOR '\n') as valor,
+t.id_Estado
+FROM tbl_tarjeton as t 
+INNER JOIN tbl_observacion as o on o.id_Tarjeton = t.id_Tarjeton
+INNER JOIN tbl_profesional as pro on pro.id_Profesional = t.id_Profesional
+INNER JOIN tbl_parametrosclinicos as pc on pc.id_Tarjeton = t.id_Tarjeton
+INNER JOIN tbl_pacientediabetico as pd on pd.id_Tarjeton = t.id_Tarjeton
+INNER JOIN tbl_factorderiesgo as fdr on fdr.id_Tarjeton = t.id_Tarjeton
+INNER JOIN tbl_tratamientocardiaco as tc on tc.id_Tarjeton = t.id_Tarjeton
+INNER JOIN tbl_usuarioadultomayor as uam on uam.id_Tarjeton = t.id_Tarjeton
+INNER JOIN tbl_tipoexamenes as te on te.id_Tarjeton = t.id_Tarjeton
+INNER JOIN tbl_listadoexamen as le on le.id_ListaExamen = te.id_ListaExamen
+WHERE t.id_Paciente = id AND t.id_Estado = 1
+GROUP BY o.observacion, te.fechaExamen;
+END $$
+
 delimiter $$
 create procedure sp_crearAtencion(
 in fechaAtencion date,

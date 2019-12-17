@@ -1,6 +1,6 @@
 function actualizarPaciente(id) {
     // Obtener el paciente seleccionado
-    fetch('../controller/getPaciente.php?id=' + id, {
+    fetch('../controller/getPaciente.php?id= ' + id, {
         method: 'GET'
     })
     .then(res => res.json())

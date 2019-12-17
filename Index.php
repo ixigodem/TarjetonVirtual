@@ -39,12 +39,12 @@
           <a data-toggle="dropdown" class="nav-link dropdown-toggle">Inicio de Sesión</a>
           <ul class="dropdown-menu form-wrapper">					
             <li>
-              <form action="controller/Control.php" method="post">
+              <form action="controller/Control.php" method="POST">
                 <div class="form-group">
-                  <input type="text" class="form-control" name="usuario" placeholder="Usuario:" required="required">
+                  <input type="text" autocomplete="username" class="form-control" name="usuario" placeholder="Usuario:" maxlength="50" required="required">
                 </div>
                 <div class="form-group">
-                  <input type="password" class="form-control" name="clave" placeholder="Clave:" required="required">
+                  <input type="password" autocomplete="current-password" class="form-control" name="clave" placeholder="Clave:" required="required">
                 </div>
                 <input type="submit" class="btn btn-primary btn-block" value="Iniciar Sesión">
               </form>
@@ -89,50 +89,29 @@
       <div class="carousel-item">
         <img src="img/fotos/portadas2.jpg" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block">
-          <h5>Primera</h5>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <h5>Actividades Cardiovasculares</h5>
+          <p>Actividad realizada en la cancha de la Rancagua Sur</p>
         </div>
       </div>
       <div class="carousel-item">
         <img src="img/fotos/operativos1.jpg" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block">
-          <h5>Segunda</h5>
-          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+          <h5>Actividades Cardiovasculares</h5>
+          <p>Actividad realizada en la sede de la pobación Isabel Riquelme</p>
         </div>
       </div>
       <div class="carousel-item">
         <img src="img/fotos/operativos2.jpg" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block">
-          <h5>Tercera</h5>
-          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+          <h5>Personal en ferias</h5>
+          <p>Personal en la comunidad sensibilizando sobre las enfermedades cardiovasculares</p>
         </div>
       </div>
       <div class="carousel-item">
         <img src="img/fotos/operativos3.jpg" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block">
-          <h5>Cuarta</h5>
-          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <img src="img/fotos/operativos3.jpg" class="d-block w-100" alt="...">
-        <div class="carousel-caption d-none d-md-block">
-          <h5>Quinta</h5>
-          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <img src="img/fotos/operativos3.jpg" class="d-block w-100" alt="...">
-        <div class="carousel-caption d-none d-md-block">
-          <h5>Sexta</h5>
-          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <img src="img/fotos/operativos3.jpg" class="d-block w-100" alt="...">
-        <div class="carousel-caption d-none d-md-block">
-          <h5>Septima</h5>
-          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+          <h5>Personal en ferias</h5>
+          <p>Personal en la comunidad sensibilizando sobre las enfermedades cardiovasculares</p>
         </div>
       </div>
     </div>

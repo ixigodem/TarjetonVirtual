@@ -12,16 +12,20 @@ Al final, se redirecciona a la página respectiva dependiendo del resultado de l
     header("Content-Type: text/html; charset=utf-8"); 
     $usr = $_POST["usuario"];
     $usuario = mailboxpowerloginrd($usr,$_POST["clave"]);
+    $nombre = str_replace("CN=","",$usuario[0]);
+    $estamento = str_replace("OU=","",$usuario[1]);
     if($usuario == "0" || $usuario == ''){ 
         $_SERVER = array();
         $_SESSION = array();
-        echo"<script> alert('Usuario o clave incorrecta. Vuelva a digitarlos por favor.');
-        window.location.href='../Index.php';</script>";
+        // echo"<script> alert('Usuario o clave incorrecta. Vuelva a digitarlos por favor.');
+        // window.location.href='../Index.php';</script>";
     }else{ 
         session_start();
-        $_SESSION["user"] = $usuario; 
+        $_SESSION["nombre"] = $nombre;
+        $_SESSION["estamento"] = $estamento;
         $_SESSION["autentica"] = "SIP";
         echo"<script> alert('¡El usuario se ingreso correctamente!');</script>";
         echo"<script>window.location.href='../view/Menu.php'; </script>";
-    } 
+    }
+    echo $_SESSION["estamento"];
 ?>

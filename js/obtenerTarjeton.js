@@ -17,7 +17,7 @@ formGetPaciente.addEventListener('submit', function(e) {
     var formDataPaciente = new FormData(formGetPaciente);
     var run = formDataPaciente.get('txtRun');
 
-    fetch('../controller/getPaciente.php?run=' + run, {
+    fetch('../controller/getPaciente.php?run=' +run,{
             method: 'GET'
         })
         .then(res => res.json())
@@ -87,7 +87,7 @@ function crearTablaPaciente(resultado) {
 
 var tarjetonGlobal = "";
 function getTarjeton(id) {
-    fetch('../controller/getTarjeton.php?id=' + id, {
+    fetch('../controller/getTarjeton.php?id=' +id,{
             method: 'GET'
         })
         .then(res => res.json())
@@ -140,8 +140,8 @@ function mostrarTarjeton(datos,id) {
              <th scope="col">PA Sistolica</th>
              <th scope="col">PA Distolica</th>
              <th scope="col">Circunferencia Cintura</th>
-             <th scope="col">Fecha Examen</th>
-             <th scope="col">Nombre Examen</th>
+             <th scope="col" width="300">Fecha Examen</th>
+             <th scope="col" width="300">Nombre Examen</th>
              <th scope="col">Valor Examen</th>
       
              <th scope="col">Fecha Evaluación Pie Diabetico</th>
@@ -195,9 +195,9 @@ function mostrarTarjeton(datos,id) {
                 <td>${d.paSistolica}</td>
                 <td>${d.paDistolica}</td>
                 <td>${d.circunferenciaCintura}</td>
-                <td>${d.fechaExamen}</td>
-                <td>${d.nombreExamen}</td>
-                <td>${d.valor}</td>
+                <td width="300" style="text-align:center">${d.fechaExamen.replace(/\n/g, "<br />")}</td>
+                <td width="500" style="text-align:center">${d.nombreExamen.replace(/\n/g, "<br />")}</td>
+                <td width="30" style="text-align:center">${d.valor.replace(/\n/g, "<br />")}</td>
                 <td>${d.fechaEvalPieDiabetico}</td>
                 <td>${d.ptjePieDiabetico == 1 ? "BAJO" :
                 d.ptjePieDiabetico == 2 ? "MODERADO" : "ALTO"}</td>

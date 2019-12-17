@@ -1,6 +1,8 @@
 <?php 
   @session_start();
   include("../controller/Seguridad.php");
+  $nombre = $_SESSION['nombre'];
+  $estamento = $_SESSION['estamento'];
 ?>
 <!doctype html>
 <html lang="en">
@@ -17,7 +19,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <li><a class="navbar-brand" href="Menu.php">
-            <img src="../img/Enfermeria.png" width="30" height="30" class="d-inline-block align-top" href="../index.php">
+            <img src="../img/Enfermeria.png" width="30" height="30" class="d-inline-block align-top" href="Menu.php">
             Tarjetón Virtual
         </a></li>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,7 +29,8 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
 
-            <li class="nav-item dropdown">
+            <?php if ($estamento = "Informática" || $estamento = "Enfermera" || $estamento = "Medico" || $estamento = "Nutricionista") { ?>
+              <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Pacientes
                 </a>
@@ -61,27 +64,60 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="formGestion.php">Reporte Tarjetón</a>
-                <a class="dropdown-item" href="#">Control HTA</a>
-                <a class="dropdown-item" href="#">Control DM2</a>
-                <a class="dropdown-item" href="#">Control Epilepsia</a>
+                </div>
+            </li>
+            <?php } else if ($estamento = "Técnico Paramedico" || $estamento = "Kinesiologo" || $estamento = "Administrativo") {?>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Pacientes
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="formCrearPaciente.php">Crear Paciente</a>
+                <a class="dropdown-item" href="listarPaciente.php">Buscar Paciente</a>
                 </div>
             </li>
 
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Tarjetón
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="formCrearTarjeton.php">Crear Tarjetón</a>
+                </div>
+            </li>
+            <?php }?>
+            
             <li class="nav-item"><a href="http://web.saludcormun.cl/?page_id=3733" class="nav-link">Sobre Nosotros</a></li>
             </ul>
 
-            <ul class="nav navbar-nav navbar-left ml-auto">			
-              <li class="nav-item">
-                <div class="alert alert-success" role="alert">
-                  <h2 class="alert-heading">Bienvenido: <?php echo $_SESSION['user']; ?></h2>
-                </div>
-              </li>
-            </ul>
-
-            <ul class="nav navbar-nav navbar-left ml-auto">			
-              <li class="nav-item">
-                  <a class="btn btn-outline-dark" href="../controller/Salir.php" role="button">Cerrar Sesion</a>
-              </li>
+            <ul class="nav justify-content-end">
+                <span class="nav-link active">
+                    Bienvenido: 
+                    <?php echo $nombre;?>
+                </span> 
+                <li class="nav-item">
+                    <button onclick="cerrarSesion()" class="btn btn-outline-dark">Cerrar Sesion</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalCerrarSesion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Advertencia</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Realmente desea Cerrar Sesión?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                            <button type="submit" id="btnCerrarSesion" name="btnCerrarSesion" class="btn btn-success">SI</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </li>                  
             </ul>
         </div>
     </nav>
@@ -117,6 +153,8 @@
         <span class="sr-only">Next</span>
       </a>
     </div>
+
+    <script src="../js/cerrarSesion.js?ver=<?php echo filemtime('../js/cerrarSesion.js');?>"></script>
 
     <!-- Optional JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

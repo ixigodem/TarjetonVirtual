@@ -5,8 +5,8 @@
 
     header('Content-Type: application/json');
 
-    $id = $_GET["id"];
-
+    // $id = $_REQUEST["id"];
+$id = 1;
     $tarjeton = array();
 
     $d = new Data();

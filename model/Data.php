@@ -91,6 +91,7 @@ class Data{
         values(null, '".$profesional->getNombreProfesional()."', 
         ".$profesional->getEstamento().")";
         
+        $this->con->conectar();
         $this->con->ejecutar($query);
     }
 
@@ -217,10 +218,10 @@ class Data{
         return $p;
     }
 
-    public function getPacienteTarjeton($run,$id){
+    public function getPacienteTarjeton($id,$run){
         $lista = array();
 
-        $query = "SELECT * FROM getPaciente WHERE run_Paciente = '$run' OR id_Paciente = '$id';";
+        $query = "SELECT * FROM getPaciente WHERE id_Paciente= '$id' OR run_Paciente = '$run';";
 
         $this->con->conectar();
 
@@ -338,6 +339,24 @@ class Data{
         return $lista;
     }
 
+    public function getProfesionalBusqueda($nombre){
+        $query = "SELECT id_Profesional FROM tbl_profesional WHERE nombre = '$nombre';";
+
+        $p = null;
+
+        $this->con->conectar();
+
+        $rs = $this->con->ejecutar($query);
+        if ($obj = $rs->fetch_object()) {
+            $p = new Profesional();
+            
+            $p->setIdProfesional($obj->id_Profesional);
+        }
+
+        $this->con->desconectar();
+        return $p;
+    }
+
     public function getEstamento(){
         $listEstado = array();
 
@@ -373,22 +392,7 @@ class Data{
     public function getCantidadPacientesPorDiagnostico($filtro){
         $lista = array();
 
-        $query = "SELECT
-        SUM(IF(edad BETWEEN 0 and 4,1,0)) as 'cero',
-        SUM(IF(edad BETWEEN 5 and 9,1,0)) as 'cinco',
-        SUM(IF(edad BETWEEN 10 and 19,1,0)) as 'diez',
-        SUM(IF(edad BETWEEN 20 and 29,1,0)) as 'veinte',
-        SUM(IF(edad BETWEEN 30 and 39,1,0)) as 'treinta',
-        SUM(IF(edad BETWEEN 40 and 49,1,0)) as 'cuarenta',
-        SUM(IF(edad BETWEEN 50 and 59,1,0)) as 'cincuenta',
-        SUM(IF(edad BETWEEN 60 and 69,1,0)) as 'sesenta',
-        SUM(IF(edad BETWEEN 70 and 79,1,0)) as 'setenta',
-        SUM(IF(edad >=80, 1, 0)) as 'ochenta'
-        FROM (select timestampdiff(year,fechaNacimiento,curdate()) as edad
-        from tbl_paciente as p
-        inner join tbl_patologiaspacientes as pp on pp.id_Paciente = p.id_Paciente
-        inner join tbl_patologia as pat on pat.id_Patologia = pp.id_Patologia
-        where pat.nombre like '%$filtro%') as obtencion";
+        $query = "call sp_getCantidadPorPatologia('$filtro');";
 
         $this->con->conectar();
 
@@ -404,7 +408,7 @@ class Data{
     public function getTarjeton($id){
         $lista = array();
 
-        $query = "select * from getTarjeton where id_Paciente = $id";
+        $query = "call sp_getTarjeton($id)";
 
         $this->con->conectar();
 
@@ -567,7 +571,7 @@ class Data{
 
 // Función que me permite crear paciente obteniendo un objeto de paciente y telefono 
 // un array de las patologias y leyendolo con un foreach
-    public function crearPacienteTelPat($paciente,$listPatologia,$listComplicaciones,$telefono){
+    public function crearPacienteTelPat($paciente,$listPatologia,$telefono){
         //creo el paciente
         $queryPaciente = "insert into tbl_paciente 
         values(null,
@@ -586,6 +590,7 @@ class Data{
         ".$paciente->getEstado().",
         '".$paciente->getComuna()."')";
 
+        $this->con->conectar();
         $this->con->ejecutar($queryPaciente);
 
         //Obtengo el último paciente (id)
@@ -608,21 +613,15 @@ class Data{
             '".$lp["fecha"]."',
             ".$lp["id"].",
             ". $idUltimoPaciente.")";
-            $this->con->ejecutar($query);
-        }
-
-        foreach ($listComplicaciones as $lc) {
-            $query = "INSERT INTO tbl_complicacionespacientes 
-            VALUES (null,
-            '".$lc["fecha"]."',
-            ".$lc["id"].",
-            ". $idUltimoPaciente.")";
+            $this->con->conectar();
             $this->con->ejecutar($query);
         }
 
         $queryTelefono = "INSERT INTO tbl_telefono VALUES (null,'".$telefono->getFono()."',". $idUltimoPaciente.")";
 
+        $this->con->conectar();
         $this->con->ejecutar($queryTelefono);
+        $this->con->desconectar();
     }
 
     public function crearAtencion($tarjeton,$observacion,$parametrosClinicos,$pacienteDiabetico,$factorDeRiesgo,$tratamientoCardiaco,$usuarioAdultoMayor,$listaExamen){

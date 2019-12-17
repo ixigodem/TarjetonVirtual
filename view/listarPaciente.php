@@ -30,8 +30,9 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
             <li class="nav-item"><a href="Menu.php" class="nav-link">Inicio</a></li>
-
-            <li class="nav-item dropdown">
+            
+            <?php if ($_SESSION["estamento"] = "Informática" || $_SESSION["estamento"] = "Enfermera" || $_SESSION["estamento"] = "Medico" || $_SESSION["estamento"] = "Nutricionista") { ?>
+              <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Pacientes
                 </a>
@@ -49,7 +50,7 @@
                 <a class="dropdown-item" href="formCrearProfesional.php">Crear Profesional</a>
                 </div>
             </li>
-            
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Tarjetón
@@ -64,14 +65,61 @@
                 Gestión
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Reporte Tarjetón</a>
-                <a class="dropdown-item" href="#">Control HTA</a>
-                <a class="dropdown-item" href="#">Control DM2</a>
-                <a class="dropdown-item" href="#">Control Epilepsia</a>
+                <a class="dropdown-item" href="formGestion.php">Reporte Tarjetón</a>
+                </div>
+            </li>
+            <?php }else if ($_SESSION["estamento"] = "Técnico Paramedico" || $_SESSION["estamento"] = "Kinesiologo" || $_SESSION["estamento"] = "Administrativo") {?>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Pacientes
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="formCrearPaciente.php">Crear Paciente</a>
+                <a class="dropdown-item" href="listarPaciente.php">Buscar Paciente</a>
                 </div>
             </li>
 
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Tarjetón
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="formCrearTarjeton.php">Crear Tarjetón</a>
+                </div>
+            </li>
+            <?php }?>
+
             <li class="nav-item"><a href="http://web.saludcormun.cl/?page_id=3733" class="nav-link">Sobre Nosotros</a></li>
+            </ul>
+            
+            <ul class="nav justify-content-end">
+                <span class="nav-link active">
+                    Bienvenido: <br>
+                    <?php echo $_SESSION['nombre'];?>
+                </span> 
+                <li class="nav-item">
+                    <button onclick="cerrarSesion()" class="btn btn-outline-dark">Cerrar Sesion</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalCerrarSesion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Advertencia</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Realmente desea Cerrar Sesión?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                            <button type="submit" id="btnCerrarSesion" name="btnCerrarSesion" class="btn btn-success">SI</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </li>                  
             </ul>
         </div>
     </nav>
@@ -93,7 +141,7 @@
         <form class="form-inline" action="listarPaciente.php" method="POST">
             <div class="row">
                 <div class="input-field col s6">
-                    <input type="text" class="form-control" name="txtBuscarPaciente" placeholder="Ej: Juan Perez" data-length="120" value="<?php echo $filtro;?>">
+                    <input type="text" class="form-control" name="txtBuscarPaciente" placeholder="Ej: Juan Perez" data-length="120" maxlength="120" value="<?php echo $filtro;?>">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="btnBuscarPaciente">Buscar</button>
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="btnMostrarPacientePasivo">Mostrar Pacientes Pasivos</button>
                 </div>
@@ -205,20 +253,20 @@
                         </div>
                         <div class="form-group col-md-3 col-lg-3 col-sm-12">
                             <label for="nombres">NOMBRES</label>
-                            <input type="text" class="form-control" id="nombresE" name="nombresE" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                            <input type="text" class="form-control" id="nombresE" name="nombresE" maxlength="50" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
                         </div>
                         <div class="form-group col-md-3 col-lg-3 col-sm-12">
                             <label for="apellidoPaterno">APELLIDO PATERNO</label>
-                            <input type="text" class="form-control" id="apellidoPaternoE" name="apellidoPaternoE" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                            <input type="text" class="form-control" id="apellidoPaternoE" name="apellidoPaternoE" maxlength="20" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
                         </div>
                         <div class="form-group col-md-3 col-lg-3 col-sm-12">
                             <label for="apellidoMaterno">APELLIDO MATERNO</label>
-                            <input type="text" class="form-control" id="apellidoMaternoE" name="apellidoMaternoE" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                            <input type="text" class="form-control" id="apellidoMaternoE" name="apellidoMaternoE" maxlength="20" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
                         </div>
 
                         <div class="form-group col-md-3 col-lg-3 col-sm-12">
                             <label for="fechaNacimiento">FECHA DE NACIMIENTO</label>
-                            <input type="date" class="form-control" id="fechaNacimientoE" name="fechaNacimientoE" required>
+                            <input type="date" class="form-control" id="fechaNacimientoE" name="fechaNacimientoE" maxlength="10" required>
                         </div>
 
                         <div class="form-group col-md-2 col-lg-2 col-sm-12">
@@ -227,13 +275,13 @@
                                 <br>
                                     <p>
                                     <label>
-                                        <input type="radio" id="sexoE" name="sexoE" value="0"> 
+                                        <input type="radio" id="sexoE" name="sexoE" maxlength="10" value="0"> 
                                         <span>Masculino</span>
                                     </label>
                                     </p>
                                     <p>
                                     <label>
-                                        <input type="radio" id="sexoE" name="sexoE" value="1"> 
+                                        <input type="radio" id="sexoE" name="sexoE" maxlength="10" value="1"> 
                                         <span>Femenino</span>
                                     </label>
                                     </p>
@@ -242,7 +290,7 @@
 
                         <div class="form-group col-md-3 col-lg-3 col-sm-12">
                             <label for="inputState">PARTICIPACIÓN SOCIAL</label>
-                            <select id="inputState" class="form-control" id="participacionSocialE" name="participacionSocialE" required>
+                            <select id="inputState" class="form-control" id="participacionSocialE" name="participacionSocialE" maxlength="30" required>
                                 <option value="NO TIENE">NO TIENE</option>
                                 <option value="JUNTA DE VECINOS">JUNTA DE VECINOS</option>
                                 <option value="VOLUNTARIADO">VOLUNTARIADO</option>
@@ -254,7 +302,7 @@
 
                         <div class="form-group col-md-3 col-lg-3 col-sm-12">
                             <label for="estudio">ESTUDIO</label>
-                            <select id="estudio" class="form-control" id="estudioE" name="estudioE" required>
+                            <select id="estudio" class="form-control" id="estudioE" name="estudioE" maxlength="30" required>
                                 <option value="ENSEÑANZA BASICA">ENSEÑANZA BASICA</option>
                                 <option value="ENSEÑANZA MEDIA">ENSEÑANZA MEDIA</option>
                                 <option value="CENTRO DE FORMACIÓN TECNICA">CENTRO DE FORMACIÓN TECNICA</option>
@@ -270,17 +318,17 @@
 
                         <div class="form-group col-md-4 col-lg-4 col-sm-12">
                             <label for="actividadLaboral">ACTIVIDAD LABORAL</label>
-                            <input type="text" class="form-control" id="actividadLaboralE" name="actividadLaboralE" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                            <input type="text" class="form-control" id="actividadLaboralE" name="actividadLaboralE" maxlength="100" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
                         </div>
 
                         <div class="form-group col-md-4 col-lg-4 col-sm-12">
                             <label for="direccionParticular">DIRECCIÓN PARTICULAR</label>
-                            <input type="text" class="form-control" id="direccionParticularE" name="direccionParticularE" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                            <input type="text" class="form-control" id="direccionParticularE" name="direccionParticularE" maxlength="100" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
                         </div>
 
                         <div class="form-group col-md-3 col-lg-3 col-sm-12">
                             <label for="sector">SECTOR</label>
-                            <select id="sector" class="form-control" id="sectorE" name="sectorE" required>
+                            <select id="sector" class="form-control" id="sectorE" name="sectorE" maxlength="10" required>
                                 <option value="AMARILLO">AMARILLO</option>
                                 <option value="VERDE">VERDE</option>
                                 <option value="AZUL">AZUL</option>
@@ -301,7 +349,7 @@
 
                         <div class="form-group col-md-3 col-lg-3 col-sm-12">
                             <label>ESTADO CIVIL</label>
-                            <select id="estadoCivilE" name="estadoCivilE" class="form-control" required>
+                            <select id="estadoCivilE" name="estadoCivilE" class="form-control" maxlength="10" required>
                             <option selected disabled>Seleccione una opción</option>
                                 <?php
                                     foreach ($estadoCivil as $ec) {
@@ -314,7 +362,7 @@
 
                         <div class="form-group col-md-3 col-lg-3 col-sm-12">
                             <label>COMUNA</label>
-                            <select id="comunaE" name="comunaE" class="form-control" required>
+                            <select id="comunaE" name="comunaE" class="form-control" maxlength="50" required>
                             <option selected disabled>Seleccione una opción</option>
                                 <?php
                                     foreach($comuna as $c){
@@ -326,7 +374,7 @@
 
                         <div class="form-group col-md-3 col-lg-3 col-sm-12">
                             <label>ESTADO</label>
-                            <select id="estadoE" name="estadoE" class="form-control" required>
+                            <select id="estadoE" name="estadoE" class="form-control" maxlength="10" required>
                             <option selected disabled>Seleccione una opción</option>
                                 <?php
                                     foreach($estado as $e){
@@ -346,6 +394,8 @@
     </div>
 
     <script src="../js/updatePaciente.js?ver=<?php echo filemtime('../js/updatePaciente.js');?>"></script>
+    <script src="../js/cerrarSesion.js?ver=<?php echo filemtime('../js/cerrarSesion.js');?>"></script>
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

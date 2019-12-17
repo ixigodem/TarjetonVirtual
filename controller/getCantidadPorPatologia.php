@@ -1,7 +1,7 @@
 <?php
     include_once('../model/Data.php');
 
-    $patologia = $_GET["patologia"];
+    $patologia = $_POST["cboPatologia"];
 
     $datos = array();
 

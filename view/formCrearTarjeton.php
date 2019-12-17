@@ -1,3 +1,7 @@
+<?php 
+  @session_start(); 
+  include("../controller/Seguridad.php");
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +31,8 @@
             <ul class="navbar-nav mr-auto">
             <li class="nav-item"><a href="Menu.php" class="nav-link">Inicio</a></li>
 
-            <li class="nav-item dropdown">
+            <?php if ($_SESSION["estamento"] = "Informática" || $_SESSION["estamento"] = "Enfermera" || $_SESSION["estamento"] = "Medico" || $_SESSION["estamento"] = "Nutricionista") { ?>
+              <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Pacientes
                 </a>
@@ -45,7 +50,7 @@
                 <a class="dropdown-item" href="formCrearProfesional.php">Crear Profesional</a>
                 </div>
             </li>
-            
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Tarjetón
@@ -61,13 +66,60 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="formGestion.php">Reporte Tarjetón</a>
-                <a class="dropdown-item" href="#">Control HTA</a>
-                <a class="dropdown-item" href="#">Control DM2</a>
-                <a class="dropdown-item" href="#">Control Epilepsia</a>
+                </div>
+            </li>
+            <?php }else if ($_SESSION["estamento"] = "Técnico Paramedico" || $_SESSION["estamento"] = "Kinesiologo" || $_SESSION["estamento"] = "Administrativo") {?>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Pacientes
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="formCrearPaciente.php">Crear Paciente</a>
+                <a class="dropdown-item" href="listarPaciente.php">Buscar Paciente</a>
                 </div>
             </li>
 
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Tarjetón
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="formCrearTarjeton.php">Crear Tarjetón</a>
+                </div>
+            </li>
+            <?php }?>
+
             <li class="nav-item"><a href="http://web.saludcormun.cl/?page_id=3733" class="nav-link">Sobre Nosotros</a></li>
+            </ul>
+
+            <ul class="nav justify-content-end">
+                <span class="nav-link active">
+                    Bienvenido: <br>
+                    <?php echo $_SESSION['nombre'];?>
+                </span> 
+                <li class="nav-item">
+                    <button onclick="cerrarSesion()" class="btn btn-outline-dark">Cerrar Sesion</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalCerrarSesion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Advertencia</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Realmente desea Cerrar Sesión?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                            <button type="submit" id="btnCerrarSesion" name="btnCerrarSesion" class="btn btn-success">SI</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </li>                  
             </ul>
         </div>
     </nav>
@@ -76,7 +128,7 @@
 <!-- Formulario de busqueda de paciente -->
     <nav class="navbar navbar-light bg-light">
         <form id="formGetPaciente" method="POST" class="form-inline">
-            <input class="form-control mr-sm-2" name="txtRun" id="txtRun"
+            <input class="form-control mr-sm-2" name="txtRun" id="txtRun" value="17504702-6"
             onkeyup="checkRun(this)" placeholder="Ej. 11222333-4" maxlength="10">
             <button class="btn btn-outline-success my-2 my-sm-0" name="btnBuscarPaciente" type="submit">Buscar Paciente</button>
             <input class="btn btn-primary" type="reset" value="Limpiar" onclick="clearForm()">
@@ -104,10 +156,10 @@
             </button>
         </div>
         <div class="modal-body">
-            <form method="POST" action="../controller/createAtencion.php" id="form-normal" class="row">
+            <form method="POST" action="../controller/createAtencion.php" style="background-color: rgb(196, 223, 231)" class="row">
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>FECHA ATENCIÓN</label>
-                    <input type="date" class="form-control" name="fechaAtencion" id="fechaAtencion" required>
+                    <input type="date" class="form-control" name="fechaAtencion" id="fechaAtencion" maxlength="10" required>
                 </div>
 
                 <?php
@@ -120,7 +172,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>PROFESIONAL</label>
-                    <select class="form-control" name="profesional" id="profesional" required>
+                    <select class="form-control" name="profesional" id="profesional" maxlength="50" required>
                         <option selected disabled>Seleccione una opción</option>
                         <?php
                             foreach($profesional as $p){
@@ -133,42 +185,42 @@
             
                 <div class="form-group col-md-6 col-lg-6 col-sm-12">
                     <label>OBSERVACIÓN</label>
-                    <input type="text" class="form-control" name="txtObservacion" id="txtObservacion" placeholder="Observación" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                    <input type="text" class="form-control" name="txtObservacion" id="txtObservacion" maxlength="500" placeholder="Observación" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
                 </div>
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>PESO</label>
-                    <input type="number" class="form-control" name="txtPeso" id="peso" placeholder="Ej: 80" required>
+                    <input type="number" class="form-control" name="txtPeso" id="peso" maxlength="10" placeholder="Ej: 80" required>
                 </div>
             
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>TALLA</label>
-                    <input type="number" class="form-control" name="txtTalla" id="altura" onkeyup="calc_imc()" placeholder="Ej: 170" required>
+                    <input type="number" class="form-control" name="txtTalla" id="altura" maxlength="10" onkeyup="calc_imc()" placeholder="Ej: 170" required>
                 </div>
             
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>INDICE DE MASA CORPORAL</label>
-                    <input type="text" class="form-control" name="txtIMC" id="IMC" placeholder="Ej: 11,70" readonly>
+                    <input type="text" class="form-control" name="txtIMC" id="IMC" maxlength="10" placeholder="Ej: 11,70" readonly>
                 </div>
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>DIAGNOSTICO NUTRICIONAL</label>
-                    <input type="text" class="form-control" name="diagnosticoNutricional" id="dgNutricional" placeholder="Ej: Obeso" readonly><div id="errorIMC"></div>
+                    <input type="text" class="form-control" name="diagnosticoNutricional" maxlength="100" id="dgNutricional" placeholder="Ej: Obeso" readonly><div id="errorIMC"></div>
                 </div>
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>PRESIÓN ARTERIAL SISTOLICA</label>
-                    <input type="number" class="form-control" name="txtPaSistolica" id="txtPaSistolica" placeholder="Ej: 130" required>
+                    <input type="number" class="form-control" name="txtPaSistolica" id="txtPaSistolica" maxlength="10" placeholder="Ej: 130" required>
                 </div>
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>PRESIÓN ARTERIAL DISTOLICA</label>
-                    <input type="number" class="form-control" name="txtPaDistolica" id="txtPaDistolica" placeholder="Ej: 64" required>
+                    <input type="number" class="form-control" name="txtPaDistolica" id="txtPaDistolica" maxlength="10" placeholder="Ej: 64" required>
                 </div>
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>CIRCUNFERENCIA</label>
-                    <input type="number" class="form-control" name="txtCircunferencia" id="txtCircunferencia" placeholder="Ej: 102" required>
+                    <input type="number" class="form-control" name="txtCircunferencia" id="txtCircunferencia" maxlength="10" placeholder="Ej: 102" required>
                 </div>
                 
                 <input type="hidden" name="jsonExamenes" id="jsonExamenes"> 
@@ -177,12 +229,12 @@
                 <div class="form-group row" id="examenes">
                     <div class="form-group col-md-3 col-lg-3 col-sm-12">
                         <label>FECHA EXAMEN</label>
-                        <input type="date" class="form-control" name="fechaExamen" id="fechaExamen" required>
+                        <input type="date" class="form-control" name="fechaExamen" id="fechaExamen" maxlength="10" required>
                     </div>
                     
                     <div class="form-group col-md-6 col-lg-6 col-sm-12">
                         <label>LISTADO DE EXAMENES</label>
-                        <select class="form-control" name="listadoExamen" id="listadoExamen" required>
+                        <select class="form-control" name="listadoExamen" id="listadoExamen" maxlength="50" required>
                             <option selected disabled>Seleccione una opción</option>
                             <?php 
                                 foreach ($listadoExamen as $le) {
@@ -194,7 +246,7 @@
                 
                     <div class="form-group col-md-3 col-lg-3 col-sm-12">
                         <label>VALOR DEL EXAMEN</label>
-                        <input type="number" class="form-control" name="txtValorExamen" id="txtValorExamen" placeholder="Ej: 102" required>
+                        <input type="number" class="form-control" name="txtValorExamen" id="txtValorExamen" maxlength="10" placeholder="Ej: 102" required>
                     </div>
 
                     <div class="form-group col-md-1 col-lg-1 col-sm-12">
@@ -221,22 +273,22 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>FECHA EVALUACIÓN PIE DIABETICO</label>
-                    <input type="date" class="form-control" name="fechaEvPieDiabetico" id="fechaEvPieDiabetico" required>
+                    <input type="date" class="form-control" name="fechaEvPieDiabetico" id="fechaEvPieDiabetico" maxlength="10" required>
                 </div>
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>PUNTAJE PIE DIABETICO</label>
-                    <input type="number" class="form-control" name="txtPjPieDiabetico" id="txtPjPieDiabetico" placeholder="Ej: 102" required>
+                    <input type="number" class="form-control" name="txtPjPieDiabetico" id="txtPjPieDiabetico" maxlength="10" placeholder="Ej: 102" required>
                 </div>
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>FECHA QUALIDIAB</label>
-                    <input type="date" class="form-control" name="fechaQualidab" id="fechaQualidiab" required>
+                    <input type="date" class="form-control" name="fechaQualidab" id="fechaQualidiab" maxlength="10" required>
                 </div>
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>QUALIDIAB</label>
-                    <select class="form-control" name="txtQualidiab" id="txtQualidiab" required>
+                    <select class="form-control" name="txtQualidiab" id="txtQualidiab" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -245,12 +297,12 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>FECHA DEL FONDO DE OJO</label>
-                    <input type="date" class="form-control" name="fechaFondoOjo" id="fechaFondoOjo" required>
+                    <input type="date" class="form-control" name="fechaFondoOjo" id="fechaFondoOjo" maxlength="10" required>
                 </div>
                 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>RESULTADO DEL FONDO DE OJO</label>
-                    <select class="form-control" name="resultadoFondoOjo" id="resultadoFondoOjo" required>
+                    <select class="form-control" name="resultadoFondoOjo" id="resultadoFondoOjo" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">NORMAL</option>
                         <option value="1">ALTERADO</option>
@@ -259,7 +311,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>ENALAPRIL</label>
-                    <select class="form-control" name="enalapril" id="enalapril" required>
+                    <select class="form-control" name="enalapril" id="enalapril" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -268,7 +320,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>LOSARTAN</label>
-                    <select class="form-control" name="losartan" id="losartan" required>
+                    <select class="form-control" name="losartan" id="losartan" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -277,7 +329,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>RETINOPATIA DIABETICA</label>
-                    <select class="form-control" name="retinopatiaDiabetica" id="retinopatiaDiabetica" required>
+                    <select class="form-control" name="retinopatiaDiabetica" id="retinopatiaDiabetica" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -286,7 +338,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>AMPUTACIÓN</label>
-                    <select class="form-control" name="amputacion" id="amputacion" required>
+                    <select class="form-control" name="amputacion" id="amputacion" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -295,7 +347,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>INSUFICIENCIA RENAL</label>
-                    <select class="form-control" name="insuficienciaRenal" id="insuficienciaRenal" required>
+                    <select class="form-control" name="insuficienciaRenal" id="insuficienciaRenal"maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -304,7 +356,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>IAM</label>
-                    <select class="form-control" name="iam" id="iam" required>
+                    <select class="form-control" name="iam" id="iam" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -313,7 +365,7 @@
                 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>ACCIDENTE CEREBRO VASCULAR</label>
-                    <select id="inputState" class="form-control" name="acv" id="acv" required>
+                    <select id="inputState" class="form-control" name="acv" id="acv" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -322,7 +374,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>ESTATINA</label>
-                    <select class="form-control" name="estatinas" id="estatinas" required>
+                    <select class="form-control" name="estatinas" id="estatinas" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -331,7 +383,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>AAS 100</label>
-                    <select class="form-control" name="aas100" id="aas100" required>
+                    <select class="form-control" name="aas100" id="aas100" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -340,7 +392,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>AUTOVALENTE</label>
-                    <select class="form-control" name="autovalente" id="autovalente" required>
+                    <select class="form-control" name="autovalente" id="autovalente" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -349,7 +401,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>AUTOVALENTE CON RIESGO</label>
-                    <select class="form-control" name="autovalenteConRiesgo" id="autovalenteConRiesgo" required>
+                    <select class="form-control" name="autovalenteConRiesgo" id="autovalenteConRiesgo" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -357,8 +409,8 @@
                 </div>
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
-                    <label>RIESGO DE DEPENDENCIA</label>
-                    <select class="form-control" name="riesgoDependecia" id="riesgoDependencia" required>
+                    <label>RIESGO DE DEPENDENCIA</label> 
+                    <select class="form-control" name="riesgoDependecia" id="riesgoDependencia" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -367,7 +419,7 @@
             
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>DEPENDENCIA</label>
-                    <select class="form-control" name="dependencia" id="dependencia" required>
+                    <select class="form-control" name="dependencia" id="dependencia" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -401,7 +453,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>FECHA ATENCIÓN</label>
-                    <input type="date" class="form-control" name="fechaAtencionE" id="fechaAtencionE" required>
+                    <input type="date" class="form-control" name="fechaAtencionE" id="fechaAtencionE" maxlength="10" required>
                 </div>
 
                 <input type="hidden" name="idPacienteE" id="idPacienteE"> 
@@ -416,7 +468,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>PROFESIONAL</label>
-                    <select class="form-control" name="profesionalE" id="profesionalE" required>
+                    <select class="form-control" name="profesionalE" id="profesionalE" k ++j ´maxlength="50" required>
                         <option selected disabled>Seleccione una opción</option>
                         <?php
                             foreach($profesional as $p){
@@ -429,42 +481,42 @@
             
                 <div class="form-group col-md-6 col-lg-6 col-sm-12">
                     <label>OBSERVACIÓN</label>
-                    <input type="text" class="form-control" name="observacionE" id="observacionE" placeholder="Observación" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                    <input type="text" class="form-control" name="observacionE" id="observacionE" 200 655placeholder="Observación" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
                 </div>
 
                 <div class="form-group col-lg-3 col-md-3 col-sm-12">
                     <label>PESO</label>
-                    <input type="number" class="form-control" name="pesoE" id="pesoE" placeholder="Ej: 80" required>
+                    <input type="number" class="form-control" name="pesoE" id="pesoE" maxlength="10" placeholder="Ej: 80" required>
                 </div>
             
                 <div class="form-group col-lg-3 col-md-3 col-sm-12">
                     <label>TALLA</label>
-                    <input type="number" class="form-control" name="tallaE" id="tallaE" onkeyup="calc_imcE()" placeholder="Ej: 170" required>
+                    <input type="number" class="form-control" name="tallaE" id="tallaE" maxlength="10" onkeyup="calc_imcE()" placeholder="Ej: 170" required>
                 </div>
             
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
-                    <label>INDICE DE MASA CORPORAL</label>
-                    <input type="text" class="form-control" name="imcE" id="imcE" placeholder="Ej: 11,70" readonly require>
+                    <label>INDICE DE MASA CORPORAL</label> 
+                    <input type="text" class="form-control" name="imcE" id="imcE" maxlength="10" placeholder="Ej: 11,70" readonly require>
                 </div>
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>DIAGNOSTICO NUTRICIONAL</label>
-                    <input type="text" class="form-control" name="diagnosticoNutricionalE" id="dgNutricionalE" placeholder="Ej: Obeso" readonly><div id="errorIMCE"></div>
+                    <input type="text" class="form-control" name="diagnosticoNutricionalE" id="dgNutricionalE" maxlength="10" placeholder="Ej: Obeso" readonly><div id="errorIMCE"></div>
                 </div>
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>PRESIÓN ARTERIAL SISTOLICA</label>
-                    <input type="number" class="form-control" name="paSistolicaE" id="paSistolicaE" placeholder="Ej: 130" required>
+                    <input type="number" class="form-control" name="paSistolicaE" id="paSistolicaE" maxlength="10" placeholder="Ej: 130" required>
                 </div>
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>PRESIÓN ARTERIAL DISTOLICA</label>
-                    <input type="number" class="form-control" name="paDistolicaE" id="paDistolicaE" placeholder="Ej: 64" required>
+                    <input type="number" class="form-control" name="paDistolicaE" id="paDistolicaE" maxlength="10" placeholder="Ej: 64" required>
                 </div>
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>CIRCUNFERENCIA</label>
-                    <input type="number" class="form-control" name="circunferenciaE" id="circunferenciaE" placeholder="Ej: 102" required>
+                    <input type="number" class="form-control" name="circunferenciaE" id="circunferenciaE" maxlength="10" placeholder="Ej: 102" required>
                 </div>
                 
                 <input type="hidden" name="jsonExamenesE" id="jsonExamenesE"> 
@@ -473,12 +525,12 @@
                 <div id="examenesActualizar" class="form-group row">
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                         <label>FECHA EXAMEN</label>
-                        <input type="date" class="form-control" name="fechaExamenE" id="fechaExamenE">
+                        <input type="date" class="form-control" name="fechaExamenE" id="fechaExamenE" maxlength="10">
                     </div>
                     
                     <div class="form-group col-md-5 col-lg-5 col-sm-12">
                         <label>LISTADO DE EXAMENES</label>
-                        <select class="form-control" name="listadoExamenE" id="listadoExamenE">
+                        <select class="form-control" name="listadoExamenE" id="listadoExamenE" maxlength="10">
                             <option selected disabled>Seleccione una opción</option>
                             <?php 
                                 foreach ($listadoExamen as $le) {
@@ -490,7 +542,7 @@
                 
                     <div class="form-group col-md-3 col-lg-3 col-sm-12">
                         <label>VALOR DEL EXAMEN</label>
-                        <input type="number" class="form-control" name="valorExamenE" id="txtValorExamenE" placeholder="Ej: 102">
+                        <input type="number" class="form-control" name="valorExamenE" id="txtValorExamenE" maxlength="10" placeholder="Ej: 102">
                     </div>
 
                     <div class="form-group col-md-1 col-lg-1 col-sm-12">
@@ -501,7 +553,7 @@
 
                 <!-- Aquí va la respuesta del JS de examenes -->
                 <div class="table-responsive" class="form-group col-md-12 col-lg-12 col-sm-12">
-                    <table class="table table-bordered" style="background-color:aliceblue" id="respE">
+                    <table class="table table-bordered" style="background-color:aliceblue">
                     <thead>
                         <tr>
                             <th scope="col">FECHA EXAMEN</th>
@@ -518,22 +570,22 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>FECHA EVALUACIÓN PIE DIABETICO</label>
-                    <input type="date" class="form-control" name="fechaEvPieDiabeticoE" id="fechaEvPieDiabeticoE" required>
+                    <input type="date" class="form-control" name="fechaEvPieDiabeticoE" id="fechaEvPieDiabeticoE" maxlength="10" required>
                 </div>
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>PUNTAJE PIE DIABETICO</label>
-                    <input type="number" class="form-control" name="ptjePieDiabeticoE" id="ptjePieDiabeticoE" placeholder="Ej: 102" required>
+                    <input type="number" class="form-control" name="ptjePieDiabeticoE" id="ptjePieDiabeticoE" maxlength="10" placeholder="Ej: 102" required>
                 </div>
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>FECHA QUALIDIAB</label>
-                    <input type="date" class="form-control" name="fechaQualidabE" id="fechaQualidiabE" required>
+                    <input type="date" class="form-control" autocomplete="Fecha Qualidiab" name="fechaQualidabE" id="fechaQualidiabE" maxlength="10" required>
                 </div>
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>QUALIDIAB</label>
-                    <select class="form-control" name="qualidiabE" id="qualidiabE" required>
+                    <select class="form-control" name="qualidiabE" id="qualidiabE" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -542,12 +594,12 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>FECHA DEL FONDO DE OJO</label>
-                    <input type="date" class="form-control" name="fechaFondoOjoE" id="fechaFondoOjoE" required>
+                    <input type="date" class="form-control" name="fechaFondoOjoE" id="fechaFondoOjoE" maxlength="10" required>
                 </div>
                 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>RESULTADO DEL FONDO DE OJO</label>
-                    <select class="form-control" name="resultadoFondoOjoE" id="resultadoFondoOjoE" required>
+                    <select class="form-control" name="resultadoFondoOjoE" id="resultadoFondoOjoE" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">NORMAL</option>
                         <option value="1">ALTERADO</option>
@@ -556,7 +608,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>ENALAPRIL</label>
-                    <select class="form-control" name="enalaprilE" id="enalaprilE" required>
+                    <select class="form-control" name="enalaprilE" id="enalaprilE" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -565,7 +617,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>LOSARTAN</label>
-                    <select class="form-control" name="losartanE" id="losartanE" required>
+                    <select class="form-control" name="losartanE" id="losartanE" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -574,7 +626,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>RETINOPATIA DIABETICA</label>
-                    <select class="form-control" name="retinopatiaDiabeticaE" id="retinopatiaDiabeticaE" required>
+                    <select class="form-control" name="retinopatiaDiabeticaE" id="retinopatiaDiabeticaE" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -583,7 +635,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>AMPUTACIÓN</label>
-                    <select class="form-control" name="amputacionE" id="amputacionE" required>
+                    <select class="form-control" name="amputacionE" id="amputacionE" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -592,7 +644,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>INSUFICIENCIA RENAL</label>
-                    <select class="form-control" name="insuficienciaRenalE" id="insuficienciaRenalE" required>
+                    <select class="form-control" name="insuficienciaRenalE" id="insuficienciaRenalE" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -601,7 +653,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>IAM</label>
-                    <select class="form-control" name="iamE" id="iamE" required>
+                    <select class="form-control" name="iamE" id="iamE" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -610,7 +662,7 @@
                 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>ACCIDENTE CEREBRO VASCULAR</label>
-                    <select class="form-control" name="acvE" id="acvE" required>
+                    <select class="form-control" name="acvE" id="acvE" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -619,7 +671,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>ESTATINA</label>
-                    <select class="form-control" name="estatinasE" id="estatinasE" required>
+                    <select class="form-control" name="estatinasE" id="estatinasE" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -628,7 +680,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>AAS 100</label>
-                    <select class="form-control" name="aas100E" id="aas100E" required>
+                    <select class="form-control" name="aas100E" id="aas100E" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -637,7 +689,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>AUTOVALENTE</label>
-                    <select class="form-control" name="autovalenteE" id="autovalenteE" required>
+                    <select class="form-control" name="autovalenteE" id="autovalenteE" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -646,7 +698,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>AUTOVALENTE CON RIESGO</label>
-                    <select class="form-control" name="autovalenteConRiesgoE" id="autovalenteConRiesgoE" required>
+                    <select class="form-control" name="autovalenteConRiesgoE" id="autovalenteConRiesgoE" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -655,7 +707,7 @@
 
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>RIESGO DE DEPENDENCIA</label>
-                    <select class="form-control" name="riesgoDependeciaE" id="riesgoDependenciaE" required>
+                    <select class="form-control" name="riesgoDependeciaE" id="riesgoDependenciaE" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -664,7 +716,7 @@
             
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label>DEPENDENCIA</label>
-                    <select class="form-control" name="dependenciaE" id="dependenciaE" required>
+                    <select class="form-control" name="dependenciaE" id="dependenciaE" maxlength="10" required>
                         <option selected disabled>Seleccione una opción</option>
                         <option value="0">SI</option>
                         <option value="1">NO</option>
@@ -694,6 +746,7 @@
     <script src="../js/obtenerTarjeton.js?ver=<?php echo filemtime('../js/obtenerTarjeton.js');?>"></script>
     <script src="../js/updateTarjeton.js?ver=<?php echo filemtime('../js/updateTarjeton.js');?>"></script>
     <script src="../js/crearTarjeton.js?ver=<?php echo filemtime('../js/crearTarjeton.js');?>"></script>
+    <script src="../js/cerrarSesion.js?ver=<?php echo filemtime('../js/cerrarSesion.js');?>"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

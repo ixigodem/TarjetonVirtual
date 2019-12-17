@@ -16,8 +16,9 @@ formGetPatologia.addEventListener("submit", function(e){
 
     console.log(patologia);
 
-    fetch('../controller/getCantidadPorPatologia.php?patologia=' + patologia, {
-        method: 'GET'
+    fetch('../controller/getCantidadPorPatologia.php', {
+        method: 'POST',
+        body: formDataPatologia
     })
     .then(res => res.json())
     .then(result => {

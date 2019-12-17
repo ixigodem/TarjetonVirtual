@@ -1,44 +1,44 @@
 function actualizarTarjeton(id) {
     var datos = tarjetonGlobal;
     $("#editarTarjeton").modal("show");
-    datos.forEach(element => {
-        if(element['id_Tarjeton'] == id){
-            $("#idTarjetonE").val(element['id_Tarjeton']);
-            $("#fechaAtencionE").val(element['fechaAtencion']);
-            $("#idPacienteE").val(element['id_Paciente']);
-            $("#profesionalE").val(element['id_Profesional']);
-            $("#observacionE").val(element['observacion']);
-            $("#pesoE").val(element['peso']);
-            $("#tallaE").val(element['talla']);
-            $("#imcE").val(element['IMC']);
-            $("#diagnosticoNutricionalE").val(element['dgNutricionalE']);
-            $("#paSistolicaE").val(element['paSistolica']);
-            $("#paDistolicaE").val(element['paDistolica']);
-            $("#circunferenciaE").val(element['circunferenciaCintura']);
-            $("#fechaEvPieDiabeticoE").val(element['fechaEvalPieDiabetico']);
-            $("#ptjePieDiabeticoE").val(element['ptjePieDiabetico']);
-            $("#fechaQualidiabE").val(element['fechaQualidiab']);
-            $("#qualidiabE").val(element['qualidiab']);
-            $("#fechaFondoOjoE").val(element['fechaFondoOjo']);
-            $("#resultadoFondoOjoE").val(element['resultadoFondoOjo']);
-            $("#enalaprilE").val(element['enalapril']);
-            $("#losartanE").val(element['losartan']);
-            $("#retinopatiaDiabeticaE").val(element['retinopatiaDiabetica']);
-            $("#amputacionE").val(element['amputacion']);
-            $("#insuficienciaRenalE").val(element['insuficienciaRenal']);
-            $("#iamE").val(element['IAM']);
-            $("#acvE").val(element['ACV']);
-            $("#estatinasE").val(element['estatinas']);
-            $("#aas100E").val(element['AAS_100']);
-            $("#autovalenteE").val(element['autovalente']);
-            $("#autovalenteConRiesgoE").val(element['autovalenteConRiesgo']);
-            $("#riesgoDependenciaE").val(element['riesgoDependencia']);
-            $("#dependenciaE").val(element['dependencia']);
+    datos.forEach(Element => {
+        if(Element['id_Tarjeton'] == id){
+            $("#idTarjetonE").val(Element['id_Tarjeton']);
+            $("#fechaAtencionE").val(Element['fechaAtencion']);
+            $("#idPacienteE").val(Element['id_Paciente']);
+            $("#profesionalE").val(Element['id_Profesional']);
+            $("#observacionE").val(Element['observacion']);
+            $("#pesoE").val(Element['peso']);
+            $("#tallaE").val(Element['talla']);
+            $("#imcE").val(Element['IMC']);
+            $("#diagnosticoNutricionalE").val(Element['dgNutricionalE']);
+            $("#paSistolicaE").val(Element['paSistolica']);
+            $("#paDistolicaE").val(Element['paDistolica']);
+            $("#circunferenciaE").val(Element['circunferenciaCintura']);
+            $("#fechaEvPieDiabeticoE").val(Element['fechaEvalPieDiabetico']);
+            $("#ptjePieDiabeticoE").val(Element['ptjePieDiabetico']);
+            $("#fechaQualidiabE").val(Element['fechaQualidiab']);
+            $("#qualidiabE").val(Element['qualidiab']);
+            $("#fechaFondoOjoE").val(Element['fechaFondoOjo']);
+            $("#resultadoFondoOjoE").val(Element['resultadoFondoOjo']);
+            $("#enalaprilE").val(Element['enalapril']);
+            $("#losartanE").val(Element['losartan']);
+            $("#retinopatiaDiabeticaE").val(Element['retinopatiaDiabetica']);
+            $("#amputacionE").val(Element['amputacion']);
+            $("#insuficienciaRenalE").val(Element['insuficienciaRenal']);
+            $("#iamE").val(Element['IAM']);
+            $("#acvE").val(Element['ACV']);
+            $("#estatinasE").val(Element['estatinas']);
+            $("#aas100E").val(Element['AAS_100']);
+            $("#autovalenteE").val(Element['autovalente']);
+            $("#autovalenteConRiesgoE").val(Element['autovalenteConRiesgo']);
+            $("#riesgoDependenciaE").val(Element['riesgoDependencia']);
+            $("#dependenciaE").val(Element['dependencia']);
             
-            var idExamen = element['idExamen'];
-            var fechaExamen = element['fechaExamen'];
-            var valorExamen = element['valor'];
-            var nombreExamen = element['nombreExamen'];
+            var idExamen = Element['idExamen'];
+            var fechaExamen = Element['fechaExamen'];
+            var valorExamen = Element['valor'];
+            var nombreExamen = Element['nombreExamen'];
 
             var examen = {};
             examen.id = idExamen;
@@ -62,7 +62,7 @@ function actualizarTarjeton(id) {
             $('#respuestaE').html(td);
             calc_imcE();
         }
-    })
+    });
 }
 
 function calc_imcE() {

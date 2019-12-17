@@ -1,8 +1,8 @@
 <?php
     include_once('../model/Data.php');
 
-    if (isset($_GET['id'])) {
-        $id = $_GET['id'];
+    if (isset($_POST['id'])) {
+        $id = $_POST['id'];
 
         $d = new Data();
 

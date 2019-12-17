@@ -10,22 +10,25 @@ require_once("Config.php");
     $ldappass = trim($pass);
     $ds = DOMINIO;
     $dn = DN;
-    $sv = '192.168.164.171';
-    $puertoldap = 389;  
+    $sv = '192.168.164.184';
+    $puertoldap = 389;
+
     $ldapconn = ldap_connect($sv,$puertoldap);
     ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION,3);
     ldap_set_option($ldapconn, LDAP_OPT_REFERRALS,0);
     $ldapbind = @ldap_bind($ldapconn, $ldaprdn, $ldappass);
-      if ($ldapbind){ 
+      if ($ldapbind){
         $filter="(|(SAMAccountName=".trim($user)."))"; 
         $fields = array("SAMAccountName","givenname","sn","count");
         $sr = @ldap_search($ldapconn, $dn, $filter, $fields);
         $info = @ldap_get_entries($ldapconn, $sr);
-        $array = $info[0]["samaccountname"][0];
-      }else{
-        $array=0;
+        
+        foreach ($info as $i) {
+          $arreglo = explode(",",$i["dn"]);
+        }
       }
     ldap_close($ldapconn);  
-    return $array;
+    return $arreglo;
+    var_dump($arreglo);
   }  
 ?>

@@ -31,7 +31,8 @@
             <ul class="navbar-nav mr-auto">
             <li class="nav-item"><a href="Menu.php" class="nav-link">Inicio</a></li>
 
-            <li class="nav-item dropdown">
+            <?php if ($_SESSION["estamento"] = "Informática" || $_SESSION["estamento"] = "Enfermera" || $_SESSION["estamento"] = "Medico" || $_SESSION["estamento"] = "Nutricionista") { ?>
+              <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Pacientes
                 </a>
@@ -49,7 +50,7 @@
                 <a class="dropdown-item" href="formCrearProfesional.php">Crear Profesional</a>
                 </div>
             </li>
-            
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Tarjetón
@@ -65,13 +66,60 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="formGestion.php">Reporte Tarjetón</a>
-                <a class="dropdown-item" href="#">Control HTA</a>
-                <a class="dropdown-item" href="#">Control DM2</a>
-                <a class="dropdown-item" href="#">Control Epilepsia</a>
+                </div>
+            </li>
+            <?php }else if ($_SESSION["estamento"] = "Técnico Paramedico" || $_SESSION["estamento"] = "Kinesiologo" || $_SESSION["estamento"] = "Administrativo") {?>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Pacientes
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="formCrearPaciente.php">Crear Paciente</a>
+                <a class="dropdown-item" href="listarPaciente.php">Buscar Paciente</a>
                 </div>
             </li>
 
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Tarjetón
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="formCrearTarjeton.php">Crear Tarjetón</a>
+                </div>
+            </li>
+            <?php }?>
+
             <li class="nav-item"><a href="http://web.saludcormun.cl/?page_id=3733" class="nav-link">Sobre Nosotros</a></li>
+            </ul>
+
+            <ul class="nav justify-content-end">
+                <span class="nav-link active">
+                    Bienvenido: <br>
+                    <?php echo $_SESSION['nombre'];?>
+                </span> 
+                <li class="nav-item">
+                    <button onclick="cerrarSesion()" class="btn btn-outline-dark">Cerrar Sesion</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalCerrarSesion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Advertencia</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Realmente desea Cerrar Sesión?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                            <button type="submit" id="btnCerrarSesion" name="btnCerrarSesion" class="btn btn-success">SI</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </li>                  
             </ul>
         </div>
     </nav>
@@ -83,7 +131,7 @@
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="nombres">NOMBRE</label>
-                <input type="text" class="form-control" name="nombre" placeholder="Nombre del Profesional:" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                <input type="text" class="form-control" name="nombre" maxlength="50" placeholder="Nombre del Profesional:" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
             </div>
 
         <!-- Obtengo los datos del Data que conecta con la BD -->
@@ -97,7 +145,7 @@
 
             <div class="form-group col-md-4">
                 <label>ESTAMENTO</label>
-                <select name="estamento" class="form-control">
+                <select name="estamento" class="form-control" maxlength="50">
                 <option selected disabled>Seleccione una opción</option>
                     <?php
                         foreach ($estamento as $e) {
@@ -123,7 +171,8 @@
             <input 
             class="form-control mr-sm-2" 
             type="search" 
-            placeholder="Buscar profesionales" 
+            placeholder="Buscar profesionales"
+            maxlength="100"
             name="txtBuscarProfesional" 
             value="<?php echo $filtro;?>">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="btnBuscarProfesional">Buscar</button>
@@ -162,6 +211,8 @@
         
         </table>
     </div>
+
+    <script src="../js/cerrarSesion.js?ver=<?php echo filemtime('../js/cerrarSesion.js');?>"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

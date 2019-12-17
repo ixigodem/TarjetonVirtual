@@ -34,7 +34,8 @@
             <ul class="navbar-nav mr-auto">
             <li class="nav-item"><a href="Menu.php" class="nav-link">Inicio</a></li>
 
-            <li class="nav-item dropdown">
+            <?php if ($_SESSION["estamento"] = "Informática" || $_SESSION["estamento"] = "Enfermera" || $_SESSION["estamento"] = "Medico" || $_SESSION["estamento"] = "Nutricionista") { ?>
+              <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Pacientes
                 </a>
@@ -52,7 +53,7 @@
                 <a class="dropdown-item" href="formCrearProfesional.php">Crear Profesional</a>
                 </div>
             </li>
-            
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Tarjetón
@@ -67,14 +68,60 @@
                 Gestión
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Reporte Tarjetón</a>
-                <a class="dropdown-item" href="#">Control HTA</a>
-                <a class="dropdown-item" href="#">Control DM2</a>
-                <a class="dropdown-item" href="#">Control Epilepsia</a>
+                <a class="dropdown-item" href="formGestion.php">Reporte Tarjetón</a>
+                </div>
+            </li>
+            <?php }else if ($_SESSION["estamento"] = "Técnico Paramedico" || $_SESSION["estamento"] = "Kinesiologo" || $_SESSION["estamento"] = "Administrativo") {?>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Pacientes
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="formCrearPaciente.php">Crear Paciente</a>
+                <a class="dropdown-item" href="listarPaciente.php">Buscar Paciente</a>
                 </div>
             </li>
 
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Tarjetón
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="formCrearTarjeton.php">Crear Tarjetón</a>
+                </div>
+            </li>
+            <?php }?>
             <li class="nav-item"><a href="http://web.saludcormun.cl/?page_id=3733" class="nav-link">Sobre Nosotros</a></li>
+            </ul>
+
+            <ul class="nav justify-content-end">
+                <span class="nav-link active">
+                    Bienvenido: <br>
+                    <?php echo $_SESSION['nombre'];?>
+                </span> 
+                <li class="nav-item">
+                    <button onclick="cerrarSesion()" class="btn btn-outline-dark">Cerrar Sesion</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalCerrarSesion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Advertencia</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Realmente desea Cerrar Sesión?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                            <button type="submit" id="btnCerrarSesion" name="btnCerrarSesion" class="btn btn-success">SI</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </li>                  
             </ul>
         </div>
     </nav>
@@ -92,7 +139,7 @@
 
         <div class="form-row align-items-center">
             <div class="col-auto my-1">
-                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="cboPatologia">
+                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="cboPatologia" maxlength="50">
                     <option selected>Seleccione una opción</option>
                     <?php
                         foreach ($patologia as $p) {
@@ -124,6 +171,7 @@
 </p>
 
     <script src="../js/getGestion.js?ver=<?php echo filemtime('../js/getGestion.js');?>"></script>
+    <script src="../js/cerrarSesion.js?ver=<?php echo filemtime('../js/cerrarSesion.js');?>"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

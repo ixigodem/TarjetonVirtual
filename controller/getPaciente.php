@@ -4,10 +4,19 @@
 
     $d = new Data();
 
-    $id = isset($_GET["id"])?$_GET["id"]:'';
-    $run = isset($_GET["run"])?$_GET["run"]:'';
+    $id = isset($_REQUEST["id"])?$_REQUEST["id"]:'';
+    $run = isset($_REQUEST["run"])?$_REQUEST["run"]:'';
 
-    $paciente = $d->getPacienteTarjeton($run,$id);
+    // $run = "";
+    // $id = "";
+
+    // if (isset($_REQUEST["id"])) {
+    //     $id = $_REQUEST["id"];
+    // }else  if(isset($_REQUEST["run"])){
+    //     $run = $_REQUEST["run"];
+    // }
+
+    $paciente = $d->getPacienteTarjeton($id,$run);
 
     echo json_encode($paciente);
 ?>

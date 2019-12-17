@@ -31,7 +31,8 @@
             <ul class="navbar-nav mr-auto">
             <li class="nav-item"><a href="Menu.php" class="nav-link">Inicio</a></li>
 
-            <li class="nav-item dropdown">
+            <?php if ($_SESSION["estamento"] = "Informática" || $_SESSION["estamento"] = "Enfermera" || $_SESSION["estamento"] = "Medico" || $_SESSION["estamento"] = "Nutricionista") { ?>
+              <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Pacientes
                 </a>
@@ -49,7 +50,7 @@
                 <a class="dropdown-item" href="formCrearProfesional.php">Crear Profesional</a>
                 </div>
             </li>
-            
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Tarjetón
@@ -65,13 +66,60 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="formGestion.php">Reporte Tarjetón</a>
-                <a class="dropdown-item" href="#">Control HTA</a>
-                <a class="dropdown-item" href="#">Control DM2</a>
-                <a class="dropdown-item" href="#">Control Epilepsia</a>
+                </div>
+            </li>
+            <?php }else if ($_SESSION["estamento"] = "Técnico Paramedico" || $_SESSION["estamento"] = "Kinesiologo" || $_SESSION["estamento"] = "Administrativo") {?>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Pacientes
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="formCrearPaciente.php">Crear Paciente</a>
+                <a class="dropdown-item" href="listarPaciente.php">Buscar Paciente</a>
                 </div>
             </li>
 
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Tarjetón
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="formCrearTarjeton.php">Crear Tarjetón</a>
+                </div>
+            </li>
+            <?php }?>
+
             <li class="nav-item"><a href="http://web.saludcormun.cl/?page_id=3733" class="nav-link">Sobre Nosotros</a></li>
+            </ul>
+
+            <ul class="nav justify-content-end">
+                <span class="nav-link active">
+                    Bienvenido: <br>
+                    <?php echo $_SESSION['nombre'];?>
+                </span> 
+                <li class="nav-item">
+                    <button onclick="cerrarSesion()" class="btn btn-outline-dark">Cerrar Sesion</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalCerrarSesion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Advertencia</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Realmente desea Cerrar Sesión?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                            <button type="submit" id="btnCerrarSesion" name="btnCerrarSesion" class="btn btn-success">SI</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </li>                  
             </ul>
         </div>
     </nav>
@@ -87,20 +135,20 @@
             </div>
             <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label for="nombres">NOMBRES</label>
-                <input type="text" class="form-control" name="nombres" placeholder="Nombre del Paciente:" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                <input type="text" class="form-control" name="nombres" placeholder="Nombre del Paciente:" maxlength="50" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
             </div>
             <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label for="apellidoPaterno">APELLIDO PATERNO</label>
-                <input type="text" class="form-control" name="apellidoPaterno" placeholder="Apellido Paterno del Paciente:" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                <input type="text" class="form-control" name="apellidoPaterno" placeholder="Apellido Paterno del Paciente:" maxlength="30" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
             </div>
             <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label for="apellidoMaterno">APELLIDO MATERNO</label>
-                <input type="text" class="form-control" name="apellidoMaterno" placeholder="Apellido Materno del Paciente:" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                <input type="text" class="form-control" name="apellidoMaterno" placeholder="Apellido Materno del Paciente:" maxlength="30" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
             </div>
 
             <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label for="fechaNacimiento">FECHA DE NACIMIENTO</label>
-                <input type="date" class="form-control" name="fechaNacimiento" required>
+                <input type="date" class="form-control" name="fechaNacimiento" maxlength="10" required>
             </div>
 
             <div class="form-group col-md-2 col-lg-2 col-sm-12">
@@ -109,7 +157,7 @@
                     <br>
                         <p>
                         <label>
-                            <input type="radio" name="sexo" value="0" checked="checked"> 
+                            <input type="radio" name="sexo" value="0" maxlength="10" checked="checked"> 
                             <span>Masculino</span>
                         </label>
                         </p>
@@ -124,7 +172,7 @@
 
             <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label for="inputState">PARTICIPACIÓN SOCIAL</label>
-                <select id="inputState" class="form-control" name="participacionSocial" required>
+                <select id="inputState" class="form-control" name="participacionSocial" maxlength="100" required>
                     <option selected disabled>Seleccione una opción</option>
                     <option>NO TIENE</option>
                     <option>JUNTA DE VECINOS</option>
@@ -137,7 +185,7 @@
 
             <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label for="estudio">ESTUDIO</label>
-                <select id="estudio" class="form-control" name="estudio" required>
+                <select id="estudio" class="form-control" name="estudio" maxlength="50" required>
                     <option selected disabled>Seleccione una opción</option>
                     <option>ENSEÑANZA BASICA</option>
                     <option>ENSEÑANZA MEDIA</option>
@@ -149,22 +197,22 @@
 
             <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label for="actividadLaboral">TELEFONO</label>
-                <input type="telefono" class="form-control" name="telefono" placeholder="+56987654321" pattern="(+[0-9]{3}) [0-9]{3} [0-9]{2} [0-9]{3}" title="Use el formato +56987654321" maxlength="12" required>
+                <input type="telefono" class="form-control" name="telefono" maxlength="10" placeholder="+56987654321" pattern="(+[0-9]{3}) [0-9]{3} [0-9]{2} [0-9]{3}" title="Use el formato +56987654321" maxlength="12" required>
             </div>
 
             <div class="form-group col-md-4 col-lg-4 col-sm-12">
                 <label for="actividadLaboral">ACTIVIDAD LABORAL</label>
-                <input type="text" class="form-control" name="actividadLaboral" placeholder="Ingresar trabajo del paciente:" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                <input type="text" class="form-control" name="actividadLaboral" maxlength="100" placeholder="Ingresar trabajo del paciente:" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
             </div>
 
             <div class="form-group col-md-4 col-lg-4 col-sm-12">
                 <label for="direccionParticular">DIRECCIÓN PARTICULAR</label>
-                <input type="text" class="form-control" name="direccionParticular" placeholder="Ej. Almarza #1061 - Rancagua" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
+                <input type="text" class="form-control" name="direccionParticular" maxlength="100" placeholder="Ej. Almarza #1061 - Rancagua" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" required>
             </div>
 
             <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label for="sector">SECTOR</label>
-                <select id="sector" class="form-control" name="sector" required>
+                <select id="sector" class="form-control" name="sector" maxlength="10" required>
                     <option selected disabled>Seleccione una opción</option>
                     <option>AMARILLO</option>
                     <option>VERDE</option>
@@ -186,7 +234,7 @@
 
             <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label>ESTADO CIVIL</label>
-                <select name="estadoCivil" class="form-control" required>
+                <select name="estadoCivil" class="form-control" maxlength="10" required>
                 <option selected disabled>Seleccione una opción</option>
                     <?php
                         foreach ($estadoCivil as $ec) {
@@ -199,7 +247,7 @@
 
             <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label>COMUNA</label>
-                <select name="comuna" class="form-control" required>
+                <select name="comuna" class="form-control" maxlength="20" required>
                 <option selected disabled>Seleccione una opción</option>
                     <?php
                         foreach($comuna as $c){
@@ -211,7 +259,7 @@
 
             <div class="form-group col-md-3 col-lg-3 col-sm-12">
                 <label>ESTADO</label>
-                <select name="estado" class="form-control" required>
+                <select name="estado" class="form-control" maxlength="10" required>
                 <option selected disabled>Seleccione una opción</option>
                     <?php
                         foreach($estado as $e){
@@ -228,12 +276,12 @@
             <div id="formPatologia" class="form-group col-md-6 col-lg-6 col-sm-12">
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label for="fechaDiagnostico">FECHA DE DIAGNOSTICO</label>
-                    <input type="date" name="fechaPatologias" id="fechaPatologias" required>
+                    <input type="date" name="fechaPatologias" id="fechaPatologias" maxlength="10" required>
                 </div>
                 
                 <div class="form-group col-md-6 col-lg-6 col-sm-12">
                     <label>PATOLOGIA</label>
-                    <select name="Patologia_ID" id="Patologia_ID" class="form-control" required>
+                    <select name="Patologia_ID" id="Patologia_ID" class="form-control" maxlength="50" required>
                         <option selected disabled>Seleccione una opción</option>
                             <?php
                                 foreach($patologia as $p){
@@ -252,12 +300,12 @@
             <div id="formComplicacion" class="form-group col-md-6 col-lg-6 col-sm-12">
                 <div class="form-group col-md-3 col-lg-3 col-sm-12">
                     <label for="fechaDiagnostico">FECHA DE COMPLICACIONES</label>
-                    <input type="date" name="fechaComplicacion" id="fechaComplicacion" required>
+                    <input type="date" name="fechaComplicacion" maxlength="50" id="fechaComplicacion">
                 </div>
                 
                 <div class="form-group col-md-6 col-lg-6 col-sm-12">
                     <label>COMPLICACIÓN</label>
-                    <select name="complicacion_ID" id="complicacion_ID" class="form-control" required>
+                    <select name="complicacion_ID" id="complicacion_ID" maxlength="50" class="form-control">
                         <option selected disabled>Seleccione una opción</option>
                             <?php
                                 foreach($complicacion as $c){
@@ -306,6 +354,8 @@
         <script src="../js/crearPatologia.js?ver=<?php echo filemtime('../js/crearPatologia.js');?>"></script>
         <script src="../js/crearComplicacion.js?ver=<?php echo filemtime('../js/crearComplicacion.js');?>"></script>
     </form>
+
+    <script src="../js/cerrarSesion.js?ver=<?php echo filemtime('../js/cerrarSesion.js');?>"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
